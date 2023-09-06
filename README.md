@@ -5,6 +5,7 @@ Welcome to our game jam page, maintained by:
 - Adrian Parungao
 - Judy Chau
 - James Zhao
+- Nicolas Polga
 
 # The Game
 (Game info here)
