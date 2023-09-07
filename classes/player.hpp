@@ -45,6 +45,7 @@ public:
     void setHeight(int); // sets height of hitbox
 
     //other
+    void movePlayer(); // moves the player based on input
     void drawPlayer(); // draws the player sprite
 };
 

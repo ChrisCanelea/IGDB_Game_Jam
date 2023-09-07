@@ -14,11 +14,8 @@ void gameScreen(void)
             ClearBackground(RAYWHITE);
             DrawText("Game", 10, 50, 50, RED);
 
-            if (IsKeyDown(KEY_W))
-            {
-                
-            }
-            player.setPos(GetMousePosition());
+            player.movePlayer();            
+
             player.drawPlayer();
 
         EndDrawing();
@@ -30,3 +27,21 @@ void gameScreen(void)
         }
     }
 }
+
+// if (IsKeyDown(KEY_W))
+// {
+//     player.setDirection(NORTH);
+
+// } else if (IsKeyDown(KEY_D))
+// {
+//     player.setDirection(EAST);
+
+// } else if (IsKeyDown(KEY_A))
+// {
+//     player.setDirection(SOUTH);
+
+// } else if (IsKeyDown(KEY_A))
+// {
+//     player.setDirection(WEST);
+
+// }

@@ -128,6 +128,31 @@ void Player::setHeight(int height_) // sets height of hitbox
 }
 
 //other
+void Player::movePlayer() // moves the player based on input
+{
+    if (IsKeyDown(KEY_W))
+    {
+        this->setDirection(NORTH);
+        this->setY(this->getTop() - this->getSpeed());
+
+    } else if (IsKeyDown(KEY_D))
+    {
+        this->setDirection(EAST);
+        this->setX(this->getLeft() + this->getSpeed());
+
+    } else if (IsKeyDown(KEY_S))
+    {
+        this->setDirection(SOUTH);
+        this->setY(this->getTop() + this->getSpeed());
+
+    } else if (IsKeyDown(KEY_A))
+    {
+        this->setDirection(WEST);
+        this->setX(this->getLeft() - this->getSpeed());
+
+    }
+}
+
 void Player::drawPlayer() // draws the player sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
