@@ -6,6 +6,8 @@ int main(void)
 
     InitWindow(SCREEN_W, SCREEN_H, "title");
     ToggleFullscreen();
+    
+
     SetTargetFPS(60);
 
     while(true)
