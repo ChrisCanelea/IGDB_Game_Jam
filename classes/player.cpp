@@ -1,6 +1,7 @@
 // Class implementation for player
 
 #include "player.hpp"
+#include <raylib.h>
 
 
 // constructors
@@ -117,5 +118,7 @@ void Player::setHeight(int height_) // sets height of hitbox
 //other
 void Player::drawPlayer() // draws the player sprite
 {
-    DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
+    // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
+    // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
+    DrawRectangle(this->getLeft(), this->getTop(), this->getWidth(), this->getHeight(), BLUE);
 }
