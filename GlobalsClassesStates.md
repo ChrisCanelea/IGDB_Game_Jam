@@ -2,9 +2,45 @@
 Variables that affect all aspects of gameplay should be global and static as well if used within classes.
 
 - Stage Number - Starts at 0, incremented upon generation of a new stage, used for difficulty scaling and score.
+- Border Shrink Rate - float for how much the border radius should shrink (per second).
 
 # Classes
 Anything that will be used more than once should be put into a class.
+
+## Player
+Variables:
+- Texture2D playerSprite (can be a sheet)
+- Vector2 position
+- int directionFacing (4 directions, identified from 0-3 clockwise, only if we have sprites for each direction)
+- float attackCooldown
+
+Function descriptions:
+- movePlayer() called once per frame to move the player based on input, also updates direction based on input
+- drawPlayer() called once per frame to draw the player at the current position
+- attack() called on input for an attack, initiates combat with enemy or destroys projectiles either with rays or a shaped hitbox we create in direction of cursor 
+
+## Enemy
+Variables:
+- Texture2D enemySprite (can be a sheet)
+- Vector2 position
+- int directionFacing (4 directions, identified from 0-3 clockwise, only if we have sprites for each direction) (want to make face player)
+
+Function descriptions:
+- moveEnemy() called once per frame to move the enemy towards the player, also updates the direction based on player position
+- drawEnemy() called once per frame to draw the enemy at the current position
+
+## Projectile
+Variables:
+- Texture2D projectileSprite
+- Vector2 position
+- float rotation
+- Vector2 direction (where it is moving)
+
+Function descriptions:
+- moveProjectile() called once per frame to move projectile based on direction
+- drawProjectile() called once per frame to draw projectile at the current position and with rotation based on direction
+
+## Stage (still thinking about this one)
 
 # States
 States will be ENUMS, and will determine what is processed and what is drawn at any given time **during the game**
