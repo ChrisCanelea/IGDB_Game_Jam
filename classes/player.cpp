@@ -45,7 +45,7 @@ Direction Player::getDirection() // returns direction
 
 Vector2 Player::getPos() // returns the player position
 {
-    Vector2 pos = {this->getLeft(), this->getTop()};
+    Vector2 pos = {(float)this->getLeft(), (float)this->getTop()};
     return pos;
 }
 
