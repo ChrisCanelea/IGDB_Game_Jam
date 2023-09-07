@@ -15,7 +15,6 @@ void gameScreen(void)
             DrawText("Game", 10, 50, 50, RED);
 
             player.movePlayer();            
-
             player.drawPlayer();
 
         EndDrawing();
