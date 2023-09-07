@@ -1,7 +1,9 @@
 // Class implementation for player
 
 #include "player.hpp"
+
 #include <raylib.h>
+#include <math.h>
 
 
 // constructors
@@ -130,7 +132,36 @@ void Player::setHeight(int height_) // sets height of hitbox
 //other
 void Player::movePlayer() // moves the player based on input
 {
-    if (IsKeyDown(KEY_W))
+
+    if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
+    {
+        this->setDirection(NORTHEAST);
+        float x_speed = sqrt((speed * speed) / 2);
+        this->setX(this->getLeft() + x_speed);
+        this->setY(this->getTop() - x_speed);
+
+    } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
+    {
+        this->setDirection(SOUTHEAST);
+        float x_speed = sqrt((speed * speed) / 2);
+        this->setX(this->getLeft() + x_speed);
+        this->setY(this->getTop() + x_speed);
+
+    } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A))
+    {
+        this->setDirection(SOUTHWEST);
+        float x_speed = sqrt((speed * speed) / 2);
+        this->setX(this->getLeft() - x_speed);
+        this->setY(this->getTop() + x_speed);
+
+    } else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
+    {
+        this->setDirection(NORTHWEST);
+        float x_speed = sqrt((speed * speed) / 2);
+        this->setX(this->getLeft() - x_speed);
+        this->setY(this->getTop() - x_speed);
+
+    } else if (IsKeyDown(KEY_W))
     {
         this->setDirection(NORTH);
         this->setY(this->getTop() - this->getSpeed());
