@@ -3,22 +3,26 @@
 
 #include <raylib.h>
 
+enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
+
 class Player
 {
 private:
     Texture2D sprite; // sprite
     Rectangle hitbox; // hitbox
     int speed; // speed
+    Direction direction; // direction
     
 public:
     // constructors
     Player(); // Default constructor
-    Player(Texture2D, Rectangle, int); // Constructor with parameters
+    Player(Texture2D, Rectangle, int, Direction); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
     Rectangle getHitbox(); // returns hitbox
     int getSpeed(); // returns speed
+    Direction getDirection(); // returns direction
 
     Vector2 getPos(); // returns the player position
     int getLeft(); // returns x position of left of hitbox
@@ -32,6 +36,7 @@ public:
     void setSprite(Texture2D); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(int); // sets speed
+    void setDirection(Direction); // sets direction
 
     void setPos(Vector2); // sets player position
     void setX(int); // sets x position (top left corner of hitbox)

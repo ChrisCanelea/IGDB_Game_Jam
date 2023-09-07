@@ -10,13 +10,15 @@ Player::Player() // Default constructor
     this->sprite = LoadTexture("assets/Markus.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 10;
+    this->direction = SOUTH;
 }
 
-Player::Player(Texture2D sprite_, Rectangle hitbox_, int speed_) // Constructor with parameters
+Player::Player(Texture2D sprite_, Rectangle hitbox_, int speed_, Direction direction_) // Constructor with parameters
 {
     this->sprite = sprite_;
     this->hitbox = hitbox_;
     this->speed = speed_;
+    this->direction = direction_;
 }
 
 // getters
@@ -33,6 +35,11 @@ Rectangle Player::getHitbox() // returns hitbox
 int Player::getSpeed() // returns speed
 {
     return this->speed;
+}
+
+Direction Player::getDirection() // returns direction
+{
+    return this->direction;
 }
 
 
@@ -86,6 +93,11 @@ void Player::setHitbox(Rectangle hitbox_) // sets hitbox
 void Player::setSpeed(int speed_) // sets speed
 {
     this->speed = speed_;
+}
+
+void Player::setDirection(Direction direction_) // sets direction
+{
+    this->direction = direction_;
 }
 
 
