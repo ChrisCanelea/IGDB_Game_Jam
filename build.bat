@@ -1,0 +1,1 @@
+g++ src/*.cpp src/titleScreen/*.cpp src/gameScreen/*.cpp classes/*.cpp -o main -Wall -I include -I classes -l raylib
