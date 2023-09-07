@@ -1,8 +1,9 @@
 # Globals
 Variables that affect all aspects of gameplay should be global and static as well if used within classes.
 
-- Stage Number - Starts at 0, incremented upon generation of a new stage, used for difficulty scaling and score.
-- Border Shrink Rate - float for how much the border radius should shrink (per second).
+- int Stage Number - Starts at 0, incremented upon generation of a new stage, used for difficulty scaling and score.
+- float Border Shrink Rate - float for how much the border radius should shrink (per second).
+- Circle (for now) Border - circle representing border, radius shrinks based on rate, and increases a set amount per kill, if player is not colliding with this circle, they will be dead
 
 # Classes
 Anything that will be used more than once should be put into a class.
@@ -10,37 +11,63 @@ Anything that will be used more than once should be put into a class.
 ## Player
 Variables:
 - Texture2D playerSprite (can be a sheet)
+- Rectangle hitbox
 - Vector2 position
-- int directionFacing (4 directions, identified from 0-3 clockwise, only if we have sprites for each direction)
+- int directionFacing (8 directions, identified from 0-7 clockwise, only if we have sprites for each direction)
+- float moveSpeed
 - float attackCooldown
+- float invulnTime
 
 Function descriptions:
 - movePlayer() called once per frame to move the player based on input, also updates direction based on input
 - drawPlayer() called once per frame to draw the player at the current position
 - attack() called on input for an attack, initiates combat with enemy or destroys projectiles either with rays or a shaped hitbox we create in direction of cursor 
+- drawAttack() called for the duration of attack animation/existence to draw it
+- processCooldowns() called once per frame to count down attack cooldown and any invuln time
+- finisher() called upon enemy blocking (**Combat** state), requires player to input a direction that is not blocked with outcome depending on that
 
 ## Enemy
 Variables:
 - Texture2D enemySprite (can be a sheet)
+- Rectangle hitbox
 - Vector2 position
-- int directionFacing (4 directions, identified from 0-3 clockwise, only if we have sprites for each direction) (want to make face player)
+- int directionFacing (8 directions, identified from 0-7 clockwise, only if we have sprites for each direction) (want to make face player)
+- float moveSpeed
+- float value
 
 Function descriptions:
 - moveEnemy() called once per frame to move the enemy towards the player, also updates the direction based on player position
 - drawEnemy() called once per frame to draw the enemy at the current position
+- block() called upon getting hit, returns a direction this enemy chooses to block
+- drawBlock() called once per frame in **Combat** state, draws block indicator
+- killed() called on hit after finisher, kills this enemy, increases border based on value
 
 ## Projectile
 Variables:
 - Texture2D projectileSprite
+- Rectangle hitbox
 - Vector2 position
 - float rotation
-- Vector2 direction (where it is moving)
+- Vector2 direction (where it is moving) (moveSpeed substitute)
+- float value (in case we want projectiles to also increase border slightly)
 
 Function descriptions:
 - moveProjectile() called once per frame to move projectile based on direction
 - drawProjectile() called once per frame to draw projectile at the current position and with rotation based on direction
+- killed() called on hit, kills this projectile, increases border based on value
 
 ## Stage (still thinking about this one)
+Variables:
+- int maxEnemies
+- int maxProjectiles
+- int initialEnemies
+- float enemyRespawnTime
+- float projectileRespawnTime
+- ENUM for biome???
+
+Function descriptions:
+- populate() called on stage gen, creates initial enemies
+- 
 
 # States
 States will be ENUMS, and will determine what is processed and what is drawn at any given time **during the game**
