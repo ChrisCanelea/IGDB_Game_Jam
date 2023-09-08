@@ -171,5 +171,5 @@ void Enemy::drawEnemy() // draws the player sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
+    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), GREEN);
 }

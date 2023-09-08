@@ -23,7 +23,7 @@ Function descriptions:
 - drawPlayer() called once per frame to draw the player at the current position
 - attack() called on input for an attack, initiates combat with enemy or destroys projectiles either with rays or a shaped hitbox we create in direction of cursor 
 - drawAttack() called for the duration of attack animation/existence to draw it
-- processCooldowns() called once per frame to count down attack cooldown and any invuln time
+- processCooldowns() called once per frame to count down attack cooldown and any invuln time (not currently used)
 - finisher() called upon enemy blocking (**Combat** state), requires player to input a direction that is not blocked with outcome depending on that
 
 ## Enemy

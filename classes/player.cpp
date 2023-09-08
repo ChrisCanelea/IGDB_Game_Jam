@@ -1,6 +1,7 @@
 // Class implementation for Player
 
 #include "player.hpp"
+#include "enemy.hpp"
 #include "globals.hpp"
 
 
@@ -11,14 +12,16 @@ Player::Player() // Default constructor
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 10;
     this->direction = SOUTH;
+    this->invulnTime = 0;
 }
 
-Player::Player(Texture2D sprite_, Rectangle hitbox_, float speed_, Direction direction_) // Constructor with parameters
+Player::Player(Texture2D sprite_, Rectangle hitbox_, float speed_, Direction direction_, float invulnTime_) // Constructor with parameters
 {
     this->sprite = sprite_;
     this->hitbox = hitbox_;
     this->speed = speed_;
     this->direction = direction_;
+    this->invulnTime = invulnTime_;
 }
 
 // getters
@@ -32,7 +35,7 @@ Rectangle Player::getHitbox() // returns hitbox
     return this->hitbox;
 }
 
-int Player::getSpeed() // returns speed
+float Player::getSpeed() // returns speed
 {
     return this->speed;
 }
@@ -40,6 +43,11 @@ int Player::getSpeed() // returns speed
 Direction Player::getDirection() // returns direction
 {
     return this->direction;
+}
+
+float Player::getInvulnTime() // returns the number of invulnerability frames
+{
+    return this->invulnTime;
 }
 
 
@@ -86,6 +94,11 @@ void Player::setDirection(Direction direction_) // sets direction
     this->direction = direction_;
 }
 
+void Player::setInvulnTime(float invulnTime_) // sets the number of invulnerability frames
+{
+    this->invulnTime = invulnTime_;
+}
+
 
 void Player::setPos(Vector2 pos_) // sets player position
 {
@@ -114,6 +127,14 @@ void Player::setHeight(float height_) // sets height of hitbox
 }
 
 //other
+void Player::processCooldowns() // processes cooldowns (called once per frame)
+{
+    if (this->getInvulnTime() > 0)
+    {
+        this->invulnTime -= 1;
+    }
+}
+
 void Player::movePlayer() // moves the player based on input
 {
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
@@ -167,12 +188,28 @@ void Player::movePlayer() // moves the player based on input
     }
 }
 
+void Player::enemyKnockback(Enemy enemy_) // knocks the player away from an enemy (called when collision with an enemy is detected)
+{
+    Vector2 dist = Vector2Subtract(this->getPos(), enemy_.getPos());
+    Vector2 normalDist = Vector2Normalize(dist);
+
+    this->setX(this->getPos().x + normalDist.x * this->getSpeed());
+    this->setY(this->getPos().y +normalDist.y * this->getSpeed());
+
+}
+
 void Player::drawPlayer() // draws the player sprite
 {
     Rectangle spriteRect = {16*(this->getDirection() + 1), 0, 16, 16};
+    if (this->getInvulnTime() == 0)
+    {
+        DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
 
-    DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+    } else
+    {
+        DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
+        
+    }
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    // DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
 }

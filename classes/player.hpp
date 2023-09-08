@@ -1,6 +1,7 @@
 #ifndef player_hpp
 #define player_hpp
 
+#include "enemy.hpp"
 #include "globals.hpp"
 
 class Player
@@ -10,17 +11,19 @@ private:
     Rectangle hitbox; // hitbox
     float speed; // speed
     Direction direction; // direction
+    float invulnTime;
     
 public:
     // constructors
     Player(); // Default constructor
-    Player(Texture2D, Rectangle, float, Direction); // Constructor with parameters
+    Player(Texture2D, Rectangle, float, Direction, float); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
     Rectangle getHitbox(); // returns hitbox
-    int getSpeed(); // returns speed
+    float getSpeed(); // returns speed
     Direction getDirection(); // returns direction
+    float getInvulnTime(); // returns the number of invulnerability frames
 
     Vector2 getPos(); // returns the player position
     Vector2 getCenter(); // returns the player's center position
@@ -32,6 +35,7 @@ public:
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(float); // sets speed
     void setDirection(Direction); // sets direction
+    void setInvulnTime(float); // sets the number of invulnerability frames
 
     void setPos(Vector2); // sets player position
     void setX(float); // sets x position (top left corner of hitbox)
@@ -40,7 +44,9 @@ public:
     void setHeight(float); // sets height of hitbox
 
     //other
+    void processCooldowns(); // processes cooldowns (called once per frame, not currently used)
     void movePlayer(); // moves the player based on input
+    void enemyKnockback(Enemy); // knocks the player away from an enemy (called when collision with an enemy is detected)
     void drawPlayer(); // draws the player sprite
 };
 
