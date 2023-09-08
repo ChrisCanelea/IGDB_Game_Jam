@@ -7,7 +7,7 @@
 // constructors
 Player::Player() // Default constructor
 {
-    this->sprite = LoadTexture("assets/Markus.png");
+    this->sprite = LoadTexture("assets/squareNinja.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 10;
     this->direction = SOUTH;
@@ -169,6 +169,12 @@ void Player::movePlayer() // moves the player based on input
 
 void Player::drawPlayer() // draws the player sprite
 {
+    Rectangle spriteRect = {0, 0, 16, 16};
+
+    if (this->getDirection() == NORTH) {
+
+    }
+    DrawTexturePro(this->sprite, )
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
     DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
