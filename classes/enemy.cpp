@@ -46,7 +46,7 @@ Direction Enemy::getDirection() // returns direction
 Vector2 Enemy::getPos() // returns the Enemy position
 {
     Vector2 pos = {this->getHitbox().x, this->getHitbox().y};
-    return pos;
+    return pos;//test
 }
 
 Vector2 Enemy::getCenter() // returns the player's center position
