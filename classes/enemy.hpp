@@ -2,8 +2,8 @@
 #define enemy_hpp
 
 #include <raylib.h>
+#include "globals.hpp"
 
-enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 
 class Enemy
 {
@@ -47,6 +47,7 @@ public:
     //other
     void moveEnemy(); // moves the Enemy based on input
     void drawEnemy(); // draws the Enemy sprite
+     
 };
 
 #endif // Enemy_hpp
