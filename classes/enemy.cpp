@@ -1,8 +1,7 @@
 // Class implementation for player
 
 #include "enemy.hpp"
-#include <raylib.h>
-#include <math.h>
+#include "globals.hpp"
 
 
 // constructors
@@ -14,7 +13,7 @@ Enemy::Enemy() // Default constructor
     this->direction = SOUTH;
 }
 
-Enemy::Enemy(Texture2D sprite_, Rectangle hitbox_, int speed_, Direction direction_) // Constructor with parameters
+Enemy::Enemy(Texture2D sprite_, Rectangle hitbox_, float speed_, Direction direction_) // Constructor with parameters
 {
     this->sprite = sprite_;
     this->hitbox = hitbox_;
@@ -46,36 +45,22 @@ Direction Enemy::getDirection() // returns direction
 
 Vector2 Enemy::getPos() // returns the Enemy position
 {
-    Vector2 pos = {(float)this->getLeft(), (float)this->getTop()};
+    Vector2 pos = {this->getPos().x, this->getPos().y};
     return pos;
 }
 
-int Enemy::getLeft() // returns x position of left of hitbox
+Vector2 Enemy::getCenter() // returns the player's center position
 {
-    return this->hitbox.x;
+    Vector2 pos = {this->getPos().x + this->getWidth()/2, this->getPos().y + this->getHeight()/2};
+    return pos;
 }
 
-int Enemy::getRight() // returns x position of right of hitbox
-{
-    return this->hitbox.x + this->hitbox.width;
-}
-
-int Enemy::getTop() // returns y position of top of hitbox
-{
-    return this->hitbox.y;
-}
-
-int Enemy::getBottom() // returns y position of bottom of hitbox
-{
-    return this->hitbox.y + this->hitbox.height;
-}
-
-int Enemy::getWidth() // returns width of hitbox
+float Enemy::getWidth() // returns width of hitbox
 {
     return this->hitbox.width;
 }
 
-int Enemy::getHeight() // returns height of hitbox
+float Enemy::getHeight() // returns height of hitbox
 {
     return this->hitbox.height;
 }
@@ -91,7 +76,7 @@ void Enemy::setHitbox(Rectangle hitbox_) // sets hitbox
     this->hitbox = hitbox_;
 }
 
-void Enemy::setSpeed(int speed_) // sets speed
+void Enemy::setSpeed(float speed_) // sets speed
 {
     this->speed = speed_;
 }
@@ -108,22 +93,22 @@ void Enemy::setPos(Vector2 pos_) // sets Enemy position
     this->hitbox.y = pos_.y;
 }
 
-void Enemy::setX(int x_) // sets x position (top left corner of hitbox)
+void Enemy::setX(float x_) // sets x position (top left corner of hitbox)
 {
     this->hitbox.x = x_;
 }
 
-void Enemy::setY(int y_) // sets y position (top left corner of hitbox)
+void Enemy::setY(float y_) // sets y position (top left corner of hitbox)
 {
     this->hitbox.y = y_;
 }
 
-void Enemy::setWidth(int width_) // sets width of hitbox
+void Enemy::setWidth(float width_) // sets width of hitbox
 {
     this->hitbox.width = width_;
 }
 
-void Enemy::setHeight(int height_) // sets height of hitbox
+void Enemy::setHeight(float height_) // sets height of hitbox
 {
     this->hitbox.height = height_;
 }
@@ -135,49 +120,49 @@ void Enemy::moveEnemy() // moves the Enemy based on input
     {
         this->setDirection(NORTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() + x_speed);
-        this->setY(this->getTop() - x_speed);
+        this->setX(this->getPos().x + x_speed);
+        this->setY(this->getPos().y - x_speed);
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
     {
         this->setDirection(SOUTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() + x_speed);
-        this->setY(this->getTop() + x_speed);
+        this->setX(this->getPos().x + x_speed);
+        this->setY(this->getPos().y + x_speed);
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A))
     {
         this->setDirection(SOUTHWEST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() - x_speed);
-        this->setY(this->getTop() + x_speed);
+        this->setX(this->getPos().x - x_speed);
+        this->setY(this->getPos().y + x_speed);
 
     } else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
     {
         this->setDirection(NORTHWEST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() - x_speed);
-        this->setY(this->getTop() - x_speed);
+        this->setX(this->getPos().x - x_speed);
+        this->setY(this->getPos().y - x_speed);
 
     } else if (IsKeyDown(KEY_W))
     {
         this->setDirection(NORTH);
-        this->setY(this->getTop() - this->getSpeed());
+        this->setY(this->getPos().y - this->getSpeed());
 
     } else if (IsKeyDown(KEY_D))
     {
         this->setDirection(EAST);
-        this->setX(this->getLeft() + this->getSpeed());
+        this->setX(this->getPos().x + this->getSpeed());
 
     } else if (IsKeyDown(KEY_S))
     {
         this->setDirection(SOUTH);
-        this->setY(this->getTop() + this->getSpeed());
+        this->setY(this->getPos().y + this->getSpeed());
 
     } else if (IsKeyDown(KEY_A))
     {
         this->setDirection(WEST);
-        this->setX(this->getLeft() - this->getSpeed());
+        this->setX(this->getPos().x - this->getSpeed());
 
     }
 }
@@ -186,5 +171,5 @@ void Enemy::drawEnemy() // draws the player sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangle(this->getLeft(), this->getTop(), this->getWidth(), this->getHeight(), BLUE);
+    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
 }

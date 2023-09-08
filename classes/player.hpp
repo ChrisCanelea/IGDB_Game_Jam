@@ -2,20 +2,19 @@
 #define player_hpp
 
 #include "globals.hpp"
-#include <raylib.h>
 
 class Player
 {
 private:
     Texture2D sprite; // sprite
     Rectangle hitbox; // hitbox
-    int speed; // speed
+    float speed; // speed
     Direction direction; // direction
     
 public:
     // constructors
     Player(); // Default constructor
-    Player(Texture2D, Rectangle, int, Direction); // Constructor with parameters
+    Player(Texture2D, Rectangle, float, Direction); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
@@ -31,7 +30,7 @@ public:
     // setters
     void setSprite(Texture2D); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
-    void setSpeed(int); // sets speed
+    void setSpeed(float); // sets speed
     void setDirection(Direction); // sets direction
 
     void setPos(Vector2); // sets player position
