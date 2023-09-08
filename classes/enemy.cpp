@@ -131,7 +131,7 @@ void Enemy::setHeight(int height_) // sets height of hitbox
 //other
 void Enemy::moveEnemy() // moves the Enemy based on input
 {
-        if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
+    if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
         this->setDirection(NORTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
