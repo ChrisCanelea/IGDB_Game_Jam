@@ -169,13 +169,10 @@ void Player::movePlayer() // moves the player based on input
 
 void Player::drawPlayer() // draws the player sprite
 {
-    Rectangle spriteRect = {0, 0, 16, 16};
+    Rectangle spriteRect = {16*(this->getDirection() + 1), 0, 16, 16};
 
-    if (this->getDirection() == NORTH) {
-
-    }
-    DrawTexturePro(this->sprite, )
+    DrawTexturePro(this->sprite, spriteRect, this->hitbox, this->getCenter(), 0, WHITE);
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
+    // DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
 }
