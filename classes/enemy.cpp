@@ -45,7 +45,7 @@ Direction Enemy::getDirection() // returns direction
 
 Vector2 Enemy::getPos() // returns the Enemy position
 {
-    Vector2 pos = {this->getPos().x, this->getPos().y};
+    Vector2 pos = {this->hitbox.x, this->hitbox.y};
     return pos;
 }
 
