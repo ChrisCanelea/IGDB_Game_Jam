@@ -5,9 +5,12 @@
 void gameScreen(void)
 {
     Player player;
-    Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     player.setHeight(50);
     player.setWidth(50);
+    Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
+
+    Rectangle stage = {-250, -250, 500, 500};
+
     while(true)
     {
         camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);

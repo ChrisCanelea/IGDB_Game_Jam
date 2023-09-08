@@ -25,12 +25,8 @@ public:
 
     Vector2 getPos(); // returns the player position
     Vector2 getCenter(); // returns the player's center position
-    int getLeft(); // returns x position of left of hitbox
-    int getRight(); // returns x position of right of hitbox
-    int getTop(); // returns y position of top of hitbox
-    int getBottom(); // returns y position of bottom of hitbox
-    int getWidth(); // returns width of hitbox
-    int getHeight(); // returns height of hitbox
+    float getWidth(); // returns width of hitbox
+    float getHeight(); // returns height of hitbox
 
     // setters
     void setSprite(Texture2D); // sets sprite

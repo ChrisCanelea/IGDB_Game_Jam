@@ -47,42 +47,22 @@ Direction Player::getDirection() // returns direction
 
 Vector2 Player::getPos() // returns the player position
 {
-    Vector2 pos = {(float)this->getLeft(), (float)this->getTop()};
+    Vector2 pos = {this->getHitbox().x, this->getHitbox().y};
     return pos;
 }
 
 Vector2 Player::getCenter() // returns the player's center position
 {
-    Vector2 pos = {(float)this->getLeft() + (float)this->getWidth()/2, (float)this->getTop() + (float)this->getHeight()/2};
+    Vector2 pos = {this->getPos().x + this->getWidth()/2, this->getPos().y + this->getHeight()/2};
     return pos;
 }
 
-int Player::getLeft() // returns x position of left of hitbox
-{
-    return this->hitbox.x;
-}
-
-int Player::getRight() // returns x position of right of hitbox
-{
-    return this->hitbox.x + this->hitbox.width;
-}
-
-int Player::getTop() // returns y position of top of hitbox
-{
-    return this->hitbox.y;
-}
-
-int Player::getBottom() // returns y position of bottom of hitbox
-{
-    return this->hitbox.y + this->hitbox.height;
-}
-
-int Player::getWidth() // returns width of hitbox
+float Player::getWidth() // returns width of hitbox
 {
     return this->hitbox.width;
 }
 
-int Player::getHeight() // returns height of hitbox
+float Player::getHeight() // returns height of hitbox
 {
     return this->hitbox.height;
 }
@@ -143,49 +123,49 @@ void Player::movePlayer() // moves the player based on input
     {
         this->setDirection(NORTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() + x_speed);
-        this->setY(this->getTop() - x_speed);
+        this->setX(this->getPos().x + x_speed);
+        this->setY(this->getPos().y - x_speed);
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
     {
         this->setDirection(SOUTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() + x_speed);
-        this->setY(this->getTop() + x_speed);
+        this->setX(this->getPos().x + x_speed);
+        this->setY(this->getPos().y + x_speed);
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A))
     {
         this->setDirection(SOUTHWEST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() - x_speed);
-        this->setY(this->getTop() + x_speed);
+        this->setX(this->getPos().x - x_speed);
+        this->setY(this->getPos().y + x_speed);
 
     } else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
     {
         this->setDirection(NORTHWEST);
         float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getLeft() - x_speed);
-        this->setY(this->getTop() - x_speed);
+        this->setX(this->getPos().x - x_speed);
+        this->setY(this->getPos().y - x_speed);
 
     } else if (IsKeyDown(KEY_W))
     {
         this->setDirection(NORTH);
-        this->setY(this->getTop() - this->getSpeed());
+        this->setY(this->getPos().y - this->getSpeed());
 
     } else if (IsKeyDown(KEY_D))
     {
         this->setDirection(EAST);
-        this->setX(this->getLeft() + this->getSpeed());
+        this->setX(this->getPos().x + this->getSpeed());
 
     } else if (IsKeyDown(KEY_S))
     {
         this->setDirection(SOUTH);
-        this->setY(this->getTop() + this->getSpeed());
+        this->setY(this->getPos().y + this->getSpeed());
 
     } else if (IsKeyDown(KEY_A))
     {
         this->setDirection(WEST);
-        this->setX(this->getLeft() - this->getSpeed());
+        this->setX(this->getPos().x - this->getSpeed());
 
     }
 }
@@ -194,5 +174,5 @@ void Player::drawPlayer() // draws the player sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangle(this->getLeft(), this->getTop(), this->getWidth(), this->getHeight(), BLUE);
+    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
 }
