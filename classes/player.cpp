@@ -95,22 +95,22 @@ void Player::setPos(Vector2 pos_) // sets player position
     this->hitbox.y = pos_.y;
 }
 
-void Player::setX(int x_) // sets x position (top left corner of hitbox)
+void Player::setX(float x_) // sets x position (top left corner of hitbox)
 {
     this->hitbox.x = x_;
 }
 
-void Player::setY(int y_) // sets y position (top left corner of hitbox)
+void Player::setY(float y_) // sets y position (top left corner of hitbox)
 {
     this->hitbox.y = y_;
 }
 
-void Player::setWidth(int width_) // sets width of hitbox
+void Player::setWidth(float width_) // sets width of hitbox
 {
     this->hitbox.width = width_;
 }
 
-void Player::setHeight(int height_) // sets height of hitbox
+void Player::setHeight(float height_) // sets height of hitbox
 {
     this->hitbox.height = height_;
 }

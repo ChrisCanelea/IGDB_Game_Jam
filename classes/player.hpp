@@ -35,10 +35,10 @@ public:
     void setDirection(Direction); // sets direction
 
     void setPos(Vector2); // sets player position
-    void setX(int); // sets x position (top left corner of hitbox)
-    void setY(int); // sets y position (top left corner of hitbox)
-    void setWidth(int); // sets width of hitbox
-    void setHeight(int); // sets height of hitbox
+    void setX(float); // sets x position (top left corner of hitbox)
+    void setY(float); // sets y position (top left corner of hitbox)
+    void setWidth(float); // sets width of hitbox
+    void setHeight(float); // sets height of hitbox
 
     //other
     void movePlayer(); // moves the player based on input
