@@ -24,6 +24,7 @@ public:
     Direction getDirection(); // returns direction
 
     Vector2 getPos(); // returns the player position
+    Vector2 getCenter(); // returns the player's center position
     int getLeft(); // returns x position of left of hitbox
     int getRight(); // returns x position of right of hitbox
     int getTop(); // returns y position of top of hitbox

@@ -51,6 +51,12 @@ Vector2 Player::getPos() // returns the player position
     return pos;
 }
 
+Vector2 Player::getCenter() // returns the player's center position
+{
+    Vector2 pos = {(float)this->getLeft() + (float)this->getWidth()/2, (float)this->getTop() + (float)this->getHeight()/2};
+    return pos;
+}
+
 int Player::getLeft() // returns x position of left of hitbox
 {
     return this->hitbox.x;
