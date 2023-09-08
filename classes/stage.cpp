@@ -8,5 +8,5 @@
 Stage::Stage() // Default constructor
 {
     this->sprite = LoadTexture("assets/background.png");
-    this->playArea = 
+    // this->playArea = 
 }

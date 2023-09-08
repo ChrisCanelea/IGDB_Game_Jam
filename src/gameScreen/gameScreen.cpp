@@ -20,11 +20,11 @@ void gameScreen(void)
             BeginMode2D(camera);
 
             DrawText("Game", 10, 50, 50, RED);
-            DrawRectangleRec(stage, BLACK);
+            // DrawRectangleRec(stage, BLACK);
 
-            if (CheckCollisionRecs(stage, player.getHitbox()) == true) {
-                DrawText("COLLISION", 10, 50, 50, RED);
-            }
+            // if (CheckCollisionRecs(stage, player.getHitbox()) == true) {
+            //     DrawText("COLLISION", 10, 50, 50, RED);
+            // }
 
             player.movePlayer();
             
