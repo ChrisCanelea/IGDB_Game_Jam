@@ -64,6 +64,7 @@ Variables:
 - float enemyRespawnTime
 - float projectileRespawnTime
 - ENUM for biome???
+- Vector2 exitLocation
 
 Function descriptions:
 - populate() called on stage gen, creates initial enemies

@@ -6,7 +6,7 @@
 class Projectile 
 {
 private:
-    Texture2D projectileSprite;
+    Texture2D sprite;
     Rectangle hitbox;
     float rotation;
     Vector2 destination;
@@ -38,7 +38,7 @@ public:
     void setWidth(float); // sets width of hitbox
     void setHeight(float); // sets height of hitbox
 
-    //other
+    // other
     void moveProjectile(); // moves the player based on input
     void drawProjectile(); // draws the player sprite
 };
