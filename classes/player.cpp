@@ -171,8 +171,8 @@ void Player::drawPlayer() // draws the player sprite
 {
     Rectangle spriteRect = {16*(this->getDirection() + 1), 0, 16, 16};
 
-    DrawTexturePro(this->sprite, spriteRect, this->hitbox, this->getCenter(), 0, WHITE);
+    DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    // DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
+    // DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
 }

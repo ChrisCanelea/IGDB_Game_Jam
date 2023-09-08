@@ -14,6 +14,8 @@ void gameScreen(void)
     {
         camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
         
+        player.movePlayer();
+
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
@@ -25,8 +27,6 @@ void gameScreen(void)
             // if (CheckCollisionRecs(stage, player.getHitbox()) == true) {
             //     DrawText("COLLISION", 10, 50, 50, RED);
             // }
-
-            player.movePlayer();
             
             player.drawPlayer();
 
