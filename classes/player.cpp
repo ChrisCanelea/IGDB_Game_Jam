@@ -1,9 +1,7 @@
 // Class implementation for player
 
 #include "player.hpp"
-
-#include <raylib.h>
-#include <math.h>
+#include "globals.hpp"
 
 
 // constructors
@@ -15,7 +13,7 @@ Player::Player() // Default constructor
     this->direction = SOUTH;
 }
 
-Player::Player(Texture2D sprite_, Rectangle hitbox_, int speed_, Direction direction_) // Constructor with parameters
+Player::Player(Texture2D sprite_, Rectangle hitbox_, float speed_, Direction direction_) // Constructor with parameters
 {
     this->sprite = sprite_;
     this->hitbox = hitbox_;
@@ -78,7 +76,7 @@ void Player::setHitbox(Rectangle hitbox_) // sets hitbox
     this->hitbox = hitbox_;
 }
 
-void Player::setSpeed(int speed_) // sets speed
+void Player::setSpeed(float speed_) // sets speed
 {
     this->speed = speed_;
 }
@@ -118,7 +116,6 @@ void Player::setHeight(float height_) // sets height of hitbox
 //other
 void Player::movePlayer() // moves the player based on input
 {
-
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
         this->setDirection(NORTHEAST);
