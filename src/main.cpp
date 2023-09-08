@@ -18,7 +18,6 @@ int main(void)
         if (WindowShouldClose())
         {
             CloseWindow();
-
         }
     }
 
