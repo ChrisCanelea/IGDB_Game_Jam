@@ -1,4 +1,4 @@
-// Class implementation for player
+// Class implementation for Player
 
 #include "player.hpp"
 #include "globals.hpp"

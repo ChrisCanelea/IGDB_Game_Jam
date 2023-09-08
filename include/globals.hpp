@@ -4,6 +4,11 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include "player.hpp"
+#include "enemy.hpp"
+#include "projectile.hpp"
+#include "stage.hpp"
+
 const int SCREEN_W = 1920;
 const int SCREEN_H = 1080;
 

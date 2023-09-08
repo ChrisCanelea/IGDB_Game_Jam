@@ -1,5 +1,4 @@
 #include "globals.hpp"
-#include "player.hpp"
 #include <raylib.h>
 
 void gameScreen(void)
@@ -9,7 +8,7 @@ void gameScreen(void)
     player.setWidth(50);
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
 
-    Rectangle stage = {-250, -250, 500, 500};
+    // Stage stage = {}
 
     while(true)
     {
@@ -21,6 +20,11 @@ void gameScreen(void)
             BeginMode2D(camera);
 
             DrawText("Game", 10, 50, 50, RED);
+            DrawRectangleRec(stage, BLACK);
+
+            if (CheckCollisionRecs(stage, player.getHitbox()) == true) {
+                DrawText("COLLISION", 10, 50, 50, RED);
+            }
 
             player.movePlayer();
             
