@@ -9,14 +9,18 @@ Projectile::Projectile() // Default constructor
     this->hitbox = Rectangle {0, 0, 30, 10};
     this->rotation = 0; // supposedly aligned with x axis
     this->destination = {0,0};
+    this->velocity = 0;
+    this->direction = {0,0};
 }
 
-Projectile::Projectile(Texture2D sprite_, Rectangle hitbox_, float rotation_, Vector2 destination_) // Constructor with params 
+Projectile::Projectile(Texture2D sprite_, Rectangle hitbox_, float rotation_, Vector2 destination_, float velocity_) // Constructor with params 
 {
     this->sprite = sprite_;
     this->hitbox = hitbox_;
     this->rotation = rotation_;
     this->destination = destination_;
+    this->velocity = velocity_;
+    this->direction = calculateDirection();
 }
 
 // getters
@@ -38,6 +42,16 @@ float Projectile::getRotation() // returns rotation
 Vector2 Projectile::getDestination() // returns destination 
 {
     return this->destination;
+}
+
+float Projectile::getVelocity() //returns velocity 
+{
+    return this->velocity;
+}
+
+Vector2 Projectile::getDirection() // returns direction vector 
+{
+    return this->direction;
 }
 
 Vector2 Projectile::getPos() // returns the projectile's position 
@@ -77,6 +91,16 @@ void Projectile::setDestination(Vector2 destination_) // sets direction
     this->destination = destination_;
 }
 
+void Projectile::setVelocity(float velocity_) // sets velocity 
+{
+    this->velocity = velocity_;
+}
+
+void Projectile::setDirection(Vector2 direction_) // sets direction vector 
+{
+    this->direction = direction_;
+}
+
 void Projectile::setPos(Vector2 pos_) // sets projectile position
 {
     this->hitbox.x = pos_.x;
@@ -104,7 +128,20 @@ void Projectile::setHeight(float height_) // sets height of hitbox
 }
 
 // other
+Vector2 Projectile::calculateDirection() 
+{
+    return Vector2Normalize(Vector2Rotate(Vector2Subtract(this->destination, {this->getPos().x, this->getPos().y}), GetRandomValue(-8, 8)));
+}
+
 void Projectile::moveProjectile() // calculate and apply the motion of the projectile 
 {
-    
+    float x_speed = this->getVelocity() * this->getDirection().x;
+    float y_speed = this->getVelocity() * this->getDirection().y;
+    this->setX(this->getPos().x + x_speed);
+    this->setX(this->getPos().y + y_speed);
+}
+
+void Projectile::drawProjectile() // draws projectile 
+{
+    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
 }
