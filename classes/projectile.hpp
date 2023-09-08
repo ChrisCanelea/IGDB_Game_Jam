@@ -16,7 +16,7 @@ private:
 public:
     // constructors
     Projectile(); // Default constructor
-    Projectile(Texture2D, Rectangle, float, Vector2, float); // Constructor with parameters
+    Projectile(Rectangle, Vector2, float); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
@@ -46,8 +46,10 @@ public:
 
     // other
     Vector2 calculateDirection();
+    float calculateRotation();
     void moveProjectile(); // moves the player based on input
     void drawProjectile(); // draws the player sprite
+    Texture2D loadSprite();
 };
 
 #endif // projectile_hpp

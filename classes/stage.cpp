@@ -191,12 +191,30 @@ void Stage::stageManager()
 
 Enemy* Stage::createEnemyArray() 
 {
-
+    return new Enemy[maxEnemies];
 }
 
 Projectile* Stage::createProjectileArray() 
 {
+    return new Projectile[maxProjectiles];
+}
 
+void Stage::populateEnemies() 
+{
+    for (int i = 0; i < maxEnemies; ++i) 
+    {
+        enemiesArray[i] = Enemy();
+        //NEED TO EDIT ENEMY CLASS FIRST
+    }
+}
+
+void Stage::populateProjectiles() 
+{
+    for (int i = 0; i < maxProjectiles; ++i) 
+    {
+        projectilesArray[i] = Projectile();
+        //NEED TO EDIT PROJECTILE CLASS FIRST
+    }
 }
 
 void Stage::initialPopulation() 
@@ -220,6 +238,11 @@ void Stage::drawStage()
 }
 
 Vector2 Stage::generateExitPosition() 
+{
+
+}
+
+Stage::~Stage() 
 {
 
 }

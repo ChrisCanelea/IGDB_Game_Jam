@@ -13,14 +13,14 @@ Projectile::Projectile() // Default constructor
     this->direction = {0,0};
 }
 
-Projectile::Projectile(Texture2D sprite_, Rectangle hitbox_, float rotation_, Vector2 destination_, float velocity_) // Constructor with params 
+Projectile::Projectile(Rectangle hitbox_, Vector2 destination_, float velocity_) // Constructor with params 
 {
-    this->sprite = sprite_;
+    this->sprite = loadSprite();
     this->hitbox = hitbox_;
-    this->rotation = rotation_;
     this->destination = destination_;
-    this->velocity = velocity_;
+    this->velocity = 3.0f;
     this->direction = calculateDirection();
+    this->rotation = calculateRotation();
 }
 
 // getters
@@ -133,6 +133,11 @@ Vector2 Projectile::calculateDirection()
     return Vector2Normalize(Vector2Rotate(Vector2Subtract(this->destination, {this->getPos().x, this->getPos().y}), GetRandomValue(-8, 8)));
 }
 
+float Projectile::calculateRotation() 
+{
+    return Vector2Angle({1,0}, getDestination());
+}
+
 void Projectile::moveProjectile() // calculate and apply the motion of the projectile 
 {
     float x_speed = this->getVelocity() * this->getDirection().x;
@@ -144,4 +149,9 @@ void Projectile::moveProjectile() // calculate and apply the motion of the proje
 void Projectile::drawProjectile() // draws projectile 
 {
     DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
+}
+
+Texture2D Projectile::loadSprite() 
+{
+    return LoadTexture("");
 }

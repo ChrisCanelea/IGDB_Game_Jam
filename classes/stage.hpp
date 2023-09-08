@@ -66,7 +66,9 @@ public:
     void stageManager(); // master controller, called once per frame, processes entire stage (& respawns)
     Enemy* createEnemyArray(); // allocates memory for enemy array to keep track of all enemy objects
     Projectile* createProjectileArray(); // allocates memory for proj. array to track all projectiles
-    void initialPopulation(); // creates enemies and puts them in array based on initialEnemies
+    void populateEnemies(); // fills enemy array with enemy objects
+    void populateProjectiles(); // fills projectile array with projectile objects
+    void initialPopulation(); // sets initial enemies active based on initialEnemies
     Enemy spawnEnemy(); // creates an enemy and puts it in the array (check for space done in manager)
     Projectile spawnProjectile(); // creates a proj. and puts in array (check for space done in manager)
     void drawStage(); // draws walls and background

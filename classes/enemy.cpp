@@ -9,16 +9,18 @@ Enemy::Enemy() // Default constructor
 {
     this->sprite = LoadTexture("assets/Markus.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
-    this->speed = 10;
+    this->speed = 5.0f;
     this->direction = SOUTH;
+    this->isActive = false;
 }
 
-Enemy::Enemy(Texture2D sprite_, Rectangle hitbox_, float speed_, Direction direction_) // Constructor with parameters
+Enemy::Enemy(Rectangle hitbox_) // Constructor with parameters
 {
-    this->sprite = sprite_;
+    this->sprite = loadSprite();
     this->hitbox = hitbox_;
-    this->speed = speed_;
-    this->direction = direction_;
+    this->speed = 5.0f;
+    this->direction = SOUTH;
+    this->isActive = false;
 }
 
 // getters
@@ -42,6 +44,10 @@ Direction Enemy::getDirection() // returns direction
     return this->direction;
 }
 
+bool Enemy::getIsActive() 
+{
+    return this->isActive;
+}
 
 Vector2 Enemy::getPos() // returns the Enemy position
 {
@@ -86,6 +92,10 @@ void Enemy::setDirection(Direction direction_) // sets direction
     this->direction = direction_;
 }
 
+void Enemy::setIsActive(bool isActive_) 
+{
+    this->isActive = isActive_;
+}
 
 void Enemy::setPos(Vector2 pos_) // sets Enemy position
 {
@@ -172,4 +182,9 @@ void Enemy::drawEnemy() // draws the player sprite
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
     DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), GREEN);
+}
+
+Texture2D Enemy::loadSprite() 
+{
+    return LoadTexture("");
 }
