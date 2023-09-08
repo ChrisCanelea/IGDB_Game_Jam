@@ -1,10 +1,11 @@
-#ifndef player_hpp
-#define player_hpp
+#ifndef enemy_hpp
+#define enemy_hpp
 
-#include "globals.hpp"
 #include <raylib.h>
 
-class Player
+enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
+
+class Enemy
 {
 private:
     Texture2D sprite; // sprite
@@ -14,8 +15,8 @@ private:
     
 public:
     // constructors
-    Player(); // Default constructor
-    Player(Texture2D, Rectangle, int, Direction); // Constructor with parameters
+    Enemy(); // Default constructor
+    Enemy(Texture2D, Rectangle, int, Direction); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
@@ -23,7 +24,7 @@ public:
     int getSpeed(); // returns speed
     Direction getDirection(); // returns direction
 
-    Vector2 getPos(); // returns the player position
+    Vector2 getPos(); // returns the Enemy position
     int getLeft(); // returns x position of left of hitbox
     int getRight(); // returns x position of right of hitbox
     int getTop(); // returns y position of top of hitbox
@@ -37,15 +38,15 @@ public:
     void setSpeed(int); // sets speed
     void setDirection(Direction); // sets direction
 
-    void setPos(Vector2); // sets player position
+    void setPos(Vector2); // sets Enemy position
     void setX(int); // sets x position (top left corner of hitbox)
     void setY(int); // sets y position (top left corner of hitbox)
     void setWidth(int); // sets width of hitbox
     void setHeight(int); // sets height of hitbox
 
     //other
-    void movePlayer(); // moves the player based on input
-    void drawPlayer(); // draws the player sprite
+    void moveEnemy(); // moves the Enemy based on input
+    void drawEnemy(); // draws the Enemy sprite
 };
 
-#endif // player_hpp
+#endif // Enemy_hpp
