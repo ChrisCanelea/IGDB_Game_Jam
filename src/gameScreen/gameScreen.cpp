@@ -10,8 +10,7 @@ void gameScreen(void)
     player.setWidth(50);
     while(true)
     {
-        camera.target = player.getPos();
-        // Vector2Lerp(camera.offset, player.getPos(), 0.15);
+        camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
         
         BeginDrawing();
 
