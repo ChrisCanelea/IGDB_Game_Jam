@@ -24,12 +24,9 @@ public:
     Direction getDirection(); // returns direction
 
     Vector2 getPos(); // returns the player position
-    int getLeft(); // returns x position of left of hitbox
-    int getRight(); // returns x position of right of hitbox
-    int getTop(); // returns y position of top of hitbox
-    int getBottom(); // returns y position of bottom of hitbox
-    int getWidth(); // returns width of hitbox
-    int getHeight(); // returns height of hitbox
+    Vector2 getCenter(); // returns the player's center position
+    float getWidth(); // returns width of hitbox
+    float getHeight(); // returns height of hitbox
 
     // setters
     void setSprite(Texture2D); // sets sprite
@@ -38,10 +35,10 @@ public:
     void setDirection(Direction); // sets direction
 
     void setPos(Vector2); // sets player position
-    void setX(int); // sets x position (top left corner of hitbox)
-    void setY(int); // sets y position (top left corner of hitbox)
-    void setWidth(int); // sets width of hitbox
-    void setHeight(int); // sets height of hitbox
+    void setX(float); // sets x position (top left corner of hitbox)
+    void setY(float); // sets y position (top left corner of hitbox)
+    void setWidth(float); // sets width of hitbox
+    void setHeight(float); // sets height of hitbox
 
     //other
     void movePlayer(); // moves the player based on input
