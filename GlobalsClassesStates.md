@@ -12,7 +12,7 @@ Anything that will be used more than once should be put into a class.
 Variables:
 - Texture2D playerSprite (can be a sheet)
 - Rectangle hitbox
-- Vector2 position
+- Vector2 position **DEPRECIATED**
 - int directionFacing (8 directions, identified from 0-7 clockwise, only if we have sprites for each direction)
 - float moveSpeed
 - float attackCooldown
@@ -30,7 +30,7 @@ Function descriptions:
 Variables:
 - Texture2D enemySprite (can be a sheet)
 - Rectangle hitbox
-- Vector2 position
+- Vector2 position **DEPRECIATED**
 - int directionFacing (8 directions, identified from 0-7 clockwise, only if we have sprites for each direction) (want to make face player)
 - float moveSpeed
 - float value
@@ -48,8 +48,8 @@ Variables:
 - Rectangle hitbox
 - Vector2 position
 - float rotation
-- Vector2 direction (where it is moving) (moveSpeed substitute)
-- float value (in case we want projectiles to also increase border slightly)
+- Vector2 destination (where it is moving, current player location with some error)
+- float value (in case we want projectiles to also increase border slightly) **DEPRECIATED**
 
 Function descriptions:
 - moveProjectile() called once per frame to move projectile based on direction
