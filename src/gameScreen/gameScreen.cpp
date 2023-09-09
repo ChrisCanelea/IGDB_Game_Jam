@@ -15,6 +15,7 @@ void gameScreen(void)
 
     while(true)
     {
+        // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
         camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
         
         player.movePlayer();
