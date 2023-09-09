@@ -12,6 +12,7 @@ private:
     Vector2 destination;
     float velocity;
     Vector2 direction;
+    bool isActive;
 
 public:
     // constructors
@@ -25,6 +26,7 @@ public:
     Vector2 getDestination(); // returns destination
     float getVelocity(); //returns velocity
     Vector2 getDirection(); // returns direction vector
+    bool getIsActive();
 
     Vector2 getPos(); // returns the projectile's position
     float getWidth(); // returns width of hitbox
@@ -37,6 +39,7 @@ public:
     void setDestination(Vector2); // sets destination
     void setVelocity(float); //returns velocity
     void setDirection(Vector2); // returns direction vector
+    void setIsActive(bool);
     
     void setPos(Vector2); // sets player position
     void setX(float); // sets x position (top left corner of hitbox)

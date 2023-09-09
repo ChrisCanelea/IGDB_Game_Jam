@@ -11,6 +11,7 @@ Projectile::Projectile() // Default constructor
     this->destination = {0,0};
     this->velocity = 0;
     this->direction = {0,0};
+    this->isActive = false;
 }
 
 Projectile::Projectile(Rectangle hitbox_, Vector2 destination_) // Constructor with params 
@@ -21,6 +22,7 @@ Projectile::Projectile(Rectangle hitbox_, Vector2 destination_) // Constructor w
     this->velocity = 3.0f;
     this->direction = calculateDirection();
     this->rotation = calculateRotation();
+    this->isActive = false;
 }
 
 // getters
@@ -52,6 +54,11 @@ float Projectile::getVelocity() //returns velocity
 Vector2 Projectile::getDirection() // returns direction vector 
 {
     return this->direction;
+}
+
+bool Projectile::getIsActive() 
+{
+    return this->isActive;
 }
 
 Vector2 Projectile::getPos() // returns the projectile's position 
@@ -89,6 +96,11 @@ void Projectile::setRotation(float rotation_) // sets rotation
 void Projectile::setDestination(Vector2 destination_) // sets direction
 {
     this->destination = destination_;
+}
+
+void Projectile::setIsActive(bool isActive_) 
+{
+    this->isActive = isActive_;
 }
 
 void Projectile::setVelocity(float velocity_) // sets velocity 
