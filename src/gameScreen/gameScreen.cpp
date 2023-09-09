@@ -11,7 +11,7 @@ void gameScreen(void)
     player.setWidth(50);
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
 
-    Stage test({-250, -250, 500, 500}, &player);
+    Stage test({-500, -500, 1000, 1000}, &player);
 
     Enemy enemy;
     enemy.setHeight(50);

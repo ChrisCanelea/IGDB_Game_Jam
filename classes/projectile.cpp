@@ -133,8 +133,9 @@ Vector2 Projectile::calculateDirection()
     return Vector2Normalize(Vector2Rotate(Vector2Subtract(this->destination, {this->getPos().x, this->getPos().y}), GetRandomValue(-8, 8)));
 }
 
-float Projectile::calculateRotation() 
+float Projectile::calculateRotation()
 {
+    //CURRENTLY SAME ANGLE FOR ALL
     return Vector2Angle({1,0}, getDestination());
 }
 
