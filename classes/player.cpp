@@ -222,7 +222,7 @@ void Player::enemyKnockback() // knocks the player away from an enemy (called wh
 
 void Player::drawPlayer() // draws the player sprite
 {
-    Rectangle spriteRect = {16*(this->getDirection() + 1), 0, 16, 16};
+    Rectangle spriteRect = {(float)16*(this->getDirection() + 1), 0, 16, 16};
     if (this->getInvulnTime() == 0)
     {
         DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
