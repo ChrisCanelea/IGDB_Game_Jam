@@ -227,13 +227,14 @@ void Player::drawPlayer() // draws the player sprite
     if (this->getInvulnTime() == 0)
     {
         DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+        // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
+
 
     } else
     {
         DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
         
     }
-    // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
 }
 
