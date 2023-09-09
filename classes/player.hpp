@@ -49,7 +49,7 @@ public:
     //other
     void processCooldowns(); // processes cooldowns (called once per frame, not currently used)
     void movePlayer(); // moves the player based on input
-    void enemyKnockback(Enemy); // knocks the player away from an enemy (called when collision with an enemy is detected)
+    void enemyKnockback(); // knocks the player away from an enemy (called when collision with an enemy is detected)
     void drawPlayer(); // draws the player sprite
     Texture2D loadSprite();
 };

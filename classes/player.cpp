@@ -149,7 +149,17 @@ void Player::processCooldowns() // processes cooldowns (called once per frame)
 
 void Player::movePlayer() // moves the player based on input
 {
-    if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
+    if (this->getInvulnTime() > 0)
+    {
+        if (this->getInvulnTime() > INVULN_FRAMES/2)
+        {
+            this->enemyKnockback();
+
+        }
+
+        this->setInvulnTime(this->getInvulnTime() - 1);
+    }
+    else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
         this->setDirection(NORTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
@@ -200,9 +210,9 @@ void Player::movePlayer() // moves the player based on input
     }
 }
 
-void Player::enemyKnockback(Enemy enemy_) // knocks the player away from an enemy (called when collision with an enemy is detected)
+void Player::enemyKnockback() // knocks the player away from an enemy (called when collision with an enemy is detected)
 {
-    Vector2 dist = Vector2Subtract(this->getPos(), enemy_.getPos());
+    Vector2 dist = Vector2Subtract(this->getPos(), (*this->enemyReference).getPos());
     Vector2 normalDist = Vector2Normalize(dist);
 
     this->setX(this->getPos().x + normalDist.x * (this->getInvulnTime()*getInvulnTime()/35));
