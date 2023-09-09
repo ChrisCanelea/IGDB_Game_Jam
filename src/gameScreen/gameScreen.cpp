@@ -13,28 +13,13 @@ void gameScreen(void)
 
     Stage test({-500, -500, 1000, 1000}, &player);
 
-    Enemy enemy;
-    enemy.setHeight(50);
-    enemy.setWidth(50);
-    enemy.setPos(Vector2 {50, 50});
-
     while(true)
     {
         camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
         
         player.movePlayer();
 
-        if (player.getInvulnTime() > 0)
-        {
-            if (player.getInvulnTime() > INVULN_FRAMES/2)
-            {
-                player.enemyKnockback(enemy);
-
-            }
-
-            player.setInvulnTime(player.getInvulnTime() - 1);
-
-        } else if (CheckCollisionRecs(player.getHitbox(), enemy.getHitbox()))
+        if (CheckCollisionRecs(player.getHitbox(), enemy.getHitbox()))
         {
             player.setInvulnTime(INVULN_FRAMES);
 
