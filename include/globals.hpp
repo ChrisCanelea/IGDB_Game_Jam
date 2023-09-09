@@ -11,8 +11,8 @@ const float ATTACK_RADIUS = 50;
 const float ATTACK_FRAMES = 10;
 const float ATTACK_COOLDOWN = 25;
 const float INVULN_FRAMES = 30;
-const float ENEMY_RESPAWN_TIME = 600;
-const float PROJECTILE_RESPAWN_TIME = 600;
+const float ENEMY_RESPAWN_TIME = 120;
+const float PROJECTILE_RESPAWN_TIME = 120;
 
 enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 
