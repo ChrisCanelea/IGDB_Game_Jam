@@ -160,7 +160,8 @@ void Projectile::moveProjectile() // calculate and apply the motion of the proje
 
 void Projectile::drawProjectile() // draws projectile 
 {
-    DrawRectanglePro(this->getHitbox(), {0,0}, this->getRotation(), RED);
+    if (this->getIsActive()) DrawRectanglePro(this->getHitbox(), {0,0}, this->getRotation(), ORANGE);
+    else DrawRectanglePro(this->getHitbox(), {0,0}, this->getRotation(), RED);
 }
 
 Texture2D Projectile::loadSprite() 

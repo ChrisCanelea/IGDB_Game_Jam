@@ -204,6 +204,19 @@ void Stage::stageManager()
         // decrement
         this->setEnemyRespawnTime(this->getEnemyRespawnTime() - 1);
     }
+
+    Projectile* queuedProjectile = this->isSpaceProjectile();
+    if (queuedProjectile != NULL) 
+    {
+        if (this->getProjectileRespawnTime() == 0) 
+        {
+            this->respawnProjectile(queuedProjectile);
+
+            this->setProjectileRespawnTime(PROJECTILE_RESPAWN_TIME);
+        }
+
+        this->setEnemyRespawnTime(this->getProjectileRespawnTime() - 1);
+    }
 }
 
 Enemy* Stage::createEnemyArray() 
@@ -253,13 +266,17 @@ void Stage::initialPopulation()
 
 void Stage::respawnEnemy(Enemy* enemy) 
 {
-    enemy->setPos({0,0});
+    enemy->setPos(this->generateRandomOnEdge());
     enemy->setIsActive(true);
 }
 
 void Stage::respawnProjectile(Projectile* projectile) 
 {
-
+    projectile->setPos(this->generateRandomOnEdge());
+    projectile->setDestination(this->getPlayerReference()->getCenter());
+    projectile->setDirection(projectile->calculateDirection());
+    projectile->setRotation(projectile->calculateRotation());
+    projectile->setIsActive(true);
 }
 
 void Stage::drawStage() 
