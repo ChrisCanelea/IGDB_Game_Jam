@@ -11,7 +11,7 @@ private:
     Texture2D sprite; // sprite
     Rectangle hitbox; // hitbox
     float speed; // speed
-    Direction direction; // direction
+    Vector2 direction; // direction
     Circle attackHitbox; // attackHitbox
     float attackCooldown;
     float invulnTime;
@@ -26,7 +26,7 @@ public:
     Texture2D getSprite(); // returns sprite
     Rectangle getHitbox(); // returns hitbox
     float getSpeed(); // returns speed
-    Direction getDirection(); // returns direction
+    Vector2 getDirection(); // returns direction unit vector
     Circle getAttackHitbox(); // returns attackHitbox
     float getAttackCooldown(); // returs the number of attack cooldown frames
     float getInvulnTime(); // returns the number of invulnerability frames
@@ -41,7 +41,7 @@ public:
     void setSprite(Texture2D); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(float); // sets speed
-    void setDirection(Direction); // sets direction
+    void setDirection(Vector2); // sets direction
     void setAttackHitbox(Circle); // sets attackHitbox
     void setAttackCooldown(float); // sets the number of attack cooldown frames
     void setInvulnTime(float); // sets the number of invulnerability frames

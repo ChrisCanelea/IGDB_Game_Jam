@@ -12,8 +12,8 @@ Player::Player() // Default constructor
     this->sprite = LoadTexture("assets/squareNinja.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 10;
-    this->direction = SOUTH;
-    this->attackHitbox = Circle{0, 0};
+    this->direction = Vector2 {0, 0};
+    this->attackHitbox = Circle {0, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
@@ -24,7 +24,7 @@ Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
     this->speed = 10;
-    this->direction = SOUTH;
+    this->direction = {0, 1};
     this->attackHitbox = Circle{0, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;
@@ -47,7 +47,7 @@ float Player::getSpeed() // returns speed
     return this->speed;
 }
 
-Direction Player::getDirection() // returns direction
+Vector2 Player::getDirection() // returns direction unit vector
 {
     return this->direction;
 }
@@ -111,9 +111,9 @@ void Player::setSpeed(float speed_) // sets speed
     this->speed = speed_;
 }
 
-void Player::setDirection(Direction direction_) // sets direction
+void Player::setDirection(Vector2 direction_) // sets direction
 {
-    this->direction = direction_;
+    this->direction = Vector2Normalize(direction_);
 }
 
 void Player::setAttackHitbox(Circle attackHitbox_) // sets attackHitbox
@@ -170,6 +170,11 @@ void Player::movePlayer() // moves the player based on input
     if (this->getAttackCooldown() > 0)
     {
         this->setAttackCooldown(this->getAttackCooldown() - 1);
+
+    } else if (IsKeyPressed(KEY_J))
+    {
+        this->setAttackCooldown(ATTACK_COOLDOWN);
+
     }
 
     if (this->getInvulnTime() > 0)
@@ -183,63 +188,53 @@ void Player::movePlayer() // moves the player based on input
         this->setInvulnTime(this->getInvulnTime() - 1);
     }
 
+    bool shouldMove = true;
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
-        this->setDirection(NORTHEAST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x + x_speed);
-        this->setY(this->getPos().y - x_speed);
-
-        // if (this->getAttackCooldown() > 10)
-        // {
-        //     if (IsKeyDown(KEY_J) || IsMouseButtonDown(MOUSE_BUTTON_LEFT))
-        //     {
-        //         Circle {Vector2 {this->getCenter().x +}, 50}; // location of hitbox, radius of hitbox
-        //         this->setAttackHitbox()
-        //     }
-
-        // }
+        this->setDirection(Vector2 {1, -1});
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
     {
-        this->setDirection(SOUTHEAST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x + x_speed);
-        this->setY(this->getPos().y + x_speed);
+        this->setDirection(Vector2 {1, 1});
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A))
     {
-        this->setDirection(SOUTHWEST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x - x_speed);
-        this->setY(this->getPos().y + x_speed);
+        this->setDirection(Vector2 {-1, 1});
 
     } else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
     {
-        this->setDirection(NORTHWEST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x - x_speed);
-        this->setY(this->getPos().y - x_speed);
+        this->setDirection(Vector2 {-1, -1});
 
     } else if (IsKeyDown(KEY_W))
     {
-        this->setDirection(NORTH);
-        this->setY(this->getPos().y - this->getSpeed());
+        this->setDirection(Vector2 {0, -1});
 
     } else if (IsKeyDown(KEY_D))
     {
-        this->setDirection(EAST);
-        this->setX(this->getPos().x + this->getSpeed());
+        this->setDirection(Vector2 {1, 0});
 
     } else if (IsKeyDown(KEY_S))
     {
-        this->setDirection(SOUTH);
-        this->setY(this->getPos().y + this->getSpeed());
+        this->setDirection(Vector2 {0, 1});
 
     } else if (IsKeyDown(KEY_A))
     {
-        this->setDirection(WEST);
-        this->setX(this->getPos().x - this->getSpeed());
+        this->setDirection(Vector2 {-1, 0});
+
+    } else
+    {
+        shouldMove = false;
+    }
+
+    if (shouldMove)
+    {
+        this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), speed)));
+    }
+
+    if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 20))
+    {
+        Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS}; // location of hitbox, radius of hitbox
+        this->setAttackHitbox(attack);
 
     }
 }
@@ -256,18 +251,24 @@ void Player::enemyKnockback() // knocks the player away from an enemy (called wh
 
 void Player::drawPlayer() // draws the player sprite
 {
-    Rectangle spriteRect = {(float)16*(this->getDirection() + 1), 0, 16, 16};
+    // Rectangle spriteRect = {(float)16*(this->getDirection() + 1), 0, 16, 16};
+    // Need a way to decode direction into sprite animation
     if (this->getInvulnTime() == 0)
     {
-        DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
-        // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
+        // DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+        DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
+        if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES))
+        {
+            DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, BLUE);
 
+        }
 
     } else
     {
         DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
         
     }
+    // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
 }
 
