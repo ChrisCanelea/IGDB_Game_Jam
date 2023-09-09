@@ -42,10 +42,9 @@ void gameScreen(void)
             ClearBackground(RAYWHITE);
 
             DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 20, 20, BLUE);
+            DrawText("Game", 10, 50, 50, RED);
 
             BeginMode2D(camera);
-
-            DrawText("Game", 10, 50, 50, RED);
 
             player.drawPlayer();
             enemy.drawEnemy();
