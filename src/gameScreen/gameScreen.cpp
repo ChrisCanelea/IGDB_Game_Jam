@@ -11,7 +11,7 @@ void gameScreen(void)
     player.setWidth(50);
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
 
-    Stage test({-1000, -1000, 2000, 2000}, &player);
+    Stage stage1({-500, -500, 1000, 1000}, &player);
 
     while(true)
     {
@@ -19,14 +19,15 @@ void gameScreen(void)
         camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
         
         player.movePlayer();
+        stage1.stageManager();
 
         if (player.getInvulnTime() == 0) // if we are NOT invulnerable
         {
-            for (int i = 0; i < test.getMaxEnemies(); ++i) 
+            for (int i = 0; i < stage1.getMaxEnemies(); ++i) 
             {
-                if (CheckCollisionRecs(player.getHitbox(), test.getEnemiesArray()[i].getHitbox()))
+                if (CheckCollisionRecs(player.getHitbox(), stage1.getEnemiesArray()[i].getHitbox()))
                 {
-                    player.setEnemyReference(&test.getEnemiesArray()[i]);
+                    player.setEnemyReference(&stage1.getEnemiesArray()[i]);
                     player.setInvulnTime(INVULN_FRAMES);
                 }
             }
@@ -38,13 +39,14 @@ void gameScreen(void)
 
             BeginMode2D(camera);
 
-            test.drawStage();
+            stage1.drawStage();
 
             player.drawPlayer();
 
             EndMode2D();
 
             DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 20, 20, BLUE);
+            DrawText(TextFormat("Respawntime: %03i", (int)stage1.getEnemyRespawnTime()), 20, 300, 20, ORANGE);
             DrawText("Game", 10, 50, 50, RED);
             
         EndDrawing();

@@ -124,64 +124,17 @@ void Enemy::setHeight(float height_) // sets height of hitbox
 }
 
 //other
-void Enemy::moveEnemy() // moves the Enemy based on input
+void Enemy::moveEnemy()
 {
-    if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
-    {
-        this->setDirection(NORTHEAST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x + x_speed);
-        this->setY(this->getPos().y - x_speed);
 
-    } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
-    {
-        this->setDirection(SOUTHEAST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x + x_speed);
-        this->setY(this->getPos().y + x_speed);
-
-    } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A))
-    {
-        this->setDirection(SOUTHWEST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x - x_speed);
-        this->setY(this->getPos().y + x_speed);
-
-    } else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
-    {
-        this->setDirection(NORTHWEST);
-        float x_speed = sqrt((speed * speed) / 2);
-        this->setX(this->getPos().x - x_speed);
-        this->setY(this->getPos().y - x_speed);
-
-    } else if (IsKeyDown(KEY_W))
-    {
-        this->setDirection(NORTH);
-        this->setY(this->getPos().y - this->getSpeed());
-
-    } else if (IsKeyDown(KEY_D))
-    {
-        this->setDirection(EAST);
-        this->setX(this->getPos().x + this->getSpeed());
-
-    } else if (IsKeyDown(KEY_S))
-    {
-        this->setDirection(SOUTH);
-        this->setY(this->getPos().y + this->getSpeed());
-
-    } else if (IsKeyDown(KEY_A))
-    {
-        this->setDirection(WEST);
-        this->setX(this->getPos().x - this->getSpeed());
-
-    }
 }
 
 void Enemy::drawEnemy() // draws the player sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), GREEN);
+    if (this->getIsActive()) DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), GREEN);
+    else DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), LIME);
 }
 
 Texture2D Enemy::loadSprite() 

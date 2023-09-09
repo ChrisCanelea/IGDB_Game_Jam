@@ -195,7 +195,7 @@ void Stage::stageManager()
         if (this->getEnemyRespawnTime() == 0) 
         {
             // respawn an enemy
-            this->respawnEnemy(*queuedEnemy);
+            this->respawnEnemy(queuedEnemy);
 
             // reset timer
             this->setEnemyRespawnTime(ENEMY_RESPAWN_TIME);
@@ -247,16 +247,17 @@ void Stage::initialPopulation()
             initialPosition = this->generateRandomPoint();
         }
         this->getEnemiesArray()[i].setPos(initialPosition);
+        this->getEnemiesArray()[i].setIsActive(true);
     }
 }
 
-void Stage::respawnEnemy(Enemy enemy) 
+void Stage::respawnEnemy(Enemy* enemy) 
 {
-    enemy.setPos({0,0});
-    enemy.setIsActive(true);
+    enemy->setPos({0,0});
+    enemy->setIsActive(true);
 }
 
-void Stage::respawnProjectile(Projectile projectile) 
+void Stage::respawnProjectile(Projectile* projectile) 
 {
 
 }
@@ -264,6 +265,11 @@ void Stage::respawnProjectile(Projectile projectile)
 void Stage::drawStage() 
 {
     DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
+
+    DrawRectangleRec(this->getNorthWall(), BLACK);
+    DrawRectangleRec(this->getEastWall(), BLACK);
+    DrawRectangleRec(this->getSouthWall(), BLACK);
+    DrawRectangleRec(this->getWestWall(), BLACK);
 
     for (int i = 0; i < maxEnemies; ++i) 
     {
@@ -274,10 +280,10 @@ void Stage::drawStage()
         this->getProjectileArray()[j].drawProjectile();
     }
 
-    DrawRectangleRec(this->getNorthWall(), BLACK);
-    DrawRectangleRec(this->getEastWall(), BLACK);
-    DrawRectangleRec(this->getSouthWall(), BLACK);
-    DrawRectangleRec(this->getWestWall(), BLACK);
+    // DrawRectangleRec(this->getNorthWall(), BLACK);
+    // DrawRectangleRec(this->getEastWall(), BLACK);
+    // DrawRectangleRec(this->getSouthWall(), BLACK);
+    // DrawRectangleRec(this->getWestWall(), BLACK);
 }
 
 Vector2 Stage::generateExitPosition() 
