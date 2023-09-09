@@ -260,7 +260,7 @@ void Stage::populateProjectiles()
     for (int i = 0; i < maxProjectiles; ++i) 
     {
         Vector2 temp = this->generateRandomOnEdge();
-        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, this->getPlayerReference()->getCenter(), {this->getNorthWall().x, this->getNorthWall().y});
+        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, GetRandomValue(0,1), {this->getNorthWall().x, this->getNorthWall().y});
     }
 }
 
@@ -290,9 +290,6 @@ void Stage::respawnEnemy(Enemy* enemy)
 void Stage::respawnProjectile(Projectile* projectile) 
 {
     projectile->setPos(this->generateRandomOnEdge());
-    projectile->setDestination(this->getPlayerReference()->getCenter());
-    projectile->setDirection(projectile->calculateDirection());
-    projectile->setRotation(projectile->calculateRotation());
     projectile->setIsActive(true);
 }
 

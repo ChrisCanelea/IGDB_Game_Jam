@@ -8,39 +8,34 @@ class Projectile
 private:
     Texture2D sprite;
     Rectangle hitbox;
-    float rotation;
-    Vector2 destination;
+    bool isVertical;
     float velocity;
-    Vector2 direction;
     bool isActive;
     Vector2 theVoid;
 
 public:
     // constructors
     Projectile(); // Default constructor
-    Projectile(Rectangle, Vector2, Vector2); // Constructor with parameters
+    Projectile(Rectangle, bool, Vector2); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
     Rectangle getHitbox(); // returns hitbox
-    float getRotation(); // returns rotation
-    Vector2 getDestination(); // returns destination
+    bool getIsVertical(); // returns rotation
     float getVelocity(); //returns velocity
-    Vector2 getDirection(); // returns direction vector
     bool getIsActive();
     Vector2 getTheVoid();
 
     Vector2 getPos(); // returns the projectile's position
+    Vector2 getCenter();
     float getWidth(); // returns width of hitbox
     float getHeight(); // returns height of hitbox
 
     // setters
     void setSprite(Texture2D); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
-    void setRotation(float); // sets rotation
-    void setDestination(Vector2); // sets destination
+    void setIsVertical(bool); // sets rotation
     void setVelocity(float); //returns velocity
-    void setDirection(Vector2); // returns direction vector
     void setIsActive(bool);
     
     void setPos(Vector2); // sets player position
@@ -50,8 +45,6 @@ public:
     void setHeight(float); // sets height of hitbox
 
     // other
-    Vector2 calculateDirection();
-    float calculateRotation();
     void moveProjectile(); // moves the player based on input
     void drawProjectile(); // draws the player sprite
     Texture2D loadSprite();
