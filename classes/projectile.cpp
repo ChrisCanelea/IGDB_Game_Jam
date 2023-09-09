@@ -134,9 +134,8 @@ Vector2 Projectile::calculateDirection()
 }
 
 float Projectile::calculateRotation()
-{
-    //CURRENTLY SAME ANGLE FOR ALL
-    return Vector2Angle({1,0}, getDestination());
+{   
+    return RAD2DEG * Vector2Angle({1,0}, Vector2Subtract(this->getDestination(), this->getPos()));
 }
 
 void Projectile::moveProjectile() // calculate and apply the motion of the projectile 

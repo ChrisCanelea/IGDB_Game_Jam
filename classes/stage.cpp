@@ -216,7 +216,7 @@ void Stage::populateProjectiles()
     for (int i = 0; i < maxProjectiles; ++i) 
     {
         Vector2 temp = this->generateRandomPoint();
-        projectilesArray[i] = Projectile({temp.x, temp.y, 30, 10}, this->getPlayerReference()->getPos());
+        projectilesArray[i] = Projectile({temp.x, temp.y, 30, 10}, this->getPlayerReference()->getCenter());
         //NEED TO EDIT PROJECTILE CLASS FIRST
     }
 }
