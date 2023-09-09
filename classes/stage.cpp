@@ -24,9 +24,9 @@ Stage::Stage() // Default constructor
     this->projectilesArray = createProjectileArray();
 }
 
-Stage::Stage(Texture2D sprite_, Rectangle playArea_, Player* playerReference_) 
+Stage::Stage(Rectangle playArea_, Player* playerReference_) 
 {
-    this->sprite = sprite_;
+    this->sprite = loadSprite();
     this->playArea = playArea_;
     this->playerReference = playerReference_;
     this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
@@ -234,12 +234,17 @@ Projectile Stage::spawnProjectile()
 
 void Stage::drawStage() 
 {
-
+    DrawTexturePro(this->sprite,{0,0,500,500},this->playArea,{0,0},0,WHITE);
 }
 
 Vector2 Stage::generateExitPosition() 
 {
 
+}
+
+Texture2D Stage::loadSprite() 
+{
+    return LoadTexture("assets/background.png");
 }
 
 Stage::~Stage() 

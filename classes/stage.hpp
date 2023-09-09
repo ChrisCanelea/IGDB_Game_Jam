@@ -28,7 +28,7 @@ private:
 public:
     // constructors
     Stage(); // Default constructor
-    Stage(Texture2D, Rectangle, Player*); // Constructor with parameters
+    Stage(Rectangle, Player*); // Constructor with parameters
 
     // getters
     Texture2D getSprite();
@@ -73,6 +73,7 @@ public:
     Projectile spawnProjectile(); // creates a proj. and puts in array (check for space done in manager)
     void drawStage(); // draws walls and background
     Vector2 generateExitPosition(); // generates the position of the exit
+    Texture2D loadSprite();
 
     // Destructor
     ~Stage();
