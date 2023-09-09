@@ -2,6 +2,7 @@
 
 #include "player.hpp"
 #include "enemy.hpp"
+#include "circle.hpp"
 #include "globals.hpp"
 
 
@@ -12,16 +13,20 @@ Player::Player() // Default constructor
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 10;
     this->direction = SOUTH;
+    this->attackHitbox = Circle{0, 0};
+    this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
 }
 
-Player::Player(Rectangle hitbox_) // Constructor with parameters
+Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
     this->speed = 10;
     this->direction = SOUTH;
+    this->attackHitbox = Circle{0, 0};
+    this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
 }
@@ -45,6 +50,16 @@ float Player::getSpeed() // returns speed
 Direction Player::getDirection() // returns direction
 {
     return this->direction;
+}
+
+Circle Player::getAttackHitbox() // returns attackHitbox
+{
+    return this->attackHitbox;
+}
+
+float Player::getAttackCooldown() // returs the number of attack cooldown frames
+{
+    return this->attackCooldown;
 }
 
 float Player::getInvulnTime() // returns the number of invulnerability frames
@@ -101,6 +116,16 @@ void Player::setDirection(Direction direction_) // sets direction
     this->direction = direction_;
 }
 
+void Player::setAttackHitbox(Circle attackHitbox_) // sets attackHitbox
+{
+    this->attackHitbox = attackHitbox_;
+}
+
+void Player::setAttackCooldown(float attackCooldown_) // sets the number of attack cooldown frames
+{
+    this->attackCooldown = attackCooldown_;
+}
+
 void Player::setInvulnTime(float invulnTime_) // sets the number of invulnerability frames
 {
     this->invulnTime = invulnTime_;
@@ -139,16 +164,14 @@ void Player::setHeight(float height_) // sets height of hitbox
 }
 
 //other
-void Player::processCooldowns() // processes cooldowns (called once per frame)
-{
-    if (this->getInvulnTime() > 0)
-    {
-        this->invulnTime -= 1;
-    }
-}
 
 void Player::movePlayer() // moves the player based on input
 {
+    if (this->getAttackCooldown() > 0)
+    {
+        this->setAttackCooldown(this->getAttackCooldown() - 1);
+    }
+
     if (this->getInvulnTime() > 0)
     {
         if (this->getInvulnTime() > INVULN_FRAMES/2)
@@ -159,13 +182,23 @@ void Player::movePlayer() // moves the player based on input
 
         this->setInvulnTime(this->getInvulnTime() - 1);
     }
-    
+
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
         this->setDirection(NORTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
         this->setX(this->getPos().x + x_speed);
         this->setY(this->getPos().y - x_speed);
+
+        // if (this->getAttackCooldown() > 10)
+        // {
+        //     if (IsKeyDown(KEY_J) || IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+        //     {
+        //         Circle {Vector2 {this->getCenter().x +}, 50}; // location of hitbox, radius of hitbox
+        //         this->setAttackHitbox()
+        //     }
+
+        // }
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
     {
