@@ -253,7 +253,7 @@ Texture2D Stage::loadSprite()
 
 Vector2 Stage::generateRandomPoint() 
 {
-    return {GetRandomValue(0 - getPlayArea().width/2, getPlayArea().width/2), GetRandomValue(0 - getPlayArea().height/2, getPlayArea().height/2)};
+    return {(float)GetRandomValue(-1 * getPlayArea().width/2, getPlayArea().width/2), (float)GetRandomValue(-1 * getPlayArea().height/2, getPlayArea().height/2)};
 }
 
 Stage::~Stage() 
