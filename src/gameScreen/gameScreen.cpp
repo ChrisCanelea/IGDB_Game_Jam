@@ -23,8 +23,13 @@ void gameScreen(void)
 
         if (player.getInvulnTime() > 0)
         {
+            if (player.getInvulnTime() > INVULN_FRAMES/2)
+            {
+                player.enemyKnockback(enemy);
+
+            }
+
             player.setInvulnTime(player.getInvulnTime() - 1);
-            player.enemyKnockback(enemy);
 
         } else if (CheckCollisionRecs(player.getHitbox(), enemy.getHitbox()))
         {
@@ -35,10 +40,13 @@ void gameScreen(void)
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
+
+            DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 20, 20, BLUE);
+
             BeginMode2D(camera);
 
             DrawText("Game", 10, 50, 50, RED);
-            
+
             player.drawPlayer();
             enemy.drawEnemy();
 

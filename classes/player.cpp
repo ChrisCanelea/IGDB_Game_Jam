@@ -193,8 +193,8 @@ void Player::enemyKnockback(Enemy enemy_) // knocks the player away from an enem
     Vector2 dist = Vector2Subtract(this->getPos(), enemy_.getPos());
     Vector2 normalDist = Vector2Normalize(dist);
 
-    this->setX(this->getPos().x + normalDist.x * this->getSpeed());
-    this->setY(this->getPos().y +normalDist.y * this->getSpeed());
+    this->setX(this->getPos().x + normalDist.x * (this->getInvulnTime()*getInvulnTime()/2));
+    this->setY(this->getPos().y + normalDist.y * (this->getInvulnTime()*getInvulnTime()/2));
 
 }
 

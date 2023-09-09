@@ -6,7 +6,7 @@
 
 const int SCREEN_W = 1920;
 const int SCREEN_H = 1080;
-const float INVULN_FRAMES = 60;
+const float INVULN_FRAMES = 30;
 
 enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 
