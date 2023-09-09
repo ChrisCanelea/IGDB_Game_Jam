@@ -12,6 +12,7 @@ private:
     float speed; // speed
     Direction direction; // direction
     float invulnTime;
+    Enemy* enemyReference; // reference to the enemy the player is interacting with
     
 public:
     // constructors
@@ -24,6 +25,7 @@ public:
     float getSpeed(); // returns speed
     Direction getDirection(); // returns direction
     float getInvulnTime(); // returns the number of invulnerability frames
+    Enemy* getEnemyReference(); // returns the address of the enemy the player is interacting with
 
     Vector2 getPos(); // returns the player position
     Vector2 getCenter(); // returns the player's center position
@@ -36,6 +38,7 @@ public:
     void setSpeed(float); // sets speed
     void setDirection(Direction); // sets direction
     void setInvulnTime(float); // sets the number of invulnerability frames
+    void setEnemyReference(Enemy*); // sets the address of the enemy the player is interacting with
 
     void setPos(Vector2); // sets player position
     void setX(float); // sets x position (top left corner of hitbox)

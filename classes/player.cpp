@@ -50,6 +50,11 @@ float Player::getInvulnTime() // returns the number of invulnerability frames
     return this->invulnTime;
 }
 
+Enemy* Player::getEnemyReference() // returns the address of the enemy the player is interacting with
+{
+    return this->enemyReference;
+}
+
 
 Vector2 Player::getPos() // returns the player position
 {
@@ -97,6 +102,11 @@ void Player::setDirection(Direction direction_) // sets direction
 void Player::setInvulnTime(float invulnTime_) // sets the number of invulnerability frames
 {
     this->invulnTime = invulnTime_;
+}
+
+void Player::setEnemyReference(Enemy* enemyReference_) // sets the address of the enemy the player is interacting with
+{
+    this->enemyReference = enemyReference_;
 }
 
 
@@ -193,8 +203,8 @@ void Player::enemyKnockback(Enemy enemy_) // knocks the player away from an enem
     Vector2 dist = Vector2Subtract(this->getPos(), enemy_.getPos());
     Vector2 normalDist = Vector2Normalize(dist);
 
-    this->setX(this->getPos().x + normalDist.x * (this->getInvulnTime()*getInvulnTime()/2));
-    this->setY(this->getPos().y + normalDist.y * (this->getInvulnTime()*getInvulnTime()/2));
+    this->setX(this->getPos().x + normalDist.x * (this->getInvulnTime()*getInvulnTime()/35));
+    this->setY(this->getPos().y + normalDist.y * (this->getInvulnTime()*getInvulnTime()/35));
 
 }
 
