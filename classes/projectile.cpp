@@ -6,23 +6,19 @@
 Projectile::Projectile() // Default constructor
 {
     this->sprite = LoadTexture("");
-    this->hitbox = Rectangle {0, 0, 30, 10};
-    this->rotation = 0; // supposedly aligned with x axis
-    this->destination = {0,0};
+    this->hitbox = Rectangle {0, 0, 60, 20};
+    this->isVertical = false;
     this->velocity = 0;
-    this->direction = {0,0};
     this->isActive = false;
     this->theVoid = {0,0};
 }
 
-Projectile::Projectile(Rectangle hitbox_, Vector2 destination_, Vector2 theVoid_) // Constructor with params 
+Projectile::Projectile(Rectangle hitbox_, bool isVertical_, Vector2 theVoid_) // Constructor with params 
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
-    this->destination = destination_;
+    this->isVertical = isVertical_;
     this->velocity = 3.0f;
-    this->direction = calculateDirection();
-    this->rotation = calculateRotation();
     this->isActive = false;
     this->theVoid = theVoid_;
 }
@@ -38,24 +34,14 @@ Rectangle Projectile::getHitbox() // returns hitbox
     return this->hitbox;
 }
 
-float Projectile::getRotation() // returns rotation 
+bool Projectile::getIsVertical() // returns rotation 
 {
-    return this->rotation;
-}
-
-Vector2 Projectile::getDestination() // returns destination 
-{
-    return this->destination;
+    return this->isVertical;
 }
 
 float Projectile::getVelocity() //returns velocity 
 {
     return this->velocity;
-}
-
-Vector2 Projectile::getDirection() // returns direction vector 
-{
-    return this->direction;
 }
 
 bool Projectile::getIsActive() 
@@ -72,6 +58,11 @@ Vector2 Projectile::getPos() // returns the projectile's position
 {
     Vector2 pos = {this->getHitbox().x, this->getHitbox().y};
     return pos;
+}
+
+Vector2 Projectile::getCenter() 
+{
+    return {this->getHitbox().x + (this->getHitbox().width/2), this->getHitbox().y + (this->getHitbox().height/2)};
 }
 
 float Projectile::getWidth() // returns width of hitbox 
@@ -95,19 +86,9 @@ void Projectile::setHitbox(Rectangle hitbox_) // sets hitbox
     this->hitbox = hitbox_;
 }
 
-void Projectile::setRotation(float rotation_) // sets rotation
+void Projectile::setIsVertical(bool isVertical_) // sets rotation
 {
-    this->rotation = rotation_;
-}
-
-void Projectile::setDestination(Vector2 destination_) // sets direction
-{
-    this->destination = destination_;
-}
-
-void Projectile::setIsActive(bool isActive_) 
-{
-    this->isActive = isActive_;
+    this->isVertical = isVertical_;
 }
 
 void Projectile::setVelocity(float velocity_) // sets velocity 
@@ -115,9 +96,9 @@ void Projectile::setVelocity(float velocity_) // sets velocity
     this->velocity = velocity_;
 }
 
-void Projectile::setDirection(Vector2 direction_) // sets direction vector 
+void Projectile::setIsActive(bool isActive_) 
 {
-    this->direction = direction_;
+    this->isActive = isActive_;
 }
 
 void Projectile::setPos(Vector2 pos_) // sets projectile position
@@ -147,28 +128,18 @@ void Projectile::setHeight(float height_) // sets height of hitbox
 }
 
 // other
-Vector2 Projectile::calculateDirection() 
-{
-    return Vector2Normalize(Vector2Rotate(Vector2Subtract(this->getDestination(), this->getPos()), GetRandomValue(-8, 8)));
-}
-
-float Projectile::calculateRotation()
-{   
-    return RAD2DEG * Vector2Angle({1,0}, this->getDirection());
-}
-
 void Projectile::moveProjectile() // calculate and apply the motion of the projectile 
 {
     if (this->getIsActive()) 
     {
-        this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), this->getVelocity())));
+        //move
     }
 }
 
 void Projectile::drawProjectile() // draws projectile 
 {
-    if (this->getIsActive()) DrawRectanglePro(this->getHitbox(), {0,0}, this->getRotation(), ORANGE);
-    else DrawRectanglePro(this->getHitbox(), {0,0}, this->getRotation(), RED);
+    if (this->getIsActive()) DrawRectanglePro(this->getHitbox(), {0,0}, 0, ORANGE);
+    else DrawRectanglePro(this->getHitbox(), {0,0}, 0, RED);
 }
 
 Texture2D Projectile::loadSprite() 
