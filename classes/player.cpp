@@ -159,7 +159,8 @@ void Player::movePlayer() // moves the player based on input
 
         this->setInvulnTime(this->getInvulnTime() - 1);
     }
-    else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
+    
+    if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
         this->setDirection(NORTHEAST);
         float x_speed = sqrt((speed * speed) / 2);
