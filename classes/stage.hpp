@@ -69,15 +69,15 @@ public:
     void populateEnemies(); // fills enemy array with enemy objects
     void populateProjectiles(); // fills projectile array with projectile objects
     void initialPopulation(); // sets initial enemies active based on initialEnemies
-    void spawnEnemy(); // sets an enemy as active
-    void spawnProjectile(); // sets a projectile as active
+    void respawnEnemy(Enemy); // sets an enemy as active
+    void respawnProjectile(Projectile); // sets a projectile as active
     void drawStage(); // draws walls and background
     Vector2 generateExitPosition(); // generates the position of the exit
     Texture2D loadSprite();
     Vector2 generateRandomPoint(); // returns a vector2 in the play area
     Vector2 generateRandomOnEdge();
-    bool isSpaceEnemy(); // returns true if there is space (isActive == false) in a given array
-    bool isSpaceProjectile(); // returns true if there is space (isActive == false) in a given array
+    Enemy* isSpaceEnemy(); // returns enemy if there is space (isActive == false) in a given array, else NULL
+    Projectile* isSpaceProjectile(); // returns projectile if there is space (isActive == false) in a given array, else NULL
 
     // Destructor
     ~Stage();

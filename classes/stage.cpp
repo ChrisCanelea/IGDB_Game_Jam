@@ -188,10 +188,21 @@ void Stage::setPlayerReference(Player* playerReference_)
 // other
 void Stage::stageManager() 
 {
-    // only count down respawn timer if there is space for an enemy (isActive false for at least 1)
-    if (this->isSpaceEnemy()) 
+    // only count down respawn timer if there is space for an enemy (isActive false for at least 1 enemy)
+    Enemy* queuedEnemy = this->isSpaceEnemy();
+    if (queuedEnemy != NULL) 
     {
-        if ()
+        if (this->getEnemyRespawnTime() == 0) 
+        {
+            // respawn an enemy
+            this->respawnEnemy(*queuedEnemy);
+
+            // reset timer
+            this->setEnemyRespawnTime(ENEMY_RESPAWN_TIME);
+        }
+
+        // decrement
+        this->setEnemyRespawnTime(this->getEnemyRespawnTime() - 1);
     }
 }
 
@@ -239,12 +250,13 @@ void Stage::initialPopulation()
     }
 }
 
-void Stage::spawnEnemy() 
+void Stage::respawnEnemy(Enemy enemy) 
 {
-
+    enemy.setPos({0,0});
+    enemy.setIsActive(true);
 }
 
-void Stage::spawnProjectile() 
+void Stage::respawnProjectile(Projectile projectile) 
 {
 
 }
@@ -307,30 +319,30 @@ Vector2 Stage::generateRandomOnEdge()
     return {0,0};
 }
 
-bool Stage::isSpaceEnemy() 
+Enemy* Stage::isSpaceEnemy() 
 {
     for (int i = 0; i < this->getMaxEnemies(); ++i) 
     {
         if (this->getEnemiesArray()[i].getIsActive() == false) 
         {
-            return true;
+            return &this->getEnemiesArray()[i];
         }
     }
 
-    return false;
+    return NULL;
 }
 
-bool Stage::isSpaceProjectile() 
+Projectile* Stage::isSpaceProjectile() 
 {
     for (int i = 0; i < this->getMaxProjectiles(); ++i) 
     {
         if (this->getProjectileArray()[i].getIsActive() == false) 
         {
-            return true;
+            return &this->getProjectileArray()[i];
         }
     }
 
-    return false;
+    return NULL;
 }
 
 Stage::~Stage() 
