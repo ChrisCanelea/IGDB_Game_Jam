@@ -133,8 +133,8 @@ void Enemy::drawEnemy() // draws the player sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    if (this->getIsActive()) DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), LIME);
-    else DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), GREEN);
+    if (this->getIsActive()) DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), GREEN);
+    else DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), LIME);
 }
 
 Texture2D Enemy::loadSprite() 

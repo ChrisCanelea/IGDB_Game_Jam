@@ -188,6 +188,7 @@ void Stage::setPlayerReference(Player* playerReference_)
 // other
 void Stage::stageManager() 
 {
+    // RESPAWNING
     // only count down respawn timer if there is space for an enemy (isActive false for at least 1 enemy)
     Enemy* queuedEnemy = this->isSpaceEnemy();
     if (queuedEnemy != NULL) 
@@ -199,10 +200,11 @@ void Stage::stageManager()
 
             // reset timer
             this->setEnemyRespawnTime(ENEMY_RESPAWN_TIME);
+        } else 
+        {
+            // decrement
+            this->setEnemyRespawnTime(this->getEnemyRespawnTime() - 1);
         }
-
-        // decrement
-        this->setEnemyRespawnTime(this->getEnemyRespawnTime() - 1);
     }
 
     Projectile* queuedProjectile = this->isSpaceProjectile();
@@ -213,9 +215,21 @@ void Stage::stageManager()
             this->respawnProjectile(queuedProjectile);
 
             this->setProjectileRespawnTime(PROJECTILE_RESPAWN_TIME);
+        } else 
+        {
+            this->setProjectileRespawnTime(this->getProjectileRespawnTime() - 1);
         }
+    }
 
-        this->setEnemyRespawnTime(this->getProjectileRespawnTime() - 1);
+    // MOVING
+    for (int i = 0; i < this->getMaxEnemies(); ++i) 
+    {
+        this->getEnemiesArray()[i].moveEnemy();
+    }
+
+    for (int j = 0; j < this->getMaxProjectiles(); ++j) 
+    {
+        this->getProjectileArray()[j].moveProjectile();
     }
 }
 
