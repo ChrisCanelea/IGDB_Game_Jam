@@ -11,11 +11,12 @@ private:
     float speed; // speed
     Direction direction; // direction
     bool isActive;
+    Vector2 theVoid;
     
 public:
     // constructors
     Enemy(); // Default constructor
-    Enemy(Rectangle); // Constructor with parameters
+    Enemy(Rectangle, Vector2); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
@@ -23,6 +24,7 @@ public:
     int getSpeed(); // returns speed
     Direction getDirection(); // returns direction
     bool getIsActive();
+    Vector2 getTheVoid();
 
     Vector2 getPos(); // returns the Enemy position
     Vector2 getCenter(); // returns the Enemy's center position
@@ -46,6 +48,7 @@ public:
     void moveEnemy(); // moves the Enemy based on input
     void drawEnemy(); // draws the Enemy sprite
     Texture2D loadSprite();
+    void killEnemy(); // moves enemy outside the play area and makes it inactive
 };
 
 #endif // Enemy_hpp

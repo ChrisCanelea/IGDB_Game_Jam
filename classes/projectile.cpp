@@ -12,6 +12,7 @@ Projectile::Projectile() // Default constructor
     this->velocity = 0;
     this->direction = {0,0};
     this->isActive = false;
+    this->theVoid = {0,0};
 }
 
 Projectile::Projectile(Rectangle hitbox_, Vector2 destination_, Vector2 theVoid_) // Constructor with params 

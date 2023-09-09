@@ -222,15 +222,15 @@ void Stage::stageManager()
     }
 
     // MOVING
-    for (int i = 0; i < this->getMaxEnemies(); ++i) 
-    {
-        this->getEnemiesArray()[i].moveEnemy();
-    }
+    // for (int i = 0; i < this->getMaxEnemies(); ++i) 
+    // {
+    //     this->getEnemiesArray()[i].moveEnemy();
+    // }
 
-    for (int j = 0; j < this->getMaxProjectiles(); ++j) 
-    {
-        this->getProjectileArray()[j].moveProjectile();
-    }
+    // for (int j = 0; j < this->getMaxProjectiles(); ++j) 
+    // {
+    //     this->getProjectileArray()[j].moveProjectile();
+    // }
 }
 
 Enemy* Stage::createEnemyArray() 
@@ -248,7 +248,7 @@ void Stage::populateEnemies()
     for (int i = 0; i < maxEnemies; ++i) 
     {
         Vector2 temp = this->generateRandomOnEdge();
-        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 100});
+        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 100}, {this->getNorthWall().x, this->getNorthWall().y});
     }
 }
 

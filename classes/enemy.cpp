@@ -12,15 +12,17 @@ Enemy::Enemy() // Default constructor
     this->speed = 5.0f;
     this->direction = SOUTH;
     this->isActive = false;
+    this->theVoid = {0,0};
 }
 
-Enemy::Enemy(Rectangle hitbox_) // Constructor with parameters
+Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
     this->speed = 5.0f;
     this->direction = SOUTH;
     this->isActive = false;
+    this->theVoid = theVoid_;
 }
 
 // getters
@@ -47,6 +49,11 @@ Direction Enemy::getDirection() // returns direction
 bool Enemy::getIsActive() 
 {
     return this->isActive;
+}
+
+Vector2 Enemy::getTheVoid() 
+{
+    return this->theVoid;
 }
 
 Vector2 Enemy::getPos() // returns the Enemy position
@@ -140,4 +147,10 @@ void Enemy::drawEnemy() // draws the player sprite
 Texture2D Enemy::loadSprite() 
 {
     return LoadTexture("");
+}
+
+void Enemy::killEnemy() 
+{
+    this->setPos(this->getTheVoid());
+    this->setIsActive(false);
 }
