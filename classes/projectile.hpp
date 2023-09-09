@@ -13,11 +13,12 @@ private:
     float velocity;
     Vector2 direction;
     bool isActive;
+    Vector2 theVoid;
 
 public:
     // constructors
     Projectile(); // Default constructor
-    Projectile(Rectangle, Vector2); // Constructor with parameters
+    Projectile(Rectangle, Vector2, Vector2); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
@@ -27,6 +28,7 @@ public:
     float getVelocity(); //returns velocity
     Vector2 getDirection(); // returns direction vector
     bool getIsActive();
+    Vector2 getTheVoid();
 
     Vector2 getPos(); // returns the projectile's position
     float getWidth(); // returns width of hitbox
@@ -53,6 +55,7 @@ public:
     void moveProjectile(); // moves the player based on input
     void drawProjectile(); // draws the player sprite
     Texture2D loadSprite();
+    void killProjectile(); // moves projectile outside play area and makes it inactive
 };
 
 #endif // projectile_hpp
