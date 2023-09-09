@@ -10,7 +10,7 @@ Enemy::Enemy() // Default constructor
     this->sprite = LoadTexture("assets/Markus.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 5.0f;
-    this->direction = SOUTH;
+    this->direction = Vector2 {0, 1};
     this->isActive = false;
     this->theVoid = {0,0};
 }
@@ -20,7 +20,7 @@ Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
     this->speed = 5.0f;
-    this->direction = SOUTH;
+    this->direction = Vector2 {0, 1};
     this->isActive = false;
     this->theVoid = theVoid_;
 }
@@ -41,7 +41,7 @@ int Enemy::getSpeed() // returns speed
     return this->speed;
 }
 
-Direction Enemy::getDirection() // returns direction
+Vector2 Enemy::getDirection() // returns direction unit vector
 {
     return this->direction;
 }
@@ -94,9 +94,9 @@ void Enemy::setSpeed(float speed_) // sets speed
     this->speed = speed_;
 }
 
-void Enemy::setDirection(Direction direction_) // sets direction
+void Enemy::setDirection(Vector2 direction_) // sets direction
 {
-    this->direction = direction_;
+    this->direction = Vector2Normalize(direction_);
 }
 
 void Enemy::setIsActive(bool isActive_) 

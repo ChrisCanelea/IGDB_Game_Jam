@@ -12,7 +12,7 @@ Player::Player() // Default constructor
     this->sprite = LoadTexture("assets/squareNinja.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 10;
-    this->direction = Vector2 {0, 0};
+    this->direction = Vector2 {0, 1};
     this->attackHitbox = Circle {0, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;

@@ -14,7 +14,7 @@ const float INVULN_FRAMES = 30;
 const float ENEMY_RESPAWN_TIME = 120;
 const float PROJECTILE_RESPAWN_TIME = 120;
 
-enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
+// enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 
 // #include "player.hpp"
 // #include "enemy.hpp"
