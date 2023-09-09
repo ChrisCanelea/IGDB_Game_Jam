@@ -6,6 +6,7 @@
 
 const int SCREEN_W = 1920;
 const int SCREEN_H = 1080;
+const float ATTACK_COOLDOWN = 30;
 const float INVULN_FRAMES = 30;
 const float ENEMY_RESPAWN_TIME = 600;
 const float PROJECTILE_RESPAWN_TIME = 600;
