@@ -75,6 +75,9 @@ public:
     Vector2 generateExitPosition(); // generates the position of the exit
     Texture2D loadSprite();
     Vector2 generateRandomPoint(); // returns a vector2 in the play area
+    Vector2 generateRandomOnEdge();
+    bool isSpaceEnemy(); // returns true if there is space (isActive == false) in a given array
+    bool isSpaceProjectile(); // returns true if there is space (isActive == false) in a given array
 
     // Destructor
     ~Stage();

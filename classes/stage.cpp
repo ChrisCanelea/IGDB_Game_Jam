@@ -43,7 +43,7 @@ Stage::Stage(Rectangle playArea_, Player* playerReference_)
     this->populateEnemies();
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
-    // MIGHT POPULATE STAGE HERE
+    this->initialPopulation();
 }
 
 // getters
@@ -188,7 +188,11 @@ void Stage::setPlayerReference(Player* playerReference_)
 // other
 void Stage::stageManager() 
 {
-
+    // only count down respawn timer if there is space for an enemy (isActive false for at least 1)
+    if (this->isSpaceEnemy()) 
+    {
+        if ()
+    }
 }
 
 Enemy* Stage::createEnemyArray() 
@@ -205,9 +209,8 @@ void Stage::populateEnemies()
 {
     for (int i = 0; i < maxEnemies; ++i) 
     {
-        Vector2 temp = this->generateRandomPoint();
-        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 50});
-        //NEED TO EDIT ENEMY CLASS FIRST
+        Vector2 temp = this->generateRandomOnEdge();
+        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 100});
     }
 }
 
@@ -215,15 +218,25 @@ void Stage::populateProjectiles()
 {
     for (int i = 0; i < maxProjectiles; ++i) 
     {
-        Vector2 temp = this->generateRandomPoint();
-        projectilesArray[i] = Projectile({temp.x, temp.y, 30, 10}, this->getPlayerReference()->getCenter());
-        //NEED TO EDIT PROJECTILE CLASS FIRST
+        Vector2 temp = this->generateRandomOnEdge();
+        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, this->getPlayerReference()->getCenter());
     }
 }
 
 void Stage::initialPopulation() 
 {
-
+    Vector2 initialPosition;
+    for (int i = 0; i < this->getInitialEnemies(); ++i) 
+    {
+        this->getEnemiesArray()[i].setIsActive(true);
+        initialPosition = this->generateRandomPoint();
+        while (Vector2Distance(this->getPlayerReference()->getCenter(), initialPosition) < 600)
+        {
+            // get new random starting position if within 600 of player
+            initialPosition = this->generateRandomPoint();
+        }
+        this->getEnemiesArray()[i].setPos(initialPosition);
+    }
 }
 
 void Stage::spawnEnemy() 
@@ -239,10 +252,7 @@ void Stage::spawnProjectile()
 void Stage::drawStage() 
 {
     DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
-    DrawRectangleRec(this->getNorthWall(), BLACK);
-    DrawRectangleRec(this->getEastWall(), BLACK);
-    DrawRectangleRec(this->getSouthWall(), BLACK);
-    DrawRectangleRec(this->getWestWall(), BLACK);
+
     for (int i = 0; i < maxEnemies; ++i) 
     {
         this->getEnemiesArray()[i].drawEnemy();
@@ -251,6 +261,11 @@ void Stage::drawStage()
     {
         this->getProjectileArray()[j].drawProjectile();
     }
+
+    DrawRectangleRec(this->getNorthWall(), BLACK);
+    DrawRectangleRec(this->getEastWall(), BLACK);
+    DrawRectangleRec(this->getSouthWall(), BLACK);
+    DrawRectangleRec(this->getWestWall(), BLACK);
 }
 
 Vector2 Stage::generateExitPosition() 
@@ -266,6 +281,56 @@ Texture2D Stage::loadSprite()
 Vector2 Stage::generateRandomPoint() 
 {
     return {(float)GetRandomValue(-1 * getPlayArea().width/2, getPlayArea().width/2), (float)GetRandomValue(-1 * getPlayArea().height/2, getPlayArea().height/2)};
+}
+
+Vector2 Stage::generateRandomOnEdge() 
+{
+    switch(GetRandomValue(0, 3)) 
+    {
+        case 0: // NORTH WALL
+            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().width + this->getPlayArea().x), (float)(this->getPlayArea().y - 100)};
+            break;
+            
+        case 1: // EAST WALL
+            return {(float)(this->getPlayArea().x + this->getPlayArea().width + 60), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().height + this->getPlayArea().y)};
+            break;
+            
+        case 2: // SOUTH WALL
+            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().width), (float)(this->getPlayArea().y - 100)};
+            break;
+            
+        case 3: // WEST WALL
+            return {(float)(this->getPlayArea().x - 60), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().height + this->getPlayArea().y)};
+            break;
+    }
+
+    return {0,0};
+}
+
+bool Stage::isSpaceEnemy() 
+{
+    for (int i = 0; i < this->getMaxEnemies(); ++i) 
+    {
+        if (this->getEnemiesArray()[i].getIsActive() == false) 
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Stage::isSpaceProjectile() 
+{
+    for (int i = 0; i < this->getMaxProjectiles(); ++i) 
+    {
+        if (this->getProjectileArray()[i].getIsActive() == false) 
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 Stage::~Stage() 

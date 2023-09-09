@@ -7,6 +7,8 @@
 const int SCREEN_W = 1920;
 const int SCREEN_H = 1080;
 const float INVULN_FRAMES = 30;
+const float ENEMY_RESPAWN_TIME = 600;
+const float PROJECTILE_RESPAWN_TIME = 600;
 
 enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 
