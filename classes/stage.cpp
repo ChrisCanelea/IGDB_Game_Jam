@@ -36,8 +36,8 @@ Stage::Stage(Rectangle playArea_, Player* playerReference_)
     this->maxEnemies = 10;
     this->maxProjectiles = 10;
     this->initialEnemies = 3;
-    this->enemyRespawnTime = 600;
-    this->projectileRespawnTime = 600;
+    this->enemyRespawnTime = ENEMY_RESPAWN_TIME;
+    this->projectileRespawnTime = PROJECTILE_RESPAWN_TIME;
     this->exitLocation = generateExitPosition();
     this->enemiesArray = createEnemyArray();
     this->populateEnemies();
@@ -227,10 +227,13 @@ void Stage::stageManager()
     //     this->getEnemiesArray()[i].moveEnemy();
     // }
 
-    // for (int j = 0; j < this->getMaxProjectiles(); ++j) 
-    // {
-    //     this->getProjectileArray()[j].moveProjectile();
-    // }
+    for (int j = 0; j < this->getMaxProjectiles(); ++j) 
+    {
+        if (this->getProjectileArray()[j].getIsActive()) // only move if active
+        {
+            this->getProjectileArray()[j].moveProjectile();
+        }
+    }
 }
 
 Enemy* Stage::createEnemyArray() 

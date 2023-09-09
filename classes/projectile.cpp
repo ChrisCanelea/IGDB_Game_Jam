@@ -149,20 +149,20 @@ void Projectile::setHeight(float height_) // sets height of hitbox
 // other
 Vector2 Projectile::calculateDirection() 
 {
-    return Vector2Normalize(Vector2Rotate(Vector2Subtract(this->destination, {this->getPos().x, this->getPos().y}), GetRandomValue(-8, 8)));
+    return Vector2Normalize(Vector2Rotate(Vector2Subtract(this->getDestination(), this->getPos()), GetRandomValue(-8, 8)));
 }
 
 float Projectile::calculateRotation()
 {   
-    return RAD2DEG * Vector2Angle({1,0}, Vector2Subtract(this->getDestination(), this->getPos()));
+    return RAD2DEG * Vector2Angle({1,0}, this->getDirection());
 }
 
 void Projectile::moveProjectile() // calculate and apply the motion of the projectile 
 {
-    float x_speed = this->getVelocity() * this->getDirection().x;
-    float y_speed = this->getVelocity() * this->getDirection().y;
-    this->setX(this->getPos().x + x_speed);
-    this->setX(this->getPos().y + y_speed);
+    if (this->getIsActive()) 
+    {
+        this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), this->getVelocity())));
+    }
 }
 
 void Projectile::drawProjectile() // draws projectile 
@@ -173,7 +173,7 @@ void Projectile::drawProjectile() // draws projectile
 
 Texture2D Projectile::loadSprite() 
 {
-    return LoadTexture("");
+    return LoadTexture("assets/arrow.png");
 }
 
 void Projectile::killProjectile() 
