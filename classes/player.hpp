@@ -2,6 +2,7 @@
 #define player_hpp
 
 #include "enemy.hpp"
+#include "projectile.hpp"
 #include "circle.hpp"
 #include "globals.hpp"
 
@@ -16,6 +17,7 @@ private:
     float attackCooldown;
     float invulnTime;
     Enemy* enemyReference; // reference to the enemy the player is interacting with
+    Projectile* projectileReference; // reference to the projectile the player is interacting with
     
 public:
     // constructors
@@ -31,6 +33,7 @@ public:
     float getAttackCooldown(); // returs the number of attack cooldown frames
     float getInvulnTime(); // returns the number of invulnerability frames
     Enemy* getEnemyReference(); // returns the address of the enemy the player is interacting with
+    Projectile* getProjectileReference(); // returns the address of the projectile the player is interacting with
 
     Vector2 getPos(); // returns the player position
     Vector2 getCenter(); // returns the player's center position
@@ -46,6 +49,7 @@ public:
     void setAttackCooldown(float); // sets the number of attack cooldown frames
     void setInvulnTime(float); // sets the number of invulnerability frames
     void setEnemyReference(Enemy*); // sets the address of the enemy the player is interacting with
+    void setProjectileReference(Projectile*); // sets the address of the projectile the player is interacting with
 
     void setPos(Vector2); // sets player position
     void setX(float); // sets x position (top left corner of hitbox)
@@ -56,6 +60,7 @@ public:
     //other
     void movePlayer(); // moves the player based on input
     void enemyKnockback(); // knocks the player away from an enemy (called when collision with an enemy is detected)
+    void projectileKnockback(); // knocks the player away from a projectile (called when collision with a projectile is detected)
     void drawPlayer(); // draws the player sprite
     Texture2D loadSprite();
 };

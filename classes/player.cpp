@@ -72,6 +72,11 @@ Enemy* Player::getEnemyReference() // returns the address of the enemy the playe
     return this->enemyReference;
 }
 
+Projectile* Player::getProjectileReference() // returns the address of the projectile the player is interacting with
+{
+    return this->projectileReference;
+}
+
 
 Vector2 Player::getPos() // returns the player position
 {
@@ -136,6 +141,11 @@ void Player::setEnemyReference(Enemy* enemyReference_) // sets the address of th
     this->enemyReference = enemyReference_;
 }
 
+void Player::setProjectileReference(Projectile* projectileReference_) // sets the address of the projectile the player is interacting with
+{
+    this->projectileReference = projectileReference_;
+}
+
 
 void Player::setPos(Vector2 pos_) // sets player position
 {
@@ -181,7 +191,13 @@ void Player::movePlayer() // moves the player based on input
     {
         if (this->getInvulnTime() > INVULN_FRAMES/2)
         {
-            this->enemyKnockback();
+            if (this->enemyReference != NULL)
+            {
+                this->enemyKnockback();
+            } else
+            {
+                this->projectileKnockback();
+            }
 
         }
 
@@ -226,7 +242,7 @@ void Player::movePlayer() // moves the player based on input
         shouldMove = false;
     }
 
-    if (shouldMove)
+    if (shouldMove) // ensures player doesn't keep moving after a button is released
     {
         this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), speed)));
     }
@@ -241,12 +257,21 @@ void Player::movePlayer() // moves the player based on input
 
 void Player::enemyKnockback() // knocks the player away from an enemy (called when collision with an enemy is detected)
 {
-    Vector2 dist = Vector2Subtract(this->getPos(), (*this->enemyReference).getPos());
+    Vector2 dist = Vector2Subtract(this->getPos(), (*this->getEnemyReference()).getPos());
     Vector2 normalDist = Vector2Normalize(dist);
 
     this->setX(this->getPos().x + normalDist.x * (this->getInvulnTime()*getInvulnTime()/35));
     this->setY(this->getPos().y + normalDist.y * (this->getInvulnTime()*getInvulnTime()/35));
 
+}
+
+void Player::projectileKnockback() // knocks the player away from a projectile (called when collision with a projectile is detected)
+{
+    Vector2 dist = Vector2Subtract(this->getPos(), (*this->getProjectileReference()).getPos());
+    Vector2 normalDist = Vector2Normalize(dist);
+
+    this->setX(this->getPos().x + normalDist.x * (this->getInvulnTime()*getInvulnTime()/35));
+    this->setY(this->getPos().y + normalDist.y * (this->getInvulnTime()*getInvulnTime()/35));
 }
 
 void Player::drawPlayer() // draws the player sprite
