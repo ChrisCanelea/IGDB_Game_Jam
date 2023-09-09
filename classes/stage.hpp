@@ -69,11 +69,12 @@ public:
     void populateEnemies(); // fills enemy array with enemy objects
     void populateProjectiles(); // fills projectile array with projectile objects
     void initialPopulation(); // sets initial enemies active based on initialEnemies
-    Enemy spawnEnemy(); // creates an enemy and puts it in the array (check for space done in manager)
-    Projectile spawnProjectile(); // creates a proj. and puts in array (check for space done in manager)
+    void spawnEnemy(); // sets an enemy as active
+    void spawnProjectile(); // sets a projectile as active
     void drawStage(); // draws walls and background
     Vector2 generateExitPosition(); // generates the position of the exit
     Texture2D loadSprite();
+    Vector2 generateRandomPoint(); // returns a vector2 in the play area
 
     // Destructor
     ~Stage();

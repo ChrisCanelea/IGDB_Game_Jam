@@ -40,7 +40,9 @@ Stage::Stage(Rectangle playArea_, Player* playerReference_)
     this->projectileRespawnTime = 600;
     this->exitLocation = generateExitPosition();
     this->enemiesArray = createEnemyArray();
+    this->populateEnemies();
     this->projectilesArray = createProjectileArray();
+    this->populateProjectiles();
     // MIGHT POPULATE STAGE HERE
 }
 
@@ -203,7 +205,8 @@ void Stage::populateEnemies()
 {
     for (int i = 0; i < maxEnemies; ++i) 
     {
-        enemiesArray[i] = Enemy();
+        Vector2 temp = this->generateRandomPoint();
+        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 50});
         //NEED TO EDIT ENEMY CLASS FIRST
     }
 }
@@ -212,7 +215,8 @@ void Stage::populateProjectiles()
 {
     for (int i = 0; i < maxProjectiles; ++i) 
     {
-        projectilesArray[i] = Projectile();
+        Vector2 temp = this->generateRandomPoint();
+        projectilesArray[i] = Projectile({temp.x, temp.y, 30, 10}, this->getPlayerReference()->getPos());
         //NEED TO EDIT PROJECTILE CLASS FIRST
     }
 }
@@ -222,24 +226,24 @@ void Stage::initialPopulation()
 
 }
 
-Enemy Stage::spawnEnemy() 
+void Stage::spawnEnemy() 
 {
 
 }
 
-Projectile Stage::spawnProjectile() 
+void Stage::spawnProjectile() 
 {
 
 }
 
 void Stage::drawStage() 
 {
-    DrawTexturePro(this->sprite,{0,0,500,500},this->playArea,{0,0},0,WHITE);
+    DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
 }
 
 Vector2 Stage::generateExitPosition() 
 {
-
+    return {this->generateRandomPoint()};
 }
 
 Texture2D Stage::loadSprite() 
@@ -247,7 +251,13 @@ Texture2D Stage::loadSprite()
     return LoadTexture("assets/background.png");
 }
 
+Vector2 Stage::generateRandomPoint() 
+{
+    return {GetRandomValue(0 - getPlayArea().width/2, getPlayArea().width/2), GetRandomValue(0 - getPlayArea().height/2, getPlayArea().height/2)};
+}
+
 Stage::~Stage() 
 {
-
+    delete[] this->getEnemiesArray();
+    delete[] this->getProjectileArray();
 }

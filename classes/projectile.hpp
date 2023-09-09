@@ -16,7 +16,7 @@ private:
 public:
     // constructors
     Projectile(); // Default constructor
-    Projectile(Rectangle, Vector2, float); // Constructor with parameters
+    Projectile(Rectangle, Vector2); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite

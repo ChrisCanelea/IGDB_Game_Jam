@@ -13,7 +13,7 @@ Projectile::Projectile() // Default constructor
     this->direction = {0,0};
 }
 
-Projectile::Projectile(Rectangle hitbox_, Vector2 destination_, float velocity_) // Constructor with params 
+Projectile::Projectile(Rectangle hitbox_, Vector2 destination_) // Constructor with params 
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
