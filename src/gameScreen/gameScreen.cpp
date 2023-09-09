@@ -12,7 +12,7 @@ void gameScreen(void)
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
 
     Stage test({-250, -250, 500, 500}, &player);
-    
+
     Enemy enemy;
     enemy.setHeight(50);
     enemy.setWidth(50);
@@ -49,8 +49,11 @@ void gameScreen(void)
 
             BeginMode2D(camera);
 
-            player.drawPlayer();
+            test.drawStage();
+
             enemy.drawEnemy();
+
+            player.drawPlayer();
 
             EndMode2D();
         EndDrawing();

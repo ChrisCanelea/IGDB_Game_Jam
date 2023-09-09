@@ -239,6 +239,14 @@ void Stage::spawnProjectile()
 void Stage::drawStage() 
 {
     DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
+    for (int i = 0; i < maxEnemies; ++i) 
+    {
+        this->getEnemiesArray()[i].drawEnemy();
+    }
+    for (int j = 0; j < maxProjectiles; ++j) 
+    {
+        this->getProjectileArray()[j].drawProjectile();
+    }
 }
 
 Vector2 Stage::generateExitPosition() 
