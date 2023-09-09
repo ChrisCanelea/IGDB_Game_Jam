@@ -202,6 +202,10 @@ void Player::movePlayer() // moves the player based on input
         }
 
         this->setInvulnTime(this->getInvulnTime() - 1);
+    } else
+    {
+        this->setEnemyReference(NULL);
+        this->setProjectileReference(NULL);
     }
 
     bool shouldMove = true;
