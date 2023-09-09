@@ -9,7 +9,7 @@ private:
     Texture2D sprite; // sprite
     Rectangle hitbox; // hitbox
     float speed; // speed
-    Direction direction; // direction
+    Vector2 direction; // direction
     bool isActive;
     Vector2 theVoid;
     
@@ -22,7 +22,7 @@ public:
     Texture2D getSprite(); // returns sprite
     Rectangle getHitbox(); // returns hitbox
     int getSpeed(); // returns speed
-    Direction getDirection(); // returns direction
+    Vector2 getDirection(); // returns direction
     bool getIsActive();
     Vector2 getTheVoid();
 
@@ -35,7 +35,7 @@ public:
     void setSprite(Texture2D); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(float); // sets speed
-    void setDirection(Direction); // sets direction
+    void setDirection(Vector2); // sets direction
     void setIsActive(bool);
 
     void setPos(Vector2); // sets Enemy position
