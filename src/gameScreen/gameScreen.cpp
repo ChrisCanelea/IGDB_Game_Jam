@@ -11,7 +11,7 @@ void gameScreen(void)
     player.setWidth(50);
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
 
-    Stage test({-500, -500, 1000, 1000}, &player);
+    Stage test({-1000, -1000, 2000, 2000}, &player);
 
     while(true)
     {
@@ -19,10 +19,16 @@ void gameScreen(void)
         
         player.movePlayer();
 
-        if (CheckCollisionRecs(player.getHitbox(), enemy.getHitbox()))
+        if (player.getInvulnTime() == 0) // if we are NOT invulnerable
         {
-            player.setInvulnTime(INVULN_FRAMES);
-
+            for (int i = 0; i < test.getMaxEnemies(); ++i) 
+            {
+                if (CheckCollisionRecs(player.getHitbox(), test.getEnemiesArray()[i].getHitbox()))
+                {
+                    player.setEnemyReference(&test.getEnemiesArray()[i]);
+                    player.setInvulnTime(INVULN_FRAMES);
+                }
+            }
         }
 
         BeginDrawing();
@@ -35,8 +41,6 @@ void gameScreen(void)
             BeginMode2D(camera);
 
             test.drawStage();
-
-            enemy.drawEnemy();
 
             player.drawPlayer();
 
