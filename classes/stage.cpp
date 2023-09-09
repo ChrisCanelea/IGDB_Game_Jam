@@ -257,7 +257,7 @@ void Stage::populateProjectiles()
     for (int i = 0; i < maxProjectiles; ++i) 
     {
         Vector2 temp = this->generateRandomOnEdge();
-        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, this->getPlayerReference()->getCenter());
+        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, this->getPlayerReference()->getCenter(), {this->getNorthWall().x, this->getNorthWall().y});
     }
 }
 

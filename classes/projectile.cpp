@@ -14,7 +14,7 @@ Projectile::Projectile() // Default constructor
     this->isActive = false;
 }
 
-Projectile::Projectile(Rectangle hitbox_, Vector2 destination_) // Constructor with params 
+Projectile::Projectile(Rectangle hitbox_, Vector2 destination_, Vector2 theVoid_) // Constructor with params 
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
@@ -23,6 +23,7 @@ Projectile::Projectile(Rectangle hitbox_, Vector2 destination_) // Constructor w
     this->direction = calculateDirection();
     this->rotation = calculateRotation();
     this->isActive = false;
+    this->theVoid = theVoid_;
 }
 
 // getters
@@ -59,6 +60,11 @@ Vector2 Projectile::getDirection() // returns direction vector
 bool Projectile::getIsActive() 
 {
     return this->isActive;
+}
+
+Vector2 Projectile::getTheVoid() 
+{
+    return this->theVoid;
 }
 
 Vector2 Projectile::getPos() // returns the projectile's position 
@@ -167,4 +173,10 @@ void Projectile::drawProjectile() // draws projectile
 Texture2D Projectile::loadSprite() 
 {
     return LoadTexture("");
+}
+
+void Projectile::killProjectile() 
+{
+    this->setPos(this->getTheVoid());
+    this->setIsActive(false);
 }
