@@ -13,15 +13,17 @@ Player::Player() // Default constructor
     this->speed = 10;
     this->direction = SOUTH;
     this->invulnTime = 0;
+    this->enemyReference = NULL;
 }
 
-Player::Player(Texture2D sprite_, Rectangle hitbox_, float speed_, Direction direction_, float invulnTime_) // Constructor with parameters
+Player::Player(Rectangle hitbox_) // Constructor with parameters
 {
-    this->sprite = sprite_;
+    this->sprite = loadSprite();
     this->hitbox = hitbox_;
-    this->speed = speed_;
-    this->direction = direction_;
-    this->invulnTime = invulnTime_;
+    this->speed = 10;
+    this->direction = SOUTH;
+    this->invulnTime = 0;
+    this->enemyReference = NULL;
 }
 
 // getters
@@ -222,4 +224,9 @@ void Player::drawPlayer() // draws the player sprite
     }
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
+}
+
+Texture2D Player::loadSprite() 
+{
+    return LoadTexture("assets/squareNinja.png");
 }

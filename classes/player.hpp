@@ -17,7 +17,7 @@ private:
 public:
     // constructors
     Player(); // Default constructor
-    Player(Texture2D, Rectangle, float, Direction, float); // Constructor with parameters
+    Player(Rectangle); // Constructor with parameters
 
     // getters
     Texture2D getSprite(); // returns sprite
@@ -51,6 +51,7 @@ public:
     void movePlayer(); // moves the player based on input
     void enemyKnockback(Enemy); // knocks the player away from an enemy (called when collision with an enemy is detected)
     void drawPlayer(); // draws the player sprite
+    Texture2D loadSprite();
 };
 
 #endif // player_hpp
