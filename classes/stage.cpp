@@ -306,19 +306,19 @@ Vector2 Stage::generateRandomOnEdge()
     switch(GetRandomValue(0, 3)) 
     {
         case 0: // NORTH WALL
-            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().width + this->getPlayArea().x), (float)(this->getPlayArea().y - 100)};
+            return {(float)GetRandomValue(this->getPlayArea().x - 80, this->getPlayArea().width + this->getPlayArea().x + 80), (float)(this->getPlayArea().y - 150)};
             break;
             
         case 1: // EAST WALL
-            return {(float)(this->getPlayArea().x + this->getPlayArea().width + 60), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().height + this->getPlayArea().y)};
+            return {(float)(this->getPlayArea().x + this->getPlayArea().width + 80), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().height + this->getPlayArea().y)};
             break;
             
         case 2: // SOUTH WALL
-            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().width), (float)(this->getPlayArea().y - 100)};
+            return {(float)GetRandomValue(this->getPlayArea().x - 80, this->getPlayArea().width + this->getPlayArea().x + 80), (float)(this->getPlayArea().y + this->getPlayArea().height + 100)};
             break;
             
         case 3: // WEST WALL
-            return {(float)(this->getPlayArea().x - 60), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().height + this->getPlayArea().y)};
+            return {(float)(this->getPlayArea().x - 60), (float)GetRandomValue(this->getPlayArea().y - 100, this->getPlayArea().height + this->getPlayArea().y + 100)};
             break;
     }
 
