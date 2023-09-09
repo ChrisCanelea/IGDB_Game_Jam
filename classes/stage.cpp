@@ -239,6 +239,10 @@ void Stage::spawnProjectile()
 void Stage::drawStage() 
 {
     DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
+    DrawRectangleRec(this->getNorthWall(), BLACK);
+    DrawRectangleRec(this->getEastWall(), BLACK);
+    DrawRectangleRec(this->getSouthWall(), BLACK);
+    DrawRectangleRec(this->getWestWall(), BLACK);
     for (int i = 0; i < maxEnemies; ++i) 
     {
         this->getEnemiesArray()[i].drawEnemy();
