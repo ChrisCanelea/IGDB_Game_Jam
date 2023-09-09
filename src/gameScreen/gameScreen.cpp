@@ -45,9 +45,11 @@ void gameScreen(void)
 
             EndMode2D();
 
-            DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 20, 20, BLUE);
-            DrawText(TextFormat("Respawntime: %03i", (int)stage1.getEnemyRespawnTime()), 20, 300, 20, ORANGE);
-            DrawText("Game", 10, 50, 50, RED);
+            DrawText("Game", 10, 20, 50, GREEN);
+            DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
+            DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
+            DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
+            DrawText(TextFormat("Respawntime: %03i", (int)stage1.getEnemyRespawnTime()), 20, 260, 40, ORANGE);
             
         EndDrawing();
 
