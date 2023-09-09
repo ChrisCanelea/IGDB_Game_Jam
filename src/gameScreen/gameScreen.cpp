@@ -35,9 +35,6 @@ void gameScreen(void)
 
             ClearBackground(RAYWHITE);
 
-            DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 20, 20, BLUE);
-            DrawText("Game", 10, 50, 50, RED);
-
             BeginMode2D(camera);
 
             test.drawStage();
@@ -45,6 +42,10 @@ void gameScreen(void)
             player.drawPlayer();
 
             EndMode2D();
+
+            DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 20, 20, BLUE);
+            DrawText("Game", 10, 50, 50, RED);
+            
         EndDrawing();
 
         if (WindowShouldClose())
