@@ -159,7 +159,7 @@ void Enemy::moveEnemy()
 {
     if (this->getIsActive()) // only move if active
     {
-        if (Vector2Distance(this->getPos(), this->getPlayerLocation()) > 250.0f)
+        if (Vector2Distance(this->getCenter(), this->getPlayerLocation()) > 250.0f)
         {
             this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
         } else 
@@ -215,7 +215,7 @@ void Enemy::generateDirectionBlocking()
 
 void Enemy::generateDirectionFacing() 
 {
-    this->setDirectionFacing(Vector2Normalize(Vector2Subtract(this->getPlayerLocation(), this->getPos())));
+    this->setDirectionFacing(Vector2Normalize(Vector2Subtract(this->getPlayerLocation(), this->getCenter())));
     
     // random shake variant
     // this->setDirectionFacing(Vector2Rotate(Vector2Normalize(Vector2Subtract(this->getPlayerLocation(), this->getPos())), (float)(DEG2RAD * GetRandomValue(-60, 60))));
