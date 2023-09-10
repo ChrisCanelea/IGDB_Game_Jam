@@ -183,7 +183,7 @@ void Player::movePlayer() // moves the player based on input
     {
         this->setAttackCooldown(this->getAttackCooldown() - 1);
 
-    } else if (IsKeyPressed(KEY_J))
+    } else if (IsKeyPressed(KEY_J) && !this->getInvulnTime())
     {
         this->setAttackCooldown(ATTACK_COOLDOWN);
 
@@ -253,7 +253,7 @@ void Player::movePlayer() // moves the player based on input
         this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), speed)));
     }
 
-    if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 20))
+    if (!this->getInvulnTime() && this->getAttackCooldown() > (ATTACK_COOLDOWN - 20))
     {
         Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS}; // location of hitbox, radius of hitbox
         this->setAttackHitbox(attack);

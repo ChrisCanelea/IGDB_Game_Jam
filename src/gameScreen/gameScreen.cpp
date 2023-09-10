@@ -23,44 +23,57 @@ void gameScreen(void)
 
     while(true)
     {
-        // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
-        camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
-        
-        player.movePlayer();
-        stage->stageManager();
-
-        if (player.getInvulnTime() == 0) // if we are NOT invulnerable
+        // Only process certain things depenging on the currentState
+        if (currentState == PLAYING) 
         {
-            for (int i = 0; i < stage->getMaxEnemies(); ++i) 
-            {
-                if (stage->getEnemiesArray()[i].getIsActive())
-                {
-                    if (CheckCollisionRecs(player.getHitbox(), stage->getEnemiesArray()[i].getHitbox()))
-                    {
-                        player.setEnemyReference(&stage->getEnemiesArray()[i]);
-                        player.setInvulnTime(INVULN_FRAMES);
-                    } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stage->getEnemiesArray()[i].getHitbox()))
-                    {
-                        
-                    }
-                }
-            }
+            // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
+            camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
+            
+            player.movePlayer();
+            stage->stageManager();
 
-            for (int j = 0; j < stage->getMaxProjectiles(); ++j) 
+            if (player.getInvulnTime() == 0) // if we are NOT invulnerable
             {
-                if (stage->getProjectileArray()[j].getIsActive()) 
+                for (int i = 0; i < stage->getMaxEnemies(); ++i) 
                 {
-                    if (CheckCollisionRecs(player.getHitbox(), stage->getProjectileArray()[j].getHitbox()))
+                    if (stage->getEnemiesArray()[i].getIsActive())
                     {
-                        player.setProjectileCollisionLocation(stage->getProjectileArray()[j].getCenter());
-                        player.setInvulnTime(INVULN_FRAMES);
-                        stage->getProjectileArray()[j].killProjectile();
-                    } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stage->getProjectileArray()[j].getHitbox()))
+                        if (CheckCollisionRecs(player.getHitbox(), stage->getEnemiesArray()[i].getHitbox()))
+                        {
+                            player.setEnemyReference(&stage->getEnemiesArray()[i]);
+                            player.setInvulnTime(INVULN_FRAMES);
+                        } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stage->getEnemiesArray()[i].getHitbox()))
+                        {
+                            updateState(COMBAT, &player, stage, &exit, &stage->getEnemiesArray()[i]);
+                        }
+                    }
+                }
+
+                for (int j = 0; j < stage->getMaxProjectiles(); ++j) 
+                {
+                    if (stage->getProjectileArray()[j].getIsActive()) 
                     {
-                        stage->getProjectileArray()[j].killProjectile();
+                        if (CheckCollisionRecs(player.getHitbox(), stage->getProjectileArray()[j].getHitbox()))
+                        {
+                            player.setProjectileCollisionLocation(stage->getProjectileArray()[j].getCenter());
+                            player.setInvulnTime(INVULN_FRAMES);
+                            stage->getProjectileArray()[j].killProjectile();
+                        } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stage->getProjectileArray()[j].getHitbox()))
+                        {
+                            stage->getProjectileArray()[j].killProjectile();
+                        }
                     }
                 }
             }
+        } else if (currentState == COMBAT) 
+        {
+            
+        } else if (currentState == DEATH) 
+        {
+
+        } else if (currentState == PURGATORY) 
+        {
+            // DO NOTHING (No processing)
         }
 
         BeginDrawing();
@@ -75,12 +88,26 @@ void gameScreen(void)
 
             EndMode2D();
 
-            DrawText("Game", 10, 20, 50, GREEN);
-            DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
-            DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
-            DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
-            DrawText(TextFormat("Enemy Respawn: %03i", (int)stage->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
-            DrawText(TextFormat("Projectile Respawn: %03i", (int)stage->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
+            // Only draw certain things based on currentState
+            if (currentState == PLAYING) 
+            {
+                DrawText("PLAYING", 10, 20, 50, GREEN);
+                DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
+                DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
+                DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
+                DrawText(TextFormat("Enemy Respawn: %03i", (int)stage->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
+                DrawText(TextFormat("Projectile Respawn: %03i", (int)stage->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
+            } else if (currentState == COMBAT) 
+            {
+                DrawText("COMBAT", 10, 20, 50, GREEN);
+                DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
+            } else if (currentState == DEATH) 
+            {
+
+            } else if (currentState == PURGATORY) 
+            {
+                // DO NOTHING (No processing)
+            }
             
         EndDrawing();
 
@@ -107,12 +134,12 @@ void updateState(GameState nextState, Player* player, Stage* stage, Exit* exit, 
         }
         // fetch a layout from file
         stage = new Stage(1000.0f, 1000.0f, player); // create stage object
-        // reset player
-        // update exit location
+        player->setPos({0,0}); // reset player
+        exit->setPos(stage->getExitLocation()); // update exit location
         updateState(PLAYING, player, stage, exit, enemy); // keep an eye on this, might cause issues
     } else if (nextState == PLAYING) 
     {
-        
+        // set a small amount of invulnerability
     } else if (nextState == COMBAT) 
     {
 
