@@ -25,20 +25,32 @@ void gameScreen(void)
         {
             for (int i = 0; i < stage1.getMaxEnemies(); ++i) 
             {
-                if (stage1.getEnemiesArray()[i].getIsActive() && CheckCollisionRecs(player.getHitbox(), stage1.getEnemiesArray()[i].getHitbox()))
+                if (stage1.getEnemiesArray()[i].getIsActive())
                 {
-                    player.setEnemyReference(&stage1.getEnemiesArray()[i]);
-                    player.setInvulnTime(INVULN_FRAMES);
+                    if (CheckCollisionRecs(player.getHitbox(), stage1.getEnemiesArray()[i].getHitbox()))
+                    {
+                        player.setEnemyReference(&stage1.getEnemiesArray()[i]);
+                        player.setInvulnTime(INVULN_FRAMES);
+                    } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stage1.getEnemiesArray()[i].getHitbox()))
+                    {
+                        
+                    }
                 }
             }
 
             for (int j = 0; j < stage1.getMaxProjectiles(); ++j) 
             {
-                if (stage1.getProjectileArray()[j].getIsActive() && CheckCollisionRecs(player.getHitbox(), stage1.getProjectileArray()[j].getHitbox())) 
+                if (stage1.getProjectileArray()[j].getIsActive()) 
                 {
-                    player.setProjectileCollisionLocation(stage1.getProjectileArray()[j].getCenter());
-                    player.setInvulnTime(INVULN_FRAMES);
-                    stage1.getProjectileArray()[j].killProjectile();
+                    if (CheckCollisionRecs(player.getHitbox(), stage1.getProjectileArray()[j].getHitbox()))
+                    {
+                        player.setProjectileCollisionLocation(stage1.getProjectileArray()[j].getCenter());
+                        player.setInvulnTime(INVULN_FRAMES);
+                        stage1.getProjectileArray()[j].killProjectile();
+                    } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stage1.getProjectileArray()[j].getHitbox()))
+                    {
+                        stage1.getProjectileArray()[j].killProjectile();
+                    }
                 }
             }
         }
