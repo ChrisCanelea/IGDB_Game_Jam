@@ -110,6 +110,8 @@ void gameScreen(void)
                 DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
             }
 
+            exit.drawExit();
+
             player.drawPlayer();
 
             EndMode2D();
