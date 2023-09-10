@@ -22,11 +22,10 @@ void titleScreen(void)
     while(true)
     {
 
+        //update music buffer
         UpdateMusicStream(menuTrack);
-        
         if(GetMusicTimePlayed(menuTrack)>=28.55)
         {
-            //CloseWindow();
             SeekMusicStream(menuTrack,3.18);
             PlayMusicStream(menuTrack);
         }
@@ -67,7 +66,7 @@ void titleScreen(void)
 
         }else if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePos,optButtonBound))
         {
-            optionScreen();
+            optionScreen(menuTrack);
         }
 
         if (WindowShouldClose())

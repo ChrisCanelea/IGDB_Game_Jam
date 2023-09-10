@@ -7,7 +7,7 @@
 
 
 
-void optionScreen(){
+void optionScreen(Music menuTrack){
     GuiLoadStyleDefault();
     Vector2 mousePos = {0.0,0.0};
     Rectangle musicVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 - 50, 400, 30};      //x,y,w,h
@@ -22,6 +22,16 @@ void optionScreen(){
 
     while(1)
     {
+        UpdateMusicStream(menuTrack);
+        
+        //update music buffer
+        UpdateMusicStream(menuTrack);
+        if(GetMusicTimePlayed(menuTrack)>=28.55)
+        {
+            SeekMusicStream(menuTrack,3.18);
+            PlayMusicStream(menuTrack);
+        }
+
         BeginDrawing(); 
             ClearBackground(RAYWHITE);//initialize background
             mousePos = GetMousePosition();
