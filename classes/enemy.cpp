@@ -9,10 +9,11 @@ Enemy::Enemy() // Default constructor
 {
     this->sprite = LoadTexture("assets/Markus.png");
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
-    this->speed = 5.0f;
-    this->direction = Vector2 {0, 1};
+    this->speed = 2.0f;
+    this->directionFacing = Vector2 {0, 1};
     this->isActive = false;
     this->theVoid = {0,0};
+    this->playerLocation = {0,0};
 }
 
 Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
@@ -20,9 +21,10 @@ Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
     this->speed = 5.0f;
-    this->direction = Vector2 {0, 1};
+    this->directionFacing = Vector2 {0, 1};
     this->isActive = false;
     this->theVoid = theVoid_;
+    this->playerLocation = {0,0};
 }
 
 // getters
@@ -41,9 +43,9 @@ int Enemy::getSpeed() // returns speed
     return this->speed;
 }
 
-Vector2 Enemy::getDirection() // returns direction unit vector
+Vector2 Enemy::getDirectionFacing() // returns direction unit vector
 {
-    return this->direction;
+    return this->directionFacing;
 }
 
 bool Enemy::getIsActive() 
@@ -54,6 +56,16 @@ bool Enemy::getIsActive()
 Vector2 Enemy::getTheVoid() 
 {
     return this->theVoid;
+}
+
+Vector2 Enemy::getPlayerlocation() 
+{
+    return this->playerLocation;
+}
+
+Vector2 Enemy::getDirectionBlocking() 
+{
+    return this->directionBlocking;
 }
 
 Vector2 Enemy::getPos() // returns the Enemy position
@@ -94,14 +106,24 @@ void Enemy::setSpeed(float speed_) // sets speed
     this->speed = speed_;
 }
 
-void Enemy::setDirection(Vector2 direction_) // sets direction
+void Enemy::setDirectionFacing(Vector2 directionFacing_) // sets direction
 {
-    this->direction = Vector2Normalize(direction_);
+    this->directionFacing = Vector2Normalize(directionFacing_);
 }
 
 void Enemy::setIsActive(bool isActive_) 
 {
     this->isActive = isActive_;
+}
+
+void Enemy::setPlayerLocation(Vector2 playerLocation_) 
+{
+    this->playerLocation = playerLocation_;
+}
+
+void Enemy::setDirectionBlocking(Vector2 directionBlocking_) 
+{
+    this->directionBlocking = directionBlocking_;
 }
 
 void Enemy::setPos(Vector2 pos_) // sets Enemy position
@@ -133,7 +155,10 @@ void Enemy::setHeight(float height_) // sets height of hitbox
 //other
 void Enemy::moveEnemy()
 {
-
+    if (this->getIsActive()) // only move if active
+    {
+        //this->setPos();
+    }
 }
 
 void Enemy::drawEnemy() // draws the player sprite
@@ -153,4 +178,28 @@ void Enemy::killEnemy()
 {
     this->setPos(this->getTheVoid());
     this->setIsActive(false);
+}
+
+void Enemy::generateBlockDirection() 
+{
+    switch (GetRandomValue(0,3)) 
+    {
+        case 0:
+            this->setDirectionBlocking({0,1});
+            break;
+        case 1:
+            this->setDirectionBlocking({1,0});
+            break;
+        case 2:
+            this->setDirectionBlocking({0,-1});
+            break;
+        case 3:
+            this->setDirectionBlocking({-1,0});
+            break;
+    }
+}
+
+void Enemy::generateDirectionFacing() 
+{
+
 }

@@ -9,9 +9,11 @@ private:
     Texture2D sprite; // sprite
     Rectangle hitbox; // hitbox
     float speed; // speed
-    Vector2 direction; // direction
+    Vector2 directionFacing; // direction
     bool isActive;
     Vector2 theVoid;
+    Vector2 playerLocation;
+    Vector2 directionBlocking;
     
 public:
     // constructors
@@ -22,9 +24,11 @@ public:
     Texture2D getSprite(); // returns sprite
     Rectangle getHitbox(); // returns hitbox
     int getSpeed(); // returns speed
-    Vector2 getDirection(); // returns direction
+    Vector2 getDirectionFacing(); // returns direction
     bool getIsActive();
     Vector2 getTheVoid();
+    Vector2 getPlayerlocation();
+    Vector2 getDirectionBlocking();
 
     Vector2 getPos(); // returns the Enemy position
     Vector2 getCenter(); // returns the Enemy's center position
@@ -35,8 +39,10 @@ public:
     void setSprite(Texture2D); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(float); // sets speed
-    void setDirection(Vector2); // sets direction
+    void setDirectionFacing(Vector2); // sets direction
     void setIsActive(bool);
+    void setPlayerLocation(Vector2);
+    void setDirectionBlocking(Vector2);
 
     void setPos(Vector2); // sets Enemy position
     void setX(float); // sets x position (top left corner of hitbox)
@@ -49,6 +55,8 @@ public:
     void drawEnemy(); // draws the Enemy sprite
     Texture2D loadSprite();
     void killEnemy(); // moves enemy outside the play area and makes it inactive
+    void generateBlockDirection(); // generates a normalized vector in direction of block
+    void generateDirectionFacing();
 };
 
 #endif // Enemy_hpp

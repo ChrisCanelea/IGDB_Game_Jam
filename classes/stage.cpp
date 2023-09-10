@@ -269,10 +269,11 @@ void Stage::stageManager()
     }
 
     // MOVING
-    // for (int i = 0; i < this->getMaxEnemies(); ++i) 
-    // {
-    //     this->getEnemiesArray()[i].moveEnemy();
-    // }
+    for (int i = 0; i < this->getMaxEnemies(); ++i) 
+    {
+        this->getEnemiesArray()[i].setPlayerLocation(this->getPlayerReference()->getCenter());
+        this->getEnemiesArray()[i].moveEnemy();
+    }
 
     for (int j = 0; j < this->getMaxProjectiles(); ++j) 
     {
