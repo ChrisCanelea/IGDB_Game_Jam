@@ -4,7 +4,7 @@
 int main(void)
 {
 
-    InitWindow(SCREEN_W, SCREEN_H, "title");
+    InitWindow(SCREEN_W, SCREEN_H, "game title"); // change title
     ToggleFullscreen();
     
 
