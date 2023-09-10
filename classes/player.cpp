@@ -307,24 +307,24 @@ void Player::projectileKnockback() // knocks the player away from a projectile (
 
 void Player::pollDirectionAttacking() // polls user input to determine the direction of attack in a combat sequence
 {
-    if (IsKeyDown(KEY_W) && IsKeyPressed(KEY_J))
+    if (IsKeyDown(KEY_W) && IsKeyPressed(KEY_J)) // attacking upwards
     {
-        this->setDirectionAttacking(Vector2 {0, -1});
+        this->setDirectionAttacking(Vector2 {0, 1}); // slash from the bottom
         this->setCombatTimer(0);
 
-    } else if (IsKeyDown(KEY_A) && IsKeyPressed(KEY_J))
+    } else if (IsKeyDown(KEY_A) && IsKeyPressed(KEY_J)) // attacking to the left
     {
-        this->setDirectionAttacking(Vector2 {1, 0});
+        this->setDirectionAttacking(Vector2 {1, 0}); // slash from the right
         this->setCombatTimer(0);
 
-    } else if (IsKeyDown(KEY_S) && IsKeyPressed(KEY_J))
+    } else if (IsKeyDown(KEY_S) && IsKeyPressed(KEY_J)) // attacking downwards
     {
-        this->setDirectionAttacking(Vector2 {0, 1});
+        this->setDirectionAttacking(Vector2 {0, -1}); // slash from the top
         this->setCombatTimer(0);
 
-    } else if (IsKeyDown(KEY_D) && IsKeyPressed(KEY_J))
+    } else if (IsKeyDown(KEY_D) && IsKeyPressed(KEY_J)) // attacking to the right
     {
-        this->setDirectionAttacking(Vector2 {-1, 0});
+        this->setDirectionAttacking(Vector2 {-1, 0}); // slash from the left
         this->setCombatTimer(0);
 
     }
