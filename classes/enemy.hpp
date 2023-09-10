@@ -56,6 +56,7 @@ public:
     Texture2D loadSprite();
     void killEnemy(); // moves enemy outside the play area and makes it inactive
     void generateBlockDirection(); // generates a normalized vector in direction of block
+    void generateDirectionFacing();
 };
 
 #endif // Enemy_hpp
