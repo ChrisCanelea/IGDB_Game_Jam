@@ -22,10 +22,9 @@ void optionScreen(Music menuTrack){
 
     while(1)
     {
-        UpdateMusicStream(menuTrack);
-        
         //update music buffer
         UpdateMusicStream(menuTrack);
+        SetMusicVolume(menuTrack,musicVol/100.0);
         if(GetMusicTimePlayed(menuTrack)>=28.55)
         {
             SeekMusicStream(menuTrack,3.18);
@@ -45,12 +44,12 @@ void optionScreen(Music menuTrack){
             
 
         EndDrawing();
-    }
 
-    if (WindowShouldClose())
+        if (WindowShouldClose())
         {
             CloseWindow();
         }
+    }
 }
 
 
