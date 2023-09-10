@@ -13,9 +13,6 @@ void optionScreen(){
     Rectangle musicVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 - 50, 400, 30};      //x,y,w,h
     Rectangle effectVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 + 80, 400, 30};     //x,y,w,h
     Rectangle returnBox = {5, 5, 105, 40};
-
-    float musicVol = 1;
-    float effectVol = 1;
     
     int musicRecWidth = 400;    //initializing the width of gray box, to be modified when mouse clicked
     int effectRecWidth = 400;
