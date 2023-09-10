@@ -7,7 +7,7 @@
 // constructors
 Exit::Exit() // Default constructor
 {
-    this->sprite = LoadTexture("assets/squareNinja.png");
+    this->sprite = loadSprite();
     this->hitbox = Rectangle {200, 200, 50, 50}; // Default hitbox is a 50x50 square at (200, 200)
 }
 
@@ -83,7 +83,7 @@ void Exit::setHeight(float height_) // sets height of hitbox
 }
 
 //other
-void Exit::drawExit() // draws the player sprite
+void Exit::drawExit() // draws the exit
 {    
     DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), YELLOW);
 }
