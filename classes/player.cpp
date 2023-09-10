@@ -13,7 +13,7 @@ Player::Player() // Default constructor
     this->hitbox = Rectangle {0, 0, 50, 100}; // Default hitbox is a 50x100 square at (0, 0)
     this->speed = 10;
     this->direction = Vector2 {0, 1};
-    this->attackHitbox = Circle {0, 0};
+    this->attackHitbox = Circle {THE_VOID, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
@@ -26,7 +26,7 @@ Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
     this->hitbox = hitbox_;
     this->speed = 10;
     this->direction = {0, 1};
-    this->attackHitbox = Circle{0, 0};
+    this->attackHitbox = Circle{THE_VOID, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
@@ -77,6 +77,11 @@ Enemy* Player::getEnemyReference() // returns the address of the enemy the playe
 Vector2 Player::getProjectileCollisionLocation() // returns location where the player collided with the projectile
 {
     return this->projectileCollisionLocation;
+}
+
+Vector2 Player::getDirectionAttacking() // gets users attack direction in a combat sequence
+{
+    return this->directionAttacking;
 }
 
 
@@ -146,6 +151,11 @@ void Player::setEnemyReference(Enemy* enemyReference_) // sets the address of th
 void Player::setProjectileCollisionLocation(Vector2 projectileCollisionLocation_) // sets the location where the player collided with the projectile
 {
     this->projectileCollisionLocation = projectileCollisionLocation_;
+}
+
+void Player::setDirectionAttacking(Vector2 directionAttacking_) // polls for user attack direction
+{
+    this->directionAttacking = Vector2Normalize(directionAttacking_);
 }
 
 
@@ -279,6 +289,27 @@ void Player::projectileKnockback() // knocks the player away from a projectile (
     Vector2 normalDist = Vector2Normalize(dist);
 
     this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/35)));
+}
+
+void Player::pollDirectionAttacking() // polls user input to determine the direction of attack in a combat sequence
+{
+    if (IsKeyDown(KEY_W) && IsKeyPressed(KEY_J))
+    {
+        this->setDirectionAttacking(Vector2 {0, -1});
+
+    } else if (IsKeyDown(KEY_A) && IsKeyPressed(KEY_J))
+    {
+        this->setDirectionAttacking(Vector2 {1, 0});
+
+    } else if (IsKeyDown(KEY_S) && IsKeyPressed(KEY_J))
+    {
+        this->setDirectionAttacking(Vector2 {0, 1});
+
+    } else if (IsKeyDown(KEY_D) && IsKeyPressed(KEY_J))
+    {
+        this->setDirectionAttacking(Vector2 {-1, 0});
+
+    }
 }
 
 void Player::drawPlayer() // draws the player sprite

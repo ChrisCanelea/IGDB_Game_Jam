@@ -18,6 +18,8 @@ private:
     float invulnTime;
     Enemy* enemyReference; // reference to the enemy the player is interacting with
     Vector2 projectileCollisionLocation; // location of the spot where the player collided with the projectile
+    int combatTimer; // amount of frames the player has to attack in a combat sequence
+    Vector2 directionAttacking; // direction the player is attacking in a combat sequence
     
 public:
     // constructors
@@ -34,7 +36,8 @@ public:
     float getInvulnTime(); // returns the number of invulnerability frames
     Enemy* getEnemyReference(); // returns the address of the enemy the player is interacting with
     Vector2 getProjectileCollisionLocation(); // returns location where the player collided with the projectile
-
+    Vector2 getDirectionAttacking(); // gets users attack direction in a combat sequence
+    
     Vector2 getPos(); // returns the player position
     Vector2 getCenter(); // returns the player's center position
     float getWidth(); // returns width of hitbox
@@ -50,6 +53,7 @@ public:
     void setInvulnTime(float); // sets the number of invulnerability frames
     void setEnemyReference(Enemy*); // sets the address of the enemy the player is interacting with
     void setProjectileCollisionLocation(Vector2); // sets the location where the player collided with the projectile
+    void setDirectionAttacking(Vector2); // sets the direction the player attacks in a combat sequence
 
     void setPos(Vector2); // sets player position
     void setX(float); // sets x position (top left corner of hitbox)
@@ -61,6 +65,7 @@ public:
     void movePlayer(); // moves the player based on input
     void enemyKnockback(); // knocks the player away from an enemy (called when collision with an enemy is detected)
     void projectileKnockback(); // knocks the player away from a projectile (called when collision with a projectile is detected)
+    void pollDirectionAttacking(); // polls user input to determine the direction of attack in a combat sequence
     void drawPlayer(); // draws the player sprite
     Texture2D loadSprite();
 };
