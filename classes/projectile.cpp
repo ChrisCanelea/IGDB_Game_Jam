@@ -12,6 +12,7 @@ Projectile::Projectile() // Default constructor
     this->isActive = false;
     this->theVoid = {0,0};
     this->sourceRec = {0,0,60,20};
+    this->adjustProjectile();
 }
 
 Projectile::Projectile(Rectangle hitbox_, int orientation_, Vector2 theVoid_) // Constructor with params 
@@ -23,6 +24,7 @@ Projectile::Projectile(Rectangle hitbox_, int orientation_, Vector2 theVoid_) //
     this->isActive = false;
     this->theVoid = theVoid_;
     this->sourceRec = {0,0,60,20};
+    this->adjustProjectile();
 }
 
 // getters
