@@ -6,6 +6,7 @@
 
 const int SCREEN_W = 1920;
 const int SCREEN_H = 1080;
+
 const float ATTACK_OFFSET = 50;
 const float ATTACK_RADIUS = 50;
 const float ATTACK_FRAMES = 10;
