@@ -1,24 +1,27 @@
 #include "globals.hpp"
 #include "optionScreen.hpp"
 #include <raylib.h>
+
+#define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
 
 
 void optionScreen(){
+    GuiLoadStyleDefault();
     Vector2 mousePos = {0.0,0.0};
     Rectangle musicVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 - 50, 400, 30};      //x,y,w,h
     Rectangle effectVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 + 80, 400, 30};     //x,y,w,h
     Rectangle returnBox = {5, 5, 105, 40};
 
-    float innerRadius = 80.0f;
-    float outerRadius = 190.0f;
+    float musicVol = 1;
+    float effectVol = 1;
     
     int musicRecWidth = 400;    //initializing the width of gray box, to be modified when mouse clicked
     int effectRecWidth = 400;
     int musicRecXPos = SCREEN_W/2 + 400;    //initializing the x coordinate of the gray box. to be modified when mouse clicked
     int effectRecXPos = SCREEN_W/2 + 400;
-
+     
 
     while(1)
     {
@@ -26,13 +29,10 @@ void optionScreen(){
             ClearBackground(RAYWHITE);//initialize background
             mousePos = GetMousePosition();
 
-            if(IsMouseButtonDown(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePos,musicVolumeSlideBound))
-            {
-
-            }else
-            {
-                GuiSliderBar(musicVolumeSlideBound,"Music Volume",NULL, &innerRadius, 0, 100);
-            }
+            GuiSliderBar(musicVolumeSlideBound,"Music Volume",NULL, &musicVol, 0, 100);
+            GuiSliderBar(effectVolumeSlideBound, "Effect Volume",NULL,&effectVol,0,100);
+            
+            
 
         EndDrawing();
     }
