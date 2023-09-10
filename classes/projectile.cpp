@@ -69,7 +69,8 @@ Vector2 Projectile::getPos() // returns the projectile's position
 
 Vector2 Projectile::getCenter() 
 {
-    return {this->getHitbox().x + (this->getHitbox().width/2), this->getHitbox().y + (this->getHitbox().height/2)};
+    Vector2 pos = {this->getPos().x + this->getWidth()/2, this->getPos().y + this->getHeight()/2};
+    return pos;
 }
 
 float Projectile::getX() 
