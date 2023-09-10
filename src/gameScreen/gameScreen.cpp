@@ -11,7 +11,7 @@ void gameScreen(void)
     player.setWidth(50);
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
 
-    Stage stage1({-500, -500, 1000, 1000}, &player);
+    Stage stage1(1000.0f, 1000.0f, &player);
 
     while(true)
     {

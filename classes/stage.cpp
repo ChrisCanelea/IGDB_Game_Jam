@@ -24,10 +24,10 @@ Stage::Stage() // Default constructor
     this->projectilesArray = createProjectileArray();
 }
 
-Stage::Stage(Rectangle playArea_, Player* playerReference_) 
+Stage::Stage(float width_, float height_, Player* playerReference_) 
 {
     this->sprite = loadSprite();
-    this->playArea = playArea_;
+    this->playArea = {-1 * (width_/2), -1 * (height_/2), width_, height_};
     this->playerReference = playerReference_;
     this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
     this->eastWall = {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
@@ -289,7 +289,10 @@ void Stage::respawnEnemy(Enemy* enemy)
 
 void Stage::respawnProjectile(Projectile* projectile) 
 {
-    projectile->setPos(this->generateRandomOnEdge());
+    int orientation = GetRandomValue(0, 3);
+    projectile->setPos(this->generateRandomForProjectile(orientation));
+    projectile->setOrientation(orientation);
+    projectile->adjustProjectile();
     projectile->setIsActive(true);
 }
 
@@ -337,19 +340,19 @@ Vector2 Stage::generateRandomOnEdge()
     switch(GetRandomValue(0, 3)) 
     {
         case 0: // NORTH WALL
-            return {(float)GetRandomValue(this->getPlayArea().x - 80, this->getPlayArea().width + this->getPlayArea().x + 80), (float)(this->getPlayArea().y - 150)};
+            return {(float)GetRandomValue(this->getPlayArea().x - 110, this->getPlayArea().width + this->getPlayArea().x + 60), (float)(this->getPlayArea().y - 150)};
             break;
             
         case 1: // EAST WALL
-            return {(float)(this->getPlayArea().x + this->getPlayArea().width + 80), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().height + this->getPlayArea().y)};
+            return {(float)(this->getPlayArea().x + this->getPlayArea().width + 60), (float)GetRandomValue(this->getPlayArea().y - 150, this->getPlayArea().height + this->getPlayArea().y)};
             break;
             
         case 2: // SOUTH WALL
-            return {(float)GetRandomValue(this->getPlayArea().x - 80, this->getPlayArea().width + this->getPlayArea().x + 80), (float)(this->getPlayArea().y + this->getPlayArea().height + 100)};
+            return {(float)GetRandomValue(this->getPlayArea().x - 110, this->getPlayArea().width + this->getPlayArea().x + 60), (float)(this->getPlayArea().y + this->getPlayArea().height + 50)};
             break;
             
         case 3: // WEST WALL
-            return {(float)(this->getPlayArea().x - 60), (float)GetRandomValue(this->getPlayArea().y - 100, this->getPlayArea().height + this->getPlayArea().y + 100)};
+            return {(float)(this->getPlayArea().x - 110), (float)GetRandomValue(this->getPlayArea().y - 150, this->getPlayArea().height + this->getPlayArea().y)};
             break;
     }
 
@@ -380,6 +383,23 @@ Projectile* Stage::isSpaceProjectile()
     }
 
     return NULL;
+}
+
+Vector2 Stage::generateRandomForProjectile(int orientation) 
+{
+    if (orientation == 0) // NORTH
+    {
+        return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width - 20), this->getPlayArea().y - 110};
+    } else if (orientation == 1) // EAST
+    {
+        return {this->getPlayArea().x + this->getPlayArea().width + 50, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height - 20)};
+    } else if (orientation == 2) // SOUTH 
+    {
+        return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width - 20), this->getPlayArea().y + this->getPlayArea().height + 50};
+    } else // WEST
+    {
+        return {this->getPlayArea().x - 110, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height - 20)};
+    }
 }
 
 Stage::~Stage() 

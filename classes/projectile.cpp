@@ -7,20 +7,22 @@ Projectile::Projectile() // Default constructor
 {
     this->sprite = LoadTexture("");
     this->hitbox = Rectangle {0, 0, 60, 20};
-    this->isVertical = false;
+    this->orientation = 1;
     this->velocity = 0;
     this->isActive = false;
     this->theVoid = {0,0};
+    this->sourceRec = {0,0,60,20};
 }
 
-Projectile::Projectile(Rectangle hitbox_, bool isVertical_, Vector2 theVoid_) // Constructor with params 
+Projectile::Projectile(Rectangle hitbox_, int orientation_, Vector2 theVoid_) // Constructor with params 
 {
     this->sprite = loadSprite();
-    this->hitbox = hitbox_;
-    this->isVertical = isVertical_;
+    this->hitbox = hitbox_; //default hitbox
+    this->orientation = orientation_;
     this->velocity = 3.0f;
     this->isActive = false;
     this->theVoid = theVoid_;
+    this->sourceRec = {0,0,60,20};
 }
 
 // getters
@@ -34,9 +36,9 @@ Rectangle Projectile::getHitbox() // returns hitbox
     return this->hitbox;
 }
 
-bool Projectile::getIsVertical() // returns rotation 
+int Projectile::getOrientation() // returns rotation 
 {
-    return this->isVertical;
+    return this->orientation;
 }
 
 float Projectile::getVelocity() //returns velocity 
@@ -52,6 +54,11 @@ bool Projectile::getIsActive()
 Vector2 Projectile::getTheVoid() 
 {
     return this->theVoid;
+}
+
+Rectangle Projectile::getSourceRec() 
+{
+    return this->sourceRec;
 }
 
 Vector2 Projectile::getPos() // returns the projectile's position 
@@ -86,9 +93,9 @@ void Projectile::setHitbox(Rectangle hitbox_) // sets hitbox
     this->hitbox = hitbox_;
 }
 
-void Projectile::setIsVertical(bool isVertical_) // sets rotation
+void Projectile::setOrientation(int orientation_) // sets rotation
 {
-    this->isVertical = isVertical_;
+    this->orientation = orientation_;
 }
 
 void Projectile::setVelocity(float velocity_) // sets velocity 
@@ -99,6 +106,11 @@ void Projectile::setVelocity(float velocity_) // sets velocity
 void Projectile::setIsActive(bool isActive_) 
 {
     this->isActive = isActive_;
+}
+
+void Projectile::setSourceRec(Rectangle sourceRec_) 
+{
+    this->sourceRec = sourceRec_;
 }
 
 void Projectile::setPos(Vector2 pos_) // sets projectile position
@@ -144,11 +156,40 @@ void Projectile::drawProjectile() // draws projectile
 
 Texture2D Projectile::loadSprite() 
 {
-    return LoadTexture("assets/arrow.png");
+    return LoadTexture("assets/arrowSprites.png");
 }
 
 void Projectile::killProjectile() 
 {
     this->setPos(this->getTheVoid());
     this->setIsActive(false);
+}
+
+void Projectile::adjustProjectile() 
+{
+    if (this->getOrientation()%2 == 0) // if vertical 
+    {
+        this->setHitbox({this->getPos().x, this->getPos().y, 20, 60});
+    } else // if horizontal
+    {
+        this->setHitbox({this->getPos().x, this->getPos().y, 60, 20});
+    }
+    this->adjustSourceRec();
+}
+
+void Projectile::adjustSourceRec() 
+{
+    if (this->getOrientation() == 0) // NORTH
+    {
+        this->setSourceRec({60,0,20,60});
+    } else if (this->getOrientation() == 1) // EAST
+    {
+        this->setSourceRec({0,0,60,20});
+    } else if (this->getOrientation() == 2) // SOUTH
+    {
+        this->setSourceRec({80,0,60,20});
+    } else // WEST
+    {
+        this->setSourceRec({0,20,60,20});
+    }
 }

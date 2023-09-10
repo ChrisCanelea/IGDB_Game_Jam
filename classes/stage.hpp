@@ -28,7 +28,7 @@ private:
 public:
     // constructors
     Stage(); // Default constructor
-    Stage(Rectangle, Player*); // Constructor with parameters
+    Stage(float, float, Player*); // Constructor with parameters
 
     // getters
     Texture2D getSprite();
@@ -78,6 +78,7 @@ public:
     Vector2 generateRandomOnEdge();
     Enemy* isSpaceEnemy(); // returns enemy if there is space (isActive == false) in a given array, else NULL
     Projectile* isSpaceProjectile(); // returns projectile if there is space (isActive == false) in a given array, else NULL
+    Vector2 generateRandomForProjectile(int);
 
     // Destructor
     ~Stage();
