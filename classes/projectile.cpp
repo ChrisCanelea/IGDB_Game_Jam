@@ -72,6 +72,16 @@ Vector2 Projectile::getCenter()
     return {this->getHitbox().x + (this->getHitbox().width/2), this->getHitbox().y + (this->getHitbox().height/2)};
 }
 
+float Projectile::getX() 
+{
+    return this->getPos().x;
+}
+
+float Projectile::getY() 
+{
+    return this->getPos().y;
+}
+
 float Projectile::getWidth() // returns width of hitbox 
 {
     return this->hitbox.width;
@@ -144,14 +154,25 @@ void Projectile::moveProjectile() // calculate and apply the motion of the proje
 {
     if (this->getIsActive()) 
     {
-        //move
+        if (this->getOrientation()%2 == 0) // vertical 
+        {
+            this->setY(this->getY() + this->getVelocity());
+        } else // horizontal
+        {
+            this->setX(this->getX() + this->getVelocity());
+        }
     }
 }
 
 void Projectile::drawProjectile() // draws projectile 
 {
-    if (this->getIsActive()) DrawRectanglePro(this->getHitbox(), {0,0}, 0, ORANGE);
-    else DrawRectanglePro(this->getHitbox(), {0,0}, 0, RED);
+    if (this->getIsActive()) 
+    {
+        DrawTexturePro(this->getSprite(), this->getSourceRec(), this->getHitbox(), {0,0}, 0, WHITE);
+    } else 
+    {
+        DrawRectanglePro(this->getHitbox(), {0,0}, 0, RED);
+    }
 }
 
 Texture2D Projectile::loadSprite() 
@@ -167,29 +188,25 @@ void Projectile::killProjectile()
 
 void Projectile::adjustProjectile() 
 {
-    if (this->getOrientation()%2 == 0) // if vertical 
-    {
-        this->setHitbox({this->getPos().x, this->getPos().y, 20, 60});
-    } else // if horizontal
-    {
-        this->setHitbox({this->getPos().x, this->getPos().y, 60, 20});
-    }
-    this->adjustSourceRec();
-}
-
-void Projectile::adjustSourceRec() 
-{
     if (this->getOrientation() == 0) // NORTH
     {
         this->setSourceRec({60,0,20,60});
+        this->setHitbox({this->getPos().x, this->getPos().y, 20, 60});
+        this->setVelocity(-3.0f);
     } else if (this->getOrientation() == 1) // EAST
     {
         this->setSourceRec({0,0,60,20});
+        this->setHitbox({this->getPos().x, this->getPos().y, 60, 20});
+        this->setVelocity(3.0f);
     } else if (this->getOrientation() == 2) // SOUTH
     {
-        this->setSourceRec({80,0,60,20});
+        this->setSourceRec({80,0,20,60});
+        this->setHitbox({this->getPos().x, this->getPos().y, 20, 60});
+        this->setVelocity(3.0f);
     } else // WEST
     {
         this->setSourceRec({0,20,60,20});
+        this->setHitbox({this->getPos().x, this->getPos().y, 60, 20});
+        this->setVelocity(-3.0f);
     }
 }

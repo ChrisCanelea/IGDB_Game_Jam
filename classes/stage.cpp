@@ -387,18 +387,18 @@ Projectile* Stage::isSpaceProjectile()
 
 Vector2 Stage::generateRandomForProjectile(int orientation) 
 {
-    if (orientation == 0) // NORTH
-    {
-        return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width - 20), this->getPlayArea().y - 110};
-    } else if (orientation == 1) // EAST
-    {
-        return {this->getPlayArea().x + this->getPlayArea().width + 50, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height - 20)};
-    } else if (orientation == 2) // SOUTH 
+    if (orientation == 0) // NORTH (spawn on south wall)
     {
         return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width - 20), this->getPlayArea().y + this->getPlayArea().height + 50};
-    } else // WEST
+    } else if (orientation == 1) // EAST (spawn on west wall)
     {
         return {this->getPlayArea().x - 110, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height - 20)};
+    } else if (orientation == 2) // SOUTH (spawn on north wall)
+    {
+        return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width - 20), this->getPlayArea().y - 110};
+    } else // WEST (spawn on east wall)
+    {
+        return {this->getPlayArea().x + this->getPlayArea().width + 50, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height - 20)};
     }
 }
 

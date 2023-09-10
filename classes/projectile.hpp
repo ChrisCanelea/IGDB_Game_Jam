@@ -30,6 +30,8 @@ public:
 
     Vector2 getPos(); // returns the projectile's position
     Vector2 getCenter();
+    float getX();
+    float getY();
     float getWidth(); // returns width of hitbox
     float getHeight(); // returns height of hitbox
 
@@ -53,7 +55,6 @@ public:
     Texture2D loadSprite(); 
     void killProjectile(); // moves projectile outside play area and makes it inactive
     void adjustProjectile();
-    void adjustSourceRec();
 };
 
 #endif // projectile_hpp
