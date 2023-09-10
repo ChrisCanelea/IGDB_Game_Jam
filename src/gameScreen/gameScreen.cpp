@@ -5,7 +5,7 @@
 #include "exit.hpp"
 #include <raylib.h>
 
-void updateState(GameState, Player*, Stage**, Exit*, Enemy*); // change state function in gameScreen/gameScreen.cpp
+void updateState(GameState, Player*, Stage**, Exit*, Enemy*, Camera2D*); // change state function in gameScreen/gameScreen.cpp
 
 void gameScreen(void)
 {
@@ -19,7 +19,7 @@ void gameScreen(void)
 
     Stage* stagePtr = NULL; // Stage pointer
 
-    updateState(GENERATION, &player, &stagePtr, &exit, NULL);
+    updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
 
     while(true)
     {
@@ -28,14 +28,20 @@ void gameScreen(void)
         {
             if (IsKeyPressed(KEY_P)) 
             {
-                updateState(PURGATORY, &player, &stagePtr, &exit, NULL);
+                updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
             }
             
             // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
             camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
+            camera.zoom = Lerp(camera.zoom, 1.0f, 0.2f);
             
             player.movePlayer();
             stagePtr->stageManager();
+
+            if (CheckCollisionRecs(player.getHitbox(), exit.getHitbox())) // exit touched
+            {
+                updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
+            }
 
             if (player.getInvulnTime() == 0) // if we are NOT invulnerable
             {
@@ -50,7 +56,7 @@ void gameScreen(void)
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
-                            updateState(COMBAT, &player, &stagePtr, &exit, &stagePtr->getEnemiesArray()[i]);
+                            updateState(COMBAT, &player, &stagePtr, &exit, &stagePtr->getEnemiesArray()[i], &camera);
                         }
                     }
                 }
@@ -73,9 +79,11 @@ void gameScreen(void)
             }
         } else if (currentState == COMBAT) 
         {
+            camera.zoom = Lerp(camera.zoom, 2.5f, 0.2f);
+            
             if (IsKeyPressed(KEY_P)) 
             {
-                updateState(PURGATORY, &player, &stagePtr, &exit, NULL);
+                updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
             }
             
             if (player.getCombatTimer() > 0)
@@ -94,9 +102,9 @@ void gameScreen(void)
                 } else
                 {
                     // player has lost the combat sequence
-                    
+                    // TODO: SHRINK DA BORDER
                 }
-                updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference());
+                updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference(), &camera);
             }
 
         } else if (currentState == DEATH) 
@@ -170,16 +178,18 @@ void gameScreen(void)
 
 // Updates the currentState to the nextState
 // Also handles one time execution of anything needing to happen on state change
-void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit* exitPtr, Enemy* enemyPtr) 
+void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit* exitPtr, Enemy* enemyPtr, Camera2D* cameraPtr) 
 {
     previousState = currentState;
     currentState = nextState;
 
     if (nextState == GENERATION) 
     {
-        stageNumber?(++stageNumber):(stageNumber += 0); // increment stageNumber except for first stage
+        ++stageNumber; // increment stageNumber
 
         // TODO: RESET BORDER SIZE (based on stageNumber and thus stage size)
+        
+        // MOVE CAMERA TO ORIGIN
 
         if (*stagePtr != NULL) // delete old stage 
         {
@@ -187,17 +197,17 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
             *stagePtr = NULL;
         }
         // fetch a layout from file
-        if (stageNumber) // stageNumber > 0
+        if (stageNumber > 1) // not tutorial stage
         {
-            *stagePtr = new Stage(1000.0f, 1000.0f, playerPtr);
-        } else // stageNumber == 0
+            *stagePtr = new Stage(2000.0f, 2000.0f, playerPtr);
+        } else // tutorial
         {
             *stagePtr = new Stage(1000.0f, 1000.0f, 1, 1, 1, playerPtr); // create stage object
         }
 
         playerPtr->setPos({0,0}); // reset player
         exitPtr->setPos((*stagePtr)->getExitLocation()); // update exit location
-        updateState(PLAYING, playerPtr, stagePtr, exitPtr, enemyPtr); // keep an eye on this, might cause issues
+        updateState(PLAYING, playerPtr, stagePtr, exitPtr, enemyPtr, cameraPtr); // keep an eye on this, might cause issues
     } else if (nextState == PLAYING) 
     {
         // set a small amount of invulnerability
