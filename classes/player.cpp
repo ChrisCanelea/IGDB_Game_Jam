@@ -17,7 +17,7 @@ Player::Player() // Default constructor
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
-    this->projectileReference = NULL;
+    this->projectileCollisionLocation = THE_VOID;
 }
 
 Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
@@ -30,7 +30,7 @@ Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
-    this->projectileReference = NULL;
+    this->projectileCollisionLocation = THE_VOID;
 }
 
 // getters
@@ -74,9 +74,9 @@ Enemy* Player::getEnemyReference() // returns the address of the enemy the playe
     return this->enemyReference;
 }
 
-Projectile* Player::getProjectileReference() // returns the address of the projectile the player is interacting with
+Vector2 Player::getProjectileCollisionLocation() // returns location where the player collided with the projectile
 {
-    return this->projectileReference;
+    return this->projectileCollisionLocation;
 }
 
 
@@ -143,9 +143,9 @@ void Player::setEnemyReference(Enemy* enemyReference_) // sets the address of th
     this->enemyReference = enemyReference_;
 }
 
-void Player::setProjectileReference(Projectile* projectileReference_) // sets the address of the projectile the player is interacting with
+void Player::setProjectileCollisionLocation(Vector2 projectileCollisionLocation_) // sets the location where the player collided with the projectile
 {
-    this->projectileReference = projectileReference_;
+    this->projectileCollisionLocation = projectileCollisionLocation_;
 }
 
 
@@ -196,7 +196,7 @@ void Player::movePlayer() // moves the player based on input
             if (this->enemyReference != NULL)
             {
                 this->enemyKnockback();
-            } else if (this->projectileReference != NULL)
+            } else if (!Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))
             {
                 this->projectileKnockback();
             }
@@ -207,7 +207,7 @@ void Player::movePlayer() // moves the player based on input
     {
         // reset references
         this->setEnemyReference(NULL);
-        this->setProjectileReference(NULL);
+        this->setProjectileCollisionLocation(THE_VOID);
     }
 
     bool shouldMove = true;
@@ -272,7 +272,7 @@ void Player::enemyKnockback() // knocks the player away from an enemy (called wh
 
 void Player::projectileKnockback() // knocks the player away from a projectile (called when collision with a projectile is detected)
 {
-    Vector2 dist = Vector2Subtract(this->getCenter(), (*this->getProjectileReference()).getCenter());
+    Vector2 dist = Vector2Subtract(this->getCenter(), this->getProjectileCollisionLocation());
     Vector2 normalDist = Vector2Normalize(dist);
 
     this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/35)));

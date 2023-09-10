@@ -379,7 +379,7 @@ Texture2D Stage::loadSprite()
 
 Vector2 Stage::generateRandomPoint() 
 {
-    return {(float)GetRandomValue(-1 * getPlayArea().width/2, getPlayArea().width/2), (float)GetRandomValue(-1 * getPlayArea().height/2, getPlayArea().height/2)};
+    return {(float)GetRandomValue(-1 * getPlayArea().width/2, (getPlayArea().width/2) - 50), (float)GetRandomValue(-1 * getPlayArea().height/2, (getPlayArea().height/2) - 100)};
 }
 
 Vector2 Stage::generateRandomOnEdge() 
