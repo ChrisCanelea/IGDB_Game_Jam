@@ -36,7 +36,7 @@ void gameScreen(void)
             {
                 if (stage1.getProjectileArray()[j].getIsActive() && CheckCollisionRecs(player.getHitbox(), stage1.getProjectileArray()[j].getHitbox())) 
                 {
-                    player.setProjectileReference(&stage1.getProjectileArray()[j]);
+                    player.setProjectileCollisionLocation(stage1.getProjectileArray()[j].getCenter());
                     player.setInvulnTime(INVULN_FRAMES);
                     stage1.getProjectileArray()[j].killProjectile();
                 }

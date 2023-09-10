@@ -17,7 +17,7 @@ private:
     float attackCooldown;
     float invulnTime;
     Enemy* enemyReference; // reference to the enemy the player is interacting with
-    Projectile* projectileReference; // reference to the projectile the player is interacting with
+    Vector2 projectileCollisionLocation; // location of the spot where the player collided with the projectile
     
 public:
     // constructors
@@ -33,7 +33,7 @@ public:
     float getAttackCooldown(); // returs the number of attack cooldown frames
     float getInvulnTime(); // returns the number of invulnerability frames
     Enemy* getEnemyReference(); // returns the address of the enemy the player is interacting with
-    Projectile* getProjectileReference(); // returns the address of the projectile the player is interacting with
+    Vector2 getProjectileCollisionLocation(); // returns location where the player collided with the projectile
 
     Vector2 getPos(); // returns the player position
     Vector2 getCenter(); // returns the player's center position
@@ -49,7 +49,7 @@ public:
     void setAttackCooldown(float); // sets the number of attack cooldown frames
     void setInvulnTime(float); // sets the number of invulnerability frames
     void setEnemyReference(Enemy*); // sets the address of the enemy the player is interacting with
-    void setProjectileReference(Projectile*); // sets the address of the projectile the player is interacting with
+    void setProjectileCollisionLocation(Vector2); // sets the location where the player collided with the projectile
 
     void setPos(Vector2); // sets player position
     void setX(float); // sets x position (top left corner of hitbox)
