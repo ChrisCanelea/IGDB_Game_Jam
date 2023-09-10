@@ -116,7 +116,7 @@ void gameScreen(void)
             Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 200, 50};
             if(IsKeyPressed(KEY_P))
             {
-                updateState(previousState, &player, &stagePtr, &exit, NULL);
+                updateState(previousState, &player, &stagePtr, &exit, NULL, &camera);
             }
         }
 
@@ -224,7 +224,10 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     } else if (nextState == PLAYING) 
     {
         // set a small amount of invulnerability
+        if(previousState != PURGATORY)
+        {
         playerPtr->setInvulnTime(INVULN_FRAMES);
+        }
     } else if (nextState == COMBAT) 
     {
         playerPtr->setCombatTimer(COMBAT_TIMER);
