@@ -36,6 +36,7 @@ public:
     float getInvulnTime(); // returns the number of invulnerability frames
     Enemy* getEnemyReference(); // returns the address of the enemy the player is interacting with
     Vector2 getProjectileCollisionLocation(); // returns location where the player collided with the projectile
+    int getCombatTimer(); // gets the number of frames remaining for the player to attack in a combat sequence
     Vector2 getDirectionAttacking(); // gets users attack direction in a combat sequence
     
     Vector2 getPos(); // returns the player position
@@ -53,6 +54,7 @@ public:
     void setInvulnTime(float); // sets the number of invulnerability frames
     void setEnemyReference(Enemy*); // sets the address of the enemy the player is interacting with
     void setProjectileCollisionLocation(Vector2); // sets the location where the player collided with the projectile
+    void setCombatTimer(int); // sets the number of frames remaining for the player to attack in a combat sequence
     void setDirectionAttacking(Vector2); // sets the direction the player attacks in a combat sequence
 
     void setPos(Vector2); // sets player position

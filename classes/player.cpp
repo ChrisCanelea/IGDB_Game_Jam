@@ -18,6 +18,8 @@ Player::Player() // Default constructor
     this->invulnTime = 0;
     this->enemyReference = NULL;
     this->projectileCollisionLocation = THE_VOID;
+    this->combatTimer = 0;
+    this->directionAttacking = Vector2 {0, 0};
 }
 
 Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
@@ -31,6 +33,8 @@ Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
     this->invulnTime = 0;
     this->enemyReference = NULL;
     this->projectileCollisionLocation = THE_VOID;
+    this->combatTimer = 0;
+    this->directionAttacking = Vector2 {0, 0};
 }
 
 // getters
@@ -77,6 +81,11 @@ Enemy* Player::getEnemyReference() // returns the address of the enemy the playe
 Vector2 Player::getProjectileCollisionLocation() // returns location where the player collided with the projectile
 {
     return this->projectileCollisionLocation;
+}
+
+int Player::getCombatTimer() // gets the number of frames remaining for the player to attack in a combat sequence
+{
+    return this->combatTimer;
 }
 
 Vector2 Player::getDirectionAttacking() // gets users attack direction in a combat sequence
@@ -151,6 +160,11 @@ void Player::setEnemyReference(Enemy* enemyReference_) // sets the address of th
 void Player::setProjectileCollisionLocation(Vector2 projectileCollisionLocation_) // sets the location where the player collided with the projectile
 {
     this->projectileCollisionLocation = projectileCollisionLocation_;
+}
+
+void Player::setCombatTimer(int combatTimer_) // sets the number of frames remaining for the player to attack in a combat sequence
+{
+    this->combatTimer = combatTimer_;
 }
 
 void Player::setDirectionAttacking(Vector2 directionAttacking_) // polls for user attack direction
@@ -296,18 +310,22 @@ void Player::pollDirectionAttacking() // polls user input to determine the direc
     if (IsKeyDown(KEY_W) && IsKeyPressed(KEY_J))
     {
         this->setDirectionAttacking(Vector2 {0, -1});
+        this->setCombatTimer(0);
 
     } else if (IsKeyDown(KEY_A) && IsKeyPressed(KEY_J))
     {
         this->setDirectionAttacking(Vector2 {1, 0});
+        this->setCombatTimer(0);
 
     } else if (IsKeyDown(KEY_S) && IsKeyPressed(KEY_J))
     {
         this->setDirectionAttacking(Vector2 {0, 1});
+        this->setCombatTimer(0);
 
     } else if (IsKeyDown(KEY_D) && IsKeyPressed(KEY_J))
     {
         this->setDirectionAttacking(Vector2 {-1, 0});
+        this->setCombatTimer(0);
 
     }
 }

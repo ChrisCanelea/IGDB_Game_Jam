@@ -44,6 +44,7 @@ void gameScreen(void)
                             player.setInvulnTime(INVULN_FRAMES);
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
+                            player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             updateState(COMBAT, &player, &stagePtr, &exit, &stagePtr->getEnemiesArray()[i]);
                         }
                     }
@@ -67,7 +68,26 @@ void gameScreen(void)
             }
         } else if (currentState == COMBAT) 
         {
-            
+            if (player.getCombatTimer() > 0)
+            {
+                player.pollDirectionAttacking();
+                if (IsKeyPressed(KEY_SPACE))
+                {
+                    player.setCombatTimer(player.getCombatTimer() - 1);
+                }
+
+            } else
+            {
+                if (Vector2Equals(player.getDirectionAttacking(), player.getEnemyReference()->getDirectionBlocking()))
+                {
+                    // player has lost the combat sequence
+                } else{
+                    // plyaer has won the combat sequence
+                    player.setEnemyReference(NULL);
+                }
+                updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference());
+            }
+
         } else if (currentState == DEATH) 
         {
 
@@ -103,10 +123,19 @@ void gameScreen(void)
                 DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
                 DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
                 DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
+                DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
+                DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
             } else if (currentState == COMBAT) 
             {
                 DrawText("COMBAT", 10, 20, 50, GREEN);
                 DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
+                DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
+                DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
+                DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
+                DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
+                DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
+                DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
+                DrawText(TextFormat("EnemyBlockDirection: %03i, %03i", player.getEnemyReference()->getDirectionBlocking().x, player.getEnemyReference()->getDirectionBlocking().y), 20, 500, 40, ORANGE);
             } else if (currentState == DEATH) 
             {
 
@@ -147,8 +176,12 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     } else if (nextState == PLAYING) 
     {
         // set a small amount of invulnerability
+        playerPtr->setInvulnTime(INVULN_FRAMES);
     } else if (nextState == COMBAT) 
     {
+        playerPtr->setCombatTimer(COMBAT_TIMER);
+        enemyPtr->generateBlockDirection();
+        playerPtr->setAttackHitbox(Circle {THE_VOID, 0});
 
     } else if (nextState == DEATH) 
     {
