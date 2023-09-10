@@ -8,7 +8,7 @@
 Exit::Exit() // Default constructor
 {
     this->sprite = loadSprite();
-    this->hitbox = Rectangle {200, 200, 50, 50}; // Default hitbox is a 50x50 square at (200, 200)
+    this->hitbox = Rectangle {200, 200, 64, 64}; // Default hitbox is a 50x50 square at (200, 200)
 }
 
 // getters
