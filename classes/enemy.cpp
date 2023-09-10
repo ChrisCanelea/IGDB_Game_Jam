@@ -20,7 +20,7 @@ Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
-    this->speed = 5.0f;
+    this->speed = 2.0f;
     this->directionFacing = Vector2 {0, 1};
     this->isActive = false;
     this->theVoid = theVoid_;
@@ -58,7 +58,7 @@ Vector2 Enemy::getTheVoid()
     return this->theVoid;
 }
 
-Vector2 Enemy::getPlayerlocation() 
+Vector2 Enemy::getPlayerLocation() 
 {
     return this->playerLocation;
 }
@@ -157,7 +157,8 @@ void Enemy::moveEnemy()
 {
     if (this->getIsActive()) // only move if active
     {
-        //this->setPos();
+        this->generateDirectionFacing();
+        this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
     }
 }
 
@@ -201,5 +202,5 @@ void Enemy::generateBlockDirection()
 
 void Enemy::generateDirectionFacing() 
 {
-
+    this->setDirectionFacing(Vector2Normalize(Vector2Subtract(this->getPlayerLocation(), this->getPos())));
 }
