@@ -1,6 +1,7 @@
 #ifndef globals_hpp
 #define globals_hpp
 
+
 #include <raylib.h>
 #include <raymath.h>
 
