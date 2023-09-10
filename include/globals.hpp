@@ -17,6 +17,9 @@ const float PROJECTILE_RESPAWN_TIME = 120;
 
 const Vector2 THE_VOID = {-10000, -10000};
 
+static float musicVol = 1;
+static float effectVol = 1;
+
 // enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 typedef enum GameState {GENERATION = 0, PLAYING, COMBAT, DEATH, PURGATORY} GameState;
 
