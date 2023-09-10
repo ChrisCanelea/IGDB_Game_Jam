@@ -31,7 +31,10 @@ void optionScreen(){
 
             GuiSliderBar(musicVolumeSlideBound,"Music Volume",NULL, &musicVol, 0, 100);
             GuiSliderBar(effectVolumeSlideBound, "Effect Volume",NULL,&effectVol,0,100);
-            
+            if(GuiButton(returnBox,"return"))
+            {
+                return;
+            }
             
 
         EndDrawing();
