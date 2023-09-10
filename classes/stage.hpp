@@ -29,6 +29,8 @@ public:
     // constructors
     Stage(); // Default constructor
     Stage(float, float, Player*); // Constructor with parameters
+    Stage(float, float, int, int, int, Player*);
+    Stage(Player*);
 
     // getters
     Texture2D getSprite();

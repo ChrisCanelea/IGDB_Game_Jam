@@ -7,7 +7,7 @@
 // constructors
 Stage::Stage() // Default constructor
 {
-    this->sprite = LoadTexture("assets/background.png");
+    this->sprite = loadSprite();
     this->playArea = {-250, -250, 500, 500};
     this->playerReference = NULL;
     this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
@@ -17,17 +17,64 @@ Stage::Stage() // Default constructor
     this->maxEnemies = 10;
     this->maxProjectiles = 10;
     this->initialEnemies = 3;
-    this->enemyRespawnTime = 600;
-    this->projectileRespawnTime = 600;
+    this->enemyRespawnTime = ENEMY_RESPAWN_TIME;
+    this->projectileRespawnTime = PROJECTILE_RESPAWN_TIME;
     this->exitLocation = generateExitPosition();
     this->enemiesArray = createEnemyArray();
+    this->populateEnemies();
     this->projectilesArray = createProjectileArray();
+    this->populateProjectiles();
+    this->initialPopulation();
 }
 
 Stage::Stage(float width_, float height_, Player* playerReference_) 
 {
     this->sprite = loadSprite();
     this->playArea = {-1 * (width_/2), -1 * (height_/2), width_, height_};
+    this->playerReference = playerReference_;
+    this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
+    this->eastWall = {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->southWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
+    this->westWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->maxEnemies = 10;
+    this->maxProjectiles = 10;
+    this->initialEnemies = 3;
+    this->enemyRespawnTime = ENEMY_RESPAWN_TIME;
+    this->projectileRespawnTime = PROJECTILE_RESPAWN_TIME;
+    this->exitLocation = generateExitPosition();
+    this->enemiesArray = createEnemyArray();
+    this->populateEnemies();
+    this->projectilesArray = createProjectileArray();
+    this->populateProjectiles();
+    this->initialPopulation();
+}
+
+Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, Player* playerReference_) 
+{
+    this->sprite = loadSprite();
+    this->playArea = {-1 * (width_/2), -1 * (height_/2), width_, height_};
+    this->playerReference = playerReference_;
+    this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
+    this->eastWall = {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->southWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
+    this->westWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->maxEnemies = maxEnemies_;
+    this->maxProjectiles = maxProjectiles_;
+    this->initialEnemies = initialEnemies_;
+    this->enemyRespawnTime = ENEMY_RESPAWN_TIME;
+    this->projectileRespawnTime = PROJECTILE_RESPAWN_TIME;
+    this->exitLocation = generateExitPosition();
+    this->enemiesArray = createEnemyArray();
+    this->populateEnemies();
+    this->projectilesArray = createProjectileArray();
+    this->populateProjectiles();
+    this->initialPopulation();
+}
+
+Stage::Stage(Player* playerReference_) // Default constructor
+{
+    this->sprite = loadSprite();
+    this->playArea = {-250, -250, 500, 500};
     this->playerReference = playerReference_;
     this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
     this->eastWall = {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
