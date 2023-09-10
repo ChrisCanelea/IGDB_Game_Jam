@@ -26,6 +26,11 @@ void gameScreen(void)
         // Only process certain things depenging on the currentState
         if (currentState == PLAYING) 
         {
+            if (IsKeyPressed(KEY_P)) 
+            {
+                updateState(PURGATORY, &player, &stagePtr, &exit, NULL);
+            }
+            
             // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
             camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
             
@@ -68,6 +73,11 @@ void gameScreen(void)
             }
         } else if (currentState == COMBAT) 
         {
+            if (IsKeyPressed(KEY_P)) 
+            {
+                updateState(PURGATORY, &player, &stagePtr, &exit, NULL);
+            }
+            
             if (player.getCombatTimer() > 0)
             {
                 player.pollDirectionAttacking();
@@ -167,13 +177,24 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
 
     if (nextState == GENERATION) 
     {
+        stageNumber?(++stageNumber):(stageNumber += 0); // increment stageNumber except for first stage
+
+        // TODO: RESET BORDER SIZE (based on stageNumber and thus stage size)
+
         if (*stagePtr != NULL) // delete old stage 
         {
             delete *stagePtr;
             *stagePtr = NULL;
         }
         // fetch a layout from file
-        *stagePtr = new Stage(1000.0f, 1000.0f, playerPtr); // create stage object
+        if (stageNumber) // stageNumber > 0
+        {
+            *stagePtr = new Stage(1000.0f, 1000.0f, playerPtr);
+        } else // stageNumber == 0
+        {
+            *stagePtr = new Stage(1000.0f, 1000.0f, 1, 1, 1, playerPtr); // create stage object
+        }
+
         playerPtr->setPos({0,0}); // reset player
         exitPtr->setPos((*stagePtr)->getExitLocation()); // update exit location
         updateState(PLAYING, playerPtr, stagePtr, exitPtr, enemyPtr); // keep an eye on this, might cause issues
