@@ -14,17 +14,19 @@ Enemy::Enemy() // Default constructor
     this->isActive = false;
     this->theVoid = {0,0};
     this->playerLocation = {0,0};
+    this->directionBlocking = {0,-1};
 }
 
 Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
 {
     this->sprite = loadSprite();
     this->hitbox = hitbox_;
-    this->speed = 5.0f;
+    this->speed = 2.0f;
     this->directionFacing = Vector2 {0, 1};
     this->isActive = false;
     this->theVoid = theVoid_;
     this->playerLocation = {0,0};
+    this->directionBlocking = {0,-1};
 }
 
 // getters
@@ -58,7 +60,7 @@ Vector2 Enemy::getTheVoid()
     return this->theVoid;
 }
 
-Vector2 Enemy::getPlayerlocation() 
+Vector2 Enemy::getPlayerLocation() 
 {
     return this->playerLocation;
 }
@@ -157,7 +159,10 @@ void Enemy::moveEnemy()
 {
     if (this->getIsActive()) // only move if active
     {
-        //this->setPos();
+        if (Vector2Distance(this->getPos(), this->getPlayerLocation()) > 250)
+        {
+            this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
+        }
     }
 }
 
@@ -180,7 +185,7 @@ void Enemy::killEnemy()
     this->setIsActive(false);
 }
 
-void Enemy::generateBlockDirection() 
+void Enemy::generateDirectionBlocking() 
 {
     switch (GetRandomValue(0,3)) 
     {
@@ -201,5 +206,8 @@ void Enemy::generateBlockDirection()
 
 void Enemy::generateDirectionFacing() 
 {
-
+    this->setDirectionFacing(Vector2Normalize(Vector2Subtract(this->getPlayerLocation(), this->getPos())));
+    
+    // random shake variant
+    // this->setDirectionFacing(Vector2Rotate(Vector2Normalize(Vector2Subtract(this->getPlayerLocation(), this->getPos())), (float)(DEG2RAD * GetRandomValue(-60, 60))));
 }
