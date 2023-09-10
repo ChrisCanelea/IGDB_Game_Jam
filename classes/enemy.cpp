@@ -185,7 +185,7 @@ void Enemy::killEnemy()
     this->setIsActive(false);
 }
 
-void Enemy::generateBlockDirection() 
+void Enemy::generateDirectionBlocking() 
 {
     switch (GetRandomValue(0,3)) 
     {
