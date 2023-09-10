@@ -272,6 +272,7 @@ void Stage::stageManager()
     for (int i = 0; i < this->getMaxEnemies(); ++i) 
     {
         this->getEnemiesArray()[i].setPlayerLocation(this->getPlayerReference()->getCenter());
+        this->getEnemiesArray()[i].generateDirectionFacing();
         this->getEnemiesArray()[i].moveEnemy();
     }
 
