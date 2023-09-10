@@ -5,13 +5,31 @@
 
 void titleScreen(void)
 {
-    int buttonState = 0; //button consists three states: 0 is not pressed, 1 is mouse hovering on top and 2 is pressed (for sound possibly)
+    InitAudioDevice();
+    Music menuTrack = LoadMusicStream("assets/Music/Main_menu.mp3");
+    menuTrack.looping = false;
+
+    SetMusicVolume(menuTrack,musicVol/100.0);
+    //SeekMusicStream(menuTrack,3.18);
+    PlayMusicStream(menuTrack);
+    float titleMusicLen = GetMusicTimeLength(menuTrack);
+
     Rectangle playButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 - 50, 200, 100};        //x,y,w,h
     Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 200, 50};
     Vector2 mousePos = {0.0,0.0};
 
     while(true)
     {
+
+        UpdateMusicStream(menuTrack);
+        
+        // if(GetMusicTimePlayed(menuTrack)==titleMusicLen)
+        // {
+        //     CloseWindow();
+        //     // SeekMusicStream(menuTrack,3.18);
+        //     // PlayMusicStream(menuTrack);
+        // }
+
 
         BeginDrawing();
             ClearBackground(RAYWHITE);//initialize background
@@ -53,6 +71,8 @@ void titleScreen(void)
 
         if (WindowShouldClose())
         {
+            UnloadMusicStream(menuTrack);
+            CloseAudioDevice();
             CloseWindow();
         }
     }
