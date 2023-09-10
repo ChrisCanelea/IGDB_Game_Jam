@@ -7,8 +7,8 @@
 // constructors
 Stage::Stage() // Default constructor
 {
-    this->sprite = loadSprite();
-    this->playArea = {-250, -250, 500, 500};
+    this->sprite = LoadTexture("assets/background.png");
+    this->playArea = Rectangle {-250, -250, 500, 500};
     this->playerReference = NULL;
     this->northWall = {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
     this->eastWall = {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
@@ -318,7 +318,7 @@ void Stage::initialPopulation()
     {
         this->getEnemiesArray()[i].setIsActive(true);
         initialPosition = this->generateRandomPoint();
-        while (Vector2Distance(this->getPlayerReference()->getCenter(), initialPosition) < 600)
+        while (Vector2Distance({0,0}, initialPosition) < 600)
         {
             // get new random starting position if within 600 of player
             initialPosition = this->generateRandomPoint();
