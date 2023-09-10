@@ -3,11 +3,12 @@
 #include "optionScreen.hpp"
 
 
+
 void titleScreen(void)
 {
     InitAudioDevice();
     Music menuTrack = LoadMusicStream("assets/Music/Main_menu.mp3");
-    menuTrack.looping = false;
+    menuTrack.looping = true;
 
     SetMusicVolume(menuTrack,musicVol/100.0);
     //SeekMusicStream(menuTrack,3.18);
@@ -23,12 +24,12 @@ void titleScreen(void)
 
         UpdateMusicStream(menuTrack);
         
-        // if(GetMusicTimePlayed(menuTrack)==titleMusicLen)
-        // {
-        //     CloseWindow();
-        //     // SeekMusicStream(menuTrack,3.18);
-        //     // PlayMusicStream(menuTrack);
-        // }
+        if(GetMusicTimePlayed(menuTrack)>=28.55)
+        {
+            //CloseWindow();
+            SeekMusicStream(menuTrack,3.18);
+            PlayMusicStream(menuTrack);
+        }
 
 
         BeginDrawing();
