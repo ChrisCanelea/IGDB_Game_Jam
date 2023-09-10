@@ -7,6 +7,6 @@
 #include <raylib.h>
 #include "raygui.h"
 
-void optionScreen();
+void optionScreen(Music menuTrack);
 
 #endif

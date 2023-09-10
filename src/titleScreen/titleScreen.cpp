@@ -3,16 +3,14 @@
 #include "optionScreen.hpp"
 
 
+
 void titleScreen(void)
 {
+    //initializing audio device, prep buffer
     InitAudioDevice();
     Music menuTrack = LoadMusicStream("assets/Music/Main_menu.mp3");
-    menuTrack.looping = false;
-
-    SetMusicVolume(menuTrack,musicVol/100.0);
-    //SeekMusicStream(menuTrack,3.18);
+    menuTrack.looping = true;
     PlayMusicStream(menuTrack);
-    float titleMusicLen = GetMusicTimeLength(menuTrack);
 
     Rectangle playButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 - 50, 200, 100};        //x,y,w,h
     Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 200, 50};
@@ -21,14 +19,13 @@ void titleScreen(void)
     while(true)
     {
 
+        //update music buffer
         UpdateMusicStream(menuTrack);
-        
-        // if(GetMusicTimePlayed(menuTrack)==titleMusicLen)
-        // {
-        //     CloseWindow();
-        //     // SeekMusicStream(menuTrack,3.18);
-        //     // PlayMusicStream(menuTrack);
-        // }
+        if(GetMusicTimePlayed(menuTrack)>=28.55)
+        {
+            SeekMusicStream(menuTrack,3.18);
+            PlayMusicStream(menuTrack);
+        }
 
 
         BeginDrawing();
@@ -66,7 +63,7 @@ void titleScreen(void)
 
         }else if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePos,optButtonBound))
         {
-            optionScreen();
+            optionScreen(menuTrack);
         }
 
         if (WindowShouldClose())

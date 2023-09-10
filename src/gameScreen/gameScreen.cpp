@@ -71,19 +71,20 @@ void gameScreen(void)
             if (player.getCombatTimer() > 0)
             {
                 player.pollDirectionAttacking();
-                if (IsKeyPressed(KEY_SPACE))
-                {
-                    player.setCombatTimer(player.getCombatTimer() - 1);
-                }
+                player.setCombatTimer(player.getCombatTimer() - 1);
 
             } else
             {
-                if (Vector2Equals(player.getDirectionAttacking(), player.getEnemyReference()->getDirectionBlocking()))
+                if (!Vector2Equals(player.getDirectionAttacking(), player.getEnemyReference()->getDirectionBlocking()))
+                {
+                    // player has won the combat sequence
+                    player.getEnemyReference()->killEnemy();
+                    player.setEnemyReference(NULL);
+
+                } else
                 {
                     // player has lost the combat sequence
-                } else{
-                    // plyaer has won the combat sequence
-                    player.setEnemyReference(NULL);
+                    
                 }
                 updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference());
             }
@@ -184,6 +185,7 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     {
         playerPtr->setCombatTimer(COMBAT_TIMER);
         enemyPtr->generateDirectionBlocking();
+        playerPtr->setDirectionAttacking(enemyPtr->getDirectionBlocking());
         playerPtr->setAttackHitbox(Circle {THE_VOID, 0});
 
     } else if (nextState == DEATH) 
