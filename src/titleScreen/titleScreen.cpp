@@ -6,8 +6,8 @@
 void titleScreen(void)
 {
     int buttonState = 0; //button consists three states: 0 is not pressed, 1 is mouse hovering on top and 2 is pressed (for sound possibly)
-    Rectangle playButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 - 150, 200, 100};        //x,y,w,h
-    Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 - 50, 200, 50};
+    Rectangle playButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 - 50, 200, 100};        //x,y,w,h
+    Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 200, 50};
     Vector2 mousePos = {0.0,0.0};
 
     while(true)
@@ -23,11 +23,11 @@ void titleScreen(void)
 
             if(CheckCollisionPointRec(mousePos,playButtonBound))
             {
-                DrawRectangle(SCREEN_W/2 - 100, SCREEN_H/2 - 50, 200, 100, YELLOW);
+                DrawRectangleRec(playButtonBound, YELLOW);
                 DrawText("Play", SCREEN_W/2 - 50, SCREEN_H/2 - 25, 50, RED);
             } else
             {
-                DrawRectangle(SCREEN_W/2 - 100, SCREEN_H/2 - 50, 200, 100, BLACK);
+                DrawRectangleRec(playButtonBound, BLACK);
                 DrawText("Play", SCREEN_W/2 - 50, SCREEN_H/2 - 25, 50, WHITE);
             }
 
