@@ -135,7 +135,8 @@ void gameScreen(void)
                 DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
                 DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
                 DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
-                DrawText(TextFormat("EnemyBlockDirection: %03i, %03i", player.getEnemyReference()->getDirectionBlocking().x, player.getEnemyReference()->getDirectionBlocking().y), 20, 500, 40, ORANGE);
+                DrawText(TextFormat("EnemyBlockDirection: %03f, %03f", player.getEnemyReference()->getDirectionBlocking().x, player.getEnemyReference()->getDirectionBlocking().y), 20, 500, 40, ORANGE);
+                DrawText(TextFormat("PlayerAttackDirection: %03f, %03f", player.getDirectionAttacking().x, player.getDirectionAttacking().y), 20, 560, 40, ORANGE);
             } else if (currentState == DEATH) 
             {
 
@@ -180,7 +181,7 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     } else if (nextState == COMBAT) 
     {
         playerPtr->setCombatTimer(COMBAT_TIMER);
-        enemyPtr->generateBlockDirection();
+        enemyPtr->generateDirectionBlocking();
         playerPtr->setAttackHitbox(Circle {THE_VOID, 0});
 
     } else if (nextState == DEATH) 
