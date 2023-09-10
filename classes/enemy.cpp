@@ -159,9 +159,18 @@ void Enemy::moveEnemy()
 {
     if (this->getIsActive()) // only move if active
     {
-        if (Vector2Distance(this->getPos(), this->getPlayerLocation()) > 250)
+        if (Vector2Distance(this->getPos(), this->getPlayerLocation()) > 250.0f)
         {
             this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
+        } else 
+        {
+            if (GetRandomValue(0, 99) > 30) // 70% chance to orbit
+            {
+                this->setPos(Vector2Add(this->getPos(), Vector2Scale(Vector2Rotate(this->getDirectionFacing(), DEG2RAD * -90.0f), this->getSpeed())));
+            } else 
+            {
+                this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
+            }
         }
     }
 }
