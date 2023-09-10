@@ -258,6 +258,9 @@ void Player::movePlayer() // moves the player based on input
         Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS}; // location of hitbox, radius of hitbox
         this->setAttackHitbox(attack);
 
+    } else
+    {
+        this->setAttackHitbox(Circle {THE_VOID, 0});
     }
 }
 
