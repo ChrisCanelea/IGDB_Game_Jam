@@ -7,7 +7,7 @@
 // constructors
 Enemy::Enemy() // Default constructor
 {
-    this->sprite = LoadTexture("assets/Markus.png");
+    this->sprite = loadSprite();
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 2.0f;
     this->directionFacing = Vector2 {0, 1};
@@ -215,12 +215,13 @@ void Enemy::drawEnemy(Rectangle playArea) // draws the enemy sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangleRec(GetCollisionRec(this->getHitbox(), playArea), GREEN);
+    DrawTexturePro(this->getSprite(), Rectangle {15, 1, 40, 62}, this->getHitbox(), Vector2 {0, 0}, 0, WHITE);
+    //DrawRectangleRec(GetCollisionRec(this->getHitbox(), playArea), GREEN);
 }
 
 Texture2D Enemy::loadSprite() 
 {
-    return LoadTexture("");
+    return LoadTexture("assets/enemySprite.png");
 }
 
 void Enemy::killEnemy() 
