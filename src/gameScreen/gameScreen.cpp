@@ -7,6 +7,7 @@
 
 GameState currentState = PURGATORY;
 GameState previousState = PURGATORY;
+int stageNumber = 0;
 
 void updateState(GameState, Player*, Stage**, Exit*, Enemy*, Camera2D*); // change state function in gameScreen/gameScreen.cpp
 
@@ -33,7 +34,12 @@ void gameScreen(void)
             {
                 updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
             }
-            
+
+            if (!CheckCollisionPointRec(player.getPos(), stagePtr->getPlayArea()) || !CheckCollisionPointRec(Vector2 {player.getPos().x + player.getWidth(), player.getPos().y + player.getHeight()}, stagePtr->getPlayArea()))
+            {
+                updateState(DEATH, &player, &stagePtr, &exit, NULL, &camera);
+            }
+
             // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
             camera.target = Vector2Lerp(camera.target, player.getCenter(), 0.15);
             camera.zoom = Lerp(camera.zoom, 1.0f, 0.2f);
@@ -116,7 +122,10 @@ void gameScreen(void)
 
         } else if (currentState == DEATH) 
         {
-
+            if (IsKeyPressed(KEY_R))
+            {
+                updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
+            }
         } else if (currentState == PURGATORY) 
         {
             // DO NOTHING (No processing)
@@ -129,62 +138,60 @@ void gameScreen(void)
 
         BeginDrawing();
 
-            if (currentState == PURGATORY)
+            ClearBackground(BLACK);
+            BeginMode2D(camera);
+
+            if (stagePtr != NULL) 
             {
-                ClearBackground(GRAY);
-                DrawText("Paused", SCREEN_W/2-200, 100, 100, RED);
-                DrawText("press p to unpause", SCREEN_W/2-350, 200, 70, RED);
-                
-            } else
+                stagePtr->drawStage();
+            } else 
+            {
+                DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
+            }
+
+            // exit.drawExit();
+            DrawTextureRec(exit.getSprite(), {0,0,64,64}, {exit.getPos().x, exit.getPos().y}, WHITE);
+
+            player.drawPlayer();
+
+            EndMode2D();
+
+            // Only draw certain things based on currentState
+            if (currentState == PLAYING) 
+            {
+                DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
+                DrawText("PLAYING", 1700, 20, 50, GREEN);
+                DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
+                DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
+                DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
+                DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
+                DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
+                DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
+                DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
+            } else if (currentState == COMBAT) 
+            {
+                player.getEnemyReference()->drawBlockIndicator();
+
+                DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
+                DrawText("COMBAT", 1700, 20, 50, GREEN);
+                DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
+                DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
+                DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
+                DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
+                DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
+                DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
+                DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
+                DrawText(TextFormat("EnemyBlockDirection: %03f, %03f", player.getEnemyReference()->getDirectionBlocking().x, player.getEnemyReference()->getDirectionBlocking().y), 20, 500, 40, ORANGE);
+                DrawText(TextFormat("PlayerAttackDirection: %03f, %03f", player.getDirectionAttacking().x, player.getDirectionAttacking().y), 20, 560, 40, ORANGE);
+            } else if (currentState == DEATH) 
             {
                 ClearBackground(BLACK);
-                BeginMode2D(camera);
-
-                if (stagePtr != NULL) 
-                {
-                    stagePtr->drawStage();
-                } else 
-                {
-                    DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
-                }
-
-                // exit.drawExit();
-                DrawTextureRec(exit.getSprite(), {0,0,64,64}, {exit.getPos().x, exit.getPos().y}, WHITE);
-
-                player.drawPlayer();
-
-                EndMode2D();
-
-                // Only draw certain things based on currentState
-                if (currentState == PLAYING) 
-                {
-                    DrawText("PLAYING", 10, 20, 50, GREEN);
-                    DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
-                    DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
-                    DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
-                    DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
-                    DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
-                    DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
-                    DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
-                } else if (currentState == COMBAT) 
-                {
-                    DrawText("COMBAT", 10, 20, 50, GREEN);
-                    DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
-                    DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
-                    DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
-                    DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
-                    DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
-                    DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
-                    DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
-                    DrawText(TextFormat("EnemyBlockDirection: %03f, %03f", player.getEnemyReference()->getDirectionBlocking().x, player.getEnemyReference()->getDirectionBlocking().y), 20, 500, 40, ORANGE);
-                    DrawText(TextFormat("PlayerAttackDirection: %03f, %03f", player.getDirectionAttacking().x, player.getDirectionAttacking().y), 20, 560, 40, ORANGE);
-                } else if (currentState == DEATH) 
-                {
-
-                } else if (currentState == PURGATORY) 
-                {
-                    // DO NOTHING (No processing)
-                }
+                DrawText("You Died", SCREEN_W/2-200, 100, 100, RED);
+                DrawText("press r to restart", SCREEN_W/2-350, 200, 70, RED);
+            } else if (currentState == PURGATORY) 
+            {
+                DrawText("Paused", SCREEN_W/2-200, 100, 100, RED);
+                DrawText("press p to unpause", SCREEN_W/2-350, 200, 70, RED);
             }
         EndDrawing();
 
@@ -245,7 +252,10 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
 
     } else if (nextState == DEATH) 
     {
-        
+        if (stageNumber != 0)
+        {
+            stageNumber = 2;
+        }
     } else if (nextState == PURGATORY) 
     {
 
