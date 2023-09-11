@@ -12,8 +12,8 @@ void gameScreen(void)
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     
     Player player; // Player initialization
-    player.setHeight(100);
-    player.setWidth(50);
+    player.setHeight(96);
+    player.setWidth(69);
 
     Exit exit; // Exit initialization
 
