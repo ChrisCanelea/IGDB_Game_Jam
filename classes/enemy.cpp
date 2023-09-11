@@ -15,6 +15,7 @@ Enemy::Enemy() // Default constructor
     this->theVoid = {0,0};
     this->playerLocation = {0,0};
     this->directionBlocking = {0,-1};
+    this->attackAngle = 45;
 }
 
 Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
@@ -27,6 +28,7 @@ Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
     this->theVoid = theVoid_;
     this->playerLocation = {0,0};
     this->directionBlocking = {0,-1};
+    this->attackAngle = 45;
 }
 
 // getters
@@ -92,6 +94,11 @@ float Enemy::getHeight() // returns height of hitbox
     return this->hitbox.height;
 }
 
+float Enemy::getAttackAngle()
+{
+    return this->attackAngle;
+}
+
 // setters
 void Enemy::setSprite(Texture2D sprite_)
 {
@@ -154,25 +161,54 @@ void Enemy::setHeight(float height_) // sets height of hitbox
     this->hitbox.height = height_;
 }
 
+void Enemy::setAttackAngle(float attackAngle_)
+{
+    this->attackAngle = attackAngle_;
+}
+
 //other
 void Enemy::moveEnemy()
 {
     if (this->getIsActive()) // only move if active
     {
-        if (Vector2Distance(this->getCenter(), this->getPlayerLocation()) > 250.0f)
+        if (Vector2Distance(this->getCenter(), this->getPlayerLocation()) > 1200)
+        {
+
+        } else if (Vector2Distance(this->getCenter(), this->getPlayerLocation()) > 300)
         {
             this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
-        } else 
+        } else
         {
-            if (GetRandomValue(0, 99) > 30) // 70% chance to orbit
+            if (GetRandomValue(1, 1000) == 1)
             {
-                this->setPos(Vector2Add(this->getPos(), Vector2Scale(Vector2Rotate(this->getDirectionFacing(), DEG2RAD * -90.0f), this->getSpeed())));
-            } else 
-            {
-                this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
+                this->setAttackAngle(GetRandomValue(30, 60));
             }
+            
+            if (GetRandomValue(1, 1000) == 1)
+            {
+                this->setAttackAngle(this->getAttackAngle() * -1);
+            }
+            this->setPos(Vector2Add(this->getPos(), Vector2Scale(Vector2Rotate(this->getDirectionFacing(), this->getAttackAngle()), this->getSpeed())));
+            
         }
     }
+
+    // if (this->getIsActive()) // only move if active
+    // {
+    //     if (Vector2Distance(this->getCenter(), this->getPlayerLocation()) > 250.0f)
+    //     {
+    //         this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
+    //     } else 
+    //     {
+    //         if (GetRandomValue(0, 99) > 30) // 70% chance to orbit
+    //         {
+    //             this->setPos(Vector2Add(this->getPos(), Vector2Scale(Vector2Rotate(this->getDirectionFacing(), DEG2RAD * -90.0f), this->getSpeed())));
+    //         } else 
+    //         {
+    //             this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirectionFacing(), this->getSpeed())));
+    //         }
+    //     }
+    // }
 }
 
 void Enemy::drawEnemy(Rectangle playArea) // draws the enemy sprite
