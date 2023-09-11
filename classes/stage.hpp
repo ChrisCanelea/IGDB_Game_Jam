@@ -25,6 +25,7 @@ private:
     Projectile* projectilesArray; // dynamic array of projectiles based on maxProjectiles
     Player* playerReference; // reference to player object in order to get its position for spawning purposes
     float shrinkRate; // amount the play area shrinks by
+    float initialShrinkRate; // the shrinkRate on stage construction
     
 public:
     // constructors
@@ -50,6 +51,7 @@ public:
     Projectile* getProjectileArray();
     Player* getPlayerReference();
     float getShrinkRate();
+    float getInitialShrinkRate();
 
     // setters
     void setSprite(Texture2D);

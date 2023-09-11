@@ -25,6 +25,8 @@ Stage::Stage() // Default constructor
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
+    this->shrinkRate = 0.0f;
+    this->initialShrinkRate = 0.0f;
 }
 
 Stage::Stage(float width_, float height_, Player* playerReference_) 
@@ -47,6 +49,8 @@ Stage::Stage(float width_, float height_, Player* playerReference_)
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
+    this->shrinkRate = 1.0f;
+    this->initialShrinkRate = this->getShrinkRate();
 }
 
 Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, Player* playerReference_) 
@@ -69,6 +73,8 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
+    this->shrinkRate = 1.0f;
+    this->initialShrinkRate = this->getShrinkRate();
 }
 
 Stage::Stage(Player* playerReference_) // Default constructor
@@ -91,6 +97,8 @@ Stage::Stage(Player* playerReference_) // Default constructor
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
+    this->shrinkRate = 1.0f;
+    this->initialShrinkRate = this->getShrinkRate();
 }
 
 // getters
@@ -168,6 +176,11 @@ Player* Stage::getPlayerReference()
 float Stage::getShrinkRate()
 {
     return this->shrinkRate;
+}
+
+float Stage::getInitialShrinkRate()
+{
+    return this->initialShrinkRate;
 }
 
 // setters
@@ -323,20 +336,17 @@ void Stage::stageManager()
         }
     }
 
-    // stage shrinking based on shrinkRate
-    // call this->setPlayAre(Rectangle) and give it a new rectangle with shrunken width and height
-    // centered at the same place (you will need to adjust the orgin (x and y of rec))
-    // you can get current play area with this->getPlayArea()
-    // new width and height are (what they currently are - shrinkrate)
-
+    // STAGE SHRINKING
+    // can set the shrinkRate elsewhere and this will update it for that frame and revert to original
+    // negative shrink rate grows the playArea
     Rectangle oldPlayArea = this->getPlayArea();
-    float newWidth = oldPlayArea.width - shrinkRate;
-    float newHeight = oldPlayArea.height - shrinkRate;
-    float newX = oldPlayArea.x + shrinkRate/2;
-    float newY = oldPlayArea.y - shrinkRate/2;
+    float newWidth = oldPlayArea.width - this->getShrinkRate();
+    float newHeight = oldPlayArea.height - this->getShrinkRate();
+    float newY = oldPlayArea.y + (this->getShrinkRate()/2);
+    float newX = oldPlayArea.x + (this->getShrinkRate()/2);
     Rectangle newPlayArea = {newX, newY, newWidth, newHeight};
     this->setPlayArea(newPlayArea);
-    // also add getters and setters for shrinkRate in this cpp file //done
+    this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
 }
 
 Enemy* Stage::createEnemyArray() 

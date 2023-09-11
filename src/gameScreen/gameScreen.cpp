@@ -53,6 +53,7 @@ void gameScreen(void)
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             player.setInvulnTime(INVULN_FRAMES);
+                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT); // shrink on enemy hit
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
@@ -70,6 +71,7 @@ void gameScreen(void)
                             player.setProjectileCollisionLocation(stagePtr->getProjectileArray()[j].getCenter());
                             player.setInvulnTime(INVULN_FRAMES);
                             stagePtr->getProjectileArray()[j].killProjectile();
+                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT/2); // shrink on projectile hit
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getProjectileArray()[j].getHitbox()))
                         {
                             stagePtr->getProjectileArray()[j].killProjectile();
@@ -103,7 +105,7 @@ void gameScreen(void)
                 } else
                 {
                     // player has lost the combat sequence
-                    // TODO: SHRINK DA BORDER
+                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT);
                 }
                 updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference(), &camera);
             }
