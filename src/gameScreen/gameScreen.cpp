@@ -122,16 +122,15 @@ void gameScreen(void)
 
         BeginDrawing();
 
-        
-            if(currentState == PURGATORY)
+            if (currentState == PURGATORY)
             {
                 ClearBackground(GRAY);
                 DrawText("Paused", SCREEN_W/2-200, 100, 100, RED);
                 DrawText("press p to unpause", SCREEN_W/2-350, 200, 70, RED);
                 
-            }else
+            } else
             {
-                ClearBackground(RAYWHITE);
+                ClearBackground(BLACK);
                 BeginMode2D(camera);
 
                 if (stagePtr != NULL) 
@@ -142,7 +141,9 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
-                exit.drawExit();
+                // exit.drawExit();
+
+                DrawTexturePro(exit.loadSprite(), {0,0,64,64}, GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea()), {0,0}, 0, WHITE);
 
                 player.drawPlayer();
 
@@ -200,16 +201,17 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     {
         ++stageNumber; // increment stageNumber
 
-        // TODO: RESET BORDER SIZE (based on stageNumber and thus stage size)
-        
-        // MOVE CAMERA TO ORIGIN
+        cameraPtr->target = {0,0}; // move camera to origin
 
         if (*stagePtr != NULL) // delete old stage 
         {
             delete *stagePtr;
             *stagePtr = NULL;
         }
-        // fetch a layout from file
+
+        // fetch a layout from file potentially
+
+        // WIDTH AND HEIGHT IN CONSTRUCTOR ARE THE WIDTH AND HEIGHT OF THE BORDER (KEEP THEM AS A SQUARE)
         if (stageNumber > 1) // not tutorial stage
         {
             *stagePtr = new Stage(2000.0f, 2000.0f, playerPtr);

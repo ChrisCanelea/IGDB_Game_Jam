@@ -283,6 +283,14 @@ void Stage::stageManager()
             this->getProjectileArray()[j].moveProjectile();
         }
     }
+
+    // stage shrinking based on shrinkRate
+    // call this->setPlayAre(Rectangle) and give it a new rectangle with shrunken width and height
+    // centered at the same place (you will need to adjust the orgin (x and y of rec))
+    // you can get current play area with this->getPlayArea()
+    // new width and height are (what they currently are - shrinkrate)
+
+    // also add getters and setters for shrinkRate in this cpp file
 }
 
 Enemy* Stage::createEnemyArray() 
@@ -300,7 +308,7 @@ void Stage::populateEnemies()
     for (int i = 0; i < maxEnemies; ++i) 
     {
         Vector2 temp = this->generateRandomOnEdge();
-        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 100}, {this->getNorthWall().x, this->getNorthWall().y});
+        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 100}, THE_VOID);
     }
 }
 
@@ -309,7 +317,7 @@ void Stage::populateProjectiles()
     for (int i = 0; i < maxProjectiles; ++i) 
     {
         Vector2 temp = this->generateRandomOnEdge();
-        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, GetRandomValue(0,1), {this->getNorthWall().x, this->getNorthWall().y});
+        projectilesArray[i] = Projectile({temp.x, temp.y, 60, 20}, GetRandomValue(0,1), THE_VOID);
     }
 }
 
@@ -349,10 +357,11 @@ void Stage::drawStage()
 {
     DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
 
-    DrawRectangleRec(this->getNorthWall(), BLACK);
-    DrawRectangleRec(this->getEastWall(), BLACK);
-    DrawRectangleRec(this->getSouthWall(), BLACK);
-    DrawRectangleRec(this->getWestWall(), BLACK);
+    // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
+    // DrawRectangleRec(this->getNorthWall(), BLACK);
+    // DrawRectangleRec(this->getEastWall(), BLACK);
+    // DrawRectangleRec(this->getSouthWall(), BLACK);
+    // DrawRectangleRec(this->getWestWall(), BLACK);
 
     for (int i = 0; i < maxEnemies; ++i) 
     {
@@ -362,11 +371,6 @@ void Stage::drawStage()
     {
         this->getProjectileArray()[j].drawProjectile();
     }
-
-    // DrawRectangleRec(this->getNorthWall(), BLACK);
-    // DrawRectangleRec(this->getEastWall(), BLACK);
-    // DrawRectangleRec(this->getSouthWall(), BLACK);
-    // DrawRectangleRec(this->getWestWall(), BLACK);
 }
 
 Vector2 Stage::generateExitPosition() 

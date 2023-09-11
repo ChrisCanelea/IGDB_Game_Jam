@@ -24,6 +24,7 @@ private:
     Enemy* enemiesArray; // dynamic array of enemies based on maxEnemies
     Projectile* projectilesArray; // dynamic array of projectiles based on maxProjectiles
     Player* playerReference; // reference to player object in order to get its position for spawning purposes
+    float shrinkRate; // amount the play area shrinks by
     
 public:
     // constructors
@@ -48,6 +49,7 @@ public:
     Enemy* getEnemiesArray();
     Projectile* getProjectileArray();
     Player* getPlayerReference();
+    float getShrinkRate();
 
     // setters
     void setSprite(Texture2D);
@@ -63,6 +65,7 @@ public:
     void setProjectileRespawnTime(float);
     void setExitLocation(Vector2);
     void setPlayerReference(Player*);
+    void setShrinkRate(float);
 
     // other
     void stageManager(); // master controller, called once per frame, processes entire stage (& respawns)
