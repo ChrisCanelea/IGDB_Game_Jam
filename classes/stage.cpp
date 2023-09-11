@@ -339,7 +339,7 @@ void Stage::populateEnemies()
     for (int i = 0; i < maxEnemies; ++i) 
     {
         Vector2 temp = this->generateRandomOnEdge();
-        enemiesArray[i] = Enemy({temp.x, temp.y, 50, 100}, THE_VOID);
+        enemiesArray[i] = Enemy({temp.x, temp.y, 80, 124}, THE_VOID);
     }
 }
 
