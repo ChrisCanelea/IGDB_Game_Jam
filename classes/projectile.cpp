@@ -173,16 +173,40 @@ void Projectile::drawProjectile(Rectangle playArea) // draws projectile
 
     if (this->getOrientation() == 0) // NORTH
     {
-        this->setSourceRec({60, 60 - tempSource.height, tempSource.width, tempSource.height});
+        if (this->getCenter().y < 0) // out
+        {
+            this->setSourceRec({60, 60 - tempSource.height, tempSource.width, tempSource.height});
+        } else // in
+        {
+            this->setSourceRec({60, 0, tempSource.width, tempSource.height});
+        }
     } else if (this->getOrientation() == 1) // EAST
     {
-        this->setSourceRec({0, 0, tempSource.width, tempSource.height});
+        if (this->getCenter().x > 0) // out
+        {
+            this->setSourceRec({0, 0, tempSource.width, tempSource.height});
+        } else // in 
+        {
+            this->setSourceRec({60 - tempSource.width, 0, tempSource.width, tempSource.height});
+        }
     } else if (this->getOrientation() == 2) // SOUTH
     {
-        this->setSourceRec({80, 0, tempSource.width, tempSource.height});
+        if (this->getCenter().y > 0) // out
+        {
+            this->setSourceRec({80, 0, tempSource.width, tempSource.height});
+        } else // in
+        {
+            this->setSourceRec({80, 60 - tempSource.height, tempSource.width, tempSource.height});
+        }
     } else // WEST
     {
-        this->setSourceRec({60 - tempSource.width, 20, tempSource.width, tempSource.height});
+        if (this->getCenter().x < 0) // out 
+        {
+            this->setSourceRec({60 - tempSource.width, 20, tempSource.width, tempSource.height});
+        } else //in 
+        {
+            this->setSourceRec({0, 20, tempSource.width, tempSource.height});
+        }
     }
 
     DrawTexturePro(this->getSprite(), this->getSourceRec(), GetCollisionRec(this->getHitbox(), playArea), {0,0}, 0, WHITE);

@@ -422,7 +422,26 @@ void Stage::drawStage()
 
 Vector2 Stage::generateExitPosition() 
 {
-    return this->generateRandomPoint();
+    switch(GetRandomValue(0,3)) 
+    {
+        case 0: // NORTH
+            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y - 32};
+            break;
+
+        case 1: // EAST
+            return {this->getPlayArea().x + this->getPlayArea().width - 32, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            break;
+        
+        case 2: // SOUTH
+            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y + this->getPlayArea().height - 32};
+            break;
+        
+        case 3:
+            return {this->getPlayArea().x - 32, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            break;
+    }
+
+    return {0, -200};
 }
 
 Texture2D Stage::loadSprite() 
