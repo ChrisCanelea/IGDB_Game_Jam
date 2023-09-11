@@ -415,7 +415,7 @@ void Stage::respawnProjectile(Projectile* projectile)
 void Stage::drawStage() 
 {
     // DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
-    DrawTextureRec(this->getSprite(), {0, 0, this->getPlayArea().width, this->getPlayArea().height}, {this->getPlayArea().x, this->getPlayArea().y}, WHITE);
+    DrawTextureRec(this->getSprite(), {this->getPlayArea().x - this->getShrinkRate(), this->getPlayArea().y - this->getShrinkRate(), this->getPlayArea().width, this->getPlayArea().height}, {this->getPlayArea().x, this->getPlayArea().y}, WHITE);
 
     // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
     // DrawRectangleRec(this->getNorthWall(), BLACK);
