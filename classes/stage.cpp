@@ -268,7 +268,7 @@ void Stage::stageManager()
         }
     }
 
-    // MOVING
+    // ENEMY MOVEMENT
     for (int i = 0; i < this->getMaxEnemies(); ++i) 
     {
         this->getEnemiesArray()[i].setPlayerLocation(this->getPlayerReference()->getCenter());
@@ -276,8 +276,39 @@ void Stage::stageManager()
         this->getEnemiesArray()[i].moveEnemy();
     }
 
+    // PROJETILE MOVEMENT AND DESPAWNING
     for (int j = 0; j < this->getMaxProjectiles(); ++j) 
     {
+        // DESPAWNING
+        int tempOrientation = this->getProjectileArray()[j].getOrientation();
+
+        if (tempOrientation == 0) // NORTH
+        {
+            if (this->getProjectileArray()[j].getPos().y < (this->getPlayArea().y - 60)) 
+            {
+                this->getProjectileArray()[j].killProjectile();
+            }
+        } else if (tempOrientation == 1) // EAST
+        {
+            if (this->getProjectileArray()[j].getPos().x > (this->getPlayArea().x + this->getPlayArea().width)) 
+            {
+                this->getProjectileArray()[j].killProjectile();
+            }
+        } else if (tempOrientation == 2) // SOUTH
+        {
+            if (this->getProjectileArray()[j].getPos().y > (this->getPlayArea().y + this->getPlayArea().height)) 
+            {
+                this->getProjectileArray()[j].killProjectile();
+            }
+        } else // WEST
+        {
+            if (this->getProjectileArray()[j].getPos().x < (this->getPlayArea().x - 60)) 
+            {
+                this->getProjectileArray()[j].killProjectile();
+            }
+        }
+        
+        // MOVING
         if (this->getProjectileArray()[j].getIsActive()) // only move if active
         {
             this->getProjectileArray()[j].moveProjectile();
