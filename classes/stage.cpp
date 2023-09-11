@@ -165,6 +165,10 @@ Player* Stage::getPlayerReference()
 {
     return this->playerReference;
 }
+float Stage::getShrinkRate()
+{
+    return this->shrinkRate;
+}
 
 // setters
 void Stage::setSprite(Texture2D sprite_) 
@@ -230,6 +234,10 @@ void Stage::setExitLocation(Vector2 exitLocation_)
 void Stage::setPlayerReference(Player* playerReference_) 
 {
     this->playerReference = playerReference_;
+}
+void Stage::setShrinkRate(float shrinkRate_)
+{
+    this->shrinkRate = shrinkRate_;
 }
 
 // other
@@ -321,7 +329,14 @@ void Stage::stageManager()
     // you can get current play area with this->getPlayArea()
     // new width and height are (what they currently are - shrinkrate)
 
-    // also add getters and setters for shrinkRate in this cpp file
+    Rectangle oldPlayArea = this->getPlayArea();
+    float newWidth = oldPlayArea.width - shrinkRate;
+    float newHeight = oldPlayArea.height - shrinkRate;
+    float newX = oldPlayArea.x + shrinkRate/2;
+    float newY = oldPlayArea.y + shrinkRate/2;
+    Rectangle newPlayArea = {newX, newY, newWidth, newHeight};
+    this->setPlayArea(newPlayArea);
+    // also add getters and setters for shrinkRate in this cpp file //done
 }
 
 Enemy* Stage::createEnemyArray() 
