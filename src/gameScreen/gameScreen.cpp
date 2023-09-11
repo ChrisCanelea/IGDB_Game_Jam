@@ -101,6 +101,7 @@ void gameScreen(void)
                     // player has won the combat sequence
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
+                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-2 * SHRINK_ON_HIT));
 
                 } else
                 {
@@ -144,7 +145,8 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
-                exit.drawExit();
+                // exit.drawExit();
+                DrawTextureRec(exit.getSprite(), {0,0,64,64}, {exit.getPos().x, exit.getPos().y}, WHITE);
 
                 player.drawPlayer();
 

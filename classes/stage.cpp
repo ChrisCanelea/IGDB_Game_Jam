@@ -49,7 +49,7 @@ Stage::Stage(float width_, float height_, Player* playerReference_)
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
-    this->shrinkRate = 1.0f;
+    this->shrinkRate = 0.5f;
     this->initialShrinkRate = this->getShrinkRate();
 }
 
@@ -73,7 +73,7 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
-    this->shrinkRate = 1.0f;
+    this->shrinkRate = 0.5f;
     this->initialShrinkRate = this->getShrinkRate();
 }
 
@@ -97,7 +97,7 @@ Stage::Stage(Player* playerReference_) // Default constructor
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
-    this->shrinkRate = 1.0f;
+    this->shrinkRate = 0.5f;
     this->initialShrinkRate = this->getShrinkRate();
 }
 
@@ -339,6 +339,9 @@ void Stage::stageManager()
     // STAGE SHRINKING
     // can set the shrinkRate elsewhere and this will update it for that frame and revert to original
     // negative shrink rate grows the playArea
+
+    // LERP BORDER GROWING
+
     Rectangle oldPlayArea = this->getPlayArea();
     float newWidth = oldPlayArea.width - this->getShrinkRate();
     float newHeight = oldPlayArea.height - this->getShrinkRate();
