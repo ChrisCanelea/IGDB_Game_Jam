@@ -52,7 +52,7 @@ public:
 
     //other
     void moveEnemy(); // moves the Enemy based on input
-    void drawEnemy(); // draws the Enemy sprite
+    void drawEnemy(Rectangle); // draws the Enemy (only the parts that are on top of playArea rectangle)
     Texture2D loadSprite();
     void killEnemy(); // moves enemy outside the play area and makes it inactive
     void generateDirectionBlocking(); // generates a normalized vector in direction of block

@@ -365,11 +365,11 @@ void Stage::drawStage()
 
     for (int i = 0; i < maxEnemies; ++i) 
     {
-        this->getEnemiesArray()[i].drawEnemy();
+        this->getEnemiesArray()[i].drawEnemy(this->getPlayArea());
     }
     for (int j = 0; j < maxProjectiles; ++j) 
     {
-        this->getProjectileArray()[j].drawProjectile();
+        this->getProjectileArray()[j].drawProjectile(this->getPlayArea());
     }
 }
 

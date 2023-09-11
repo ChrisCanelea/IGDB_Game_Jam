@@ -51,7 +51,7 @@ public:
 
     // other
     void moveProjectile(); // moves the player based on input
-    void drawProjectile(); // draws the player sprite
+    void drawProjectile(Rectangle); // draws the projectile (only part that is on top of playArea)
     Texture2D loadSprite(); 
     void killProjectile(); // moves projectile outside play area and makes it inactive
     void adjustProjectile();
