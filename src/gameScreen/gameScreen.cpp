@@ -5,6 +5,9 @@
 #include "exit.hpp"
 #include <raylib.h>
 
+GameState currentState = PURGATORY;
+GameState previousState = PURGATORY;
+
 void updateState(GameState, Player*, Stage**, Exit*, Enemy*, Camera2D*); // change state function in gameScreen/gameScreen.cpp
 
 void gameScreen(void)
@@ -101,7 +104,7 @@ void gameScreen(void)
                     // player has won the combat sequence
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
-                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-10 * SHRINK_ON_HIT));
+                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-20 * SHRINK_ON_HIT));
 
                 } else
                 {

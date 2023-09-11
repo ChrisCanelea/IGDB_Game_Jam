@@ -26,8 +26,8 @@ static int stageNumber = 0;
 // enum Direction {NORTH = 0, NORTHEAST = 1, EAST = 2, SOUTHEAST = 3, SOUTH = 4, SOUTHWEST = 5, WEST = 6, NORTHWEST = 7};
 typedef enum GameState {GENERATION = 0, PLAYING, COMBAT, DEATH, PURGATORY} GameState;
 
-static GameState currentState = PURGATORY;
-static GameState previousState = PURGATORY;
+extern GameState currentState;
+extern GameState previousState;
 
 // #include "player.hpp"
 // #include "enemy.hpp"

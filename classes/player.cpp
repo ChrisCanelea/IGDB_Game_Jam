@@ -302,7 +302,7 @@ void Player::projectileKnockback() // knocks the player away from a projectile (
     Vector2 dist = Vector2Subtract(this->getCenter(), this->getProjectileCollisionLocation());
     Vector2 normalDist = Vector2Normalize(dist);
 
-    this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/35)));
+    this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/70)));
 }
 
 void Player::pollDirectionAttacking() // polls user input to determine the direction of attack in a combat sequence
@@ -333,7 +333,13 @@ void Player::drawPlayer() // draws the player sprite
 
     if (((!this->getEnemyReference() == NULL) || (!Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
     {
-        DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, RED);
+        if (currentState == PLAYING)
+        {
+            DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, RED);
+        } else
+        {
+            DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+        }
     } else
     {
         DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
