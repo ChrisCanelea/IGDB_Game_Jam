@@ -60,6 +60,7 @@ public:
     void killEnemy(); // moves enemy outside the play area and makes it inactive
     void generateDirectionBlocking(); // generates a normalized vector in direction of block
     void generateDirectionFacing(); // generates a normalized directionFacing vector
+    void drawBlockIndicator(); // draws indicator for which direction enemy is blocking
 };
 
 #endif // Enemy_hpp
