@@ -333,7 +333,7 @@ void Stage::stageManager()
     float newWidth = oldPlayArea.width - shrinkRate;
     float newHeight = oldPlayArea.height - shrinkRate;
     float newX = oldPlayArea.x + shrinkRate/2;
-    float newY = oldPlayArea.y + shrinkRate/2;
+    float newY = oldPlayArea.y - shrinkRate/2;
     Rectangle newPlayArea = {newX, newY, newWidth, newHeight};
     this->setPlayArea(newPlayArea);
     // also add getters and setters for shrinkRate in this cpp file //done
