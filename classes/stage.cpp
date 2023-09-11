@@ -386,7 +386,8 @@ void Stage::respawnProjectile(Projectile* projectile)
 
 void Stage::drawStage() 
 {
-    DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
+    // DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
+    DrawTextureRec(this->getSprite(), {0, 0, this->getPlayArea().width, this->getPlayArea().height}, {this->getPlayArea().x, this->getPlayArea().y}, WHITE);
 
     // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
     // DrawRectangleRec(this->getNorthWall(), BLACK);
@@ -411,7 +412,7 @@ Vector2 Stage::generateExitPosition()
 
 Texture2D Stage::loadSprite() 
 {
-    return LoadTexture("assets/background.png");
+    return LoadTexture("assets/tileBackground.png");
 }
 
 Vector2 Stage::generateRandomPoint() 
