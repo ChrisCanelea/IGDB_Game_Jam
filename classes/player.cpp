@@ -9,7 +9,7 @@
 // constructors
 Player::Player() // Default constructor
 {
-    this->sprite = LoadTexture("assets/squareNinja.png");
+    this->sprite = this->loadSprite();
     this->hitbox = Rectangle {0, 0, 50, 100}; // Default hitbox is a 50x100 square at (0, 0)
     this->speed = 10;
     this->direction = Vector2 {0, 1};
@@ -24,7 +24,7 @@ Player::Player() // Default constructor
 
 Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
 {
-    this->sprite = loadSprite();
+    this->sprite = this->loadSprite();
     this->hitbox = hitbox_;
     this->speed = 10;
     this->direction = {0, 1};
@@ -334,20 +334,21 @@ void Player::drawPlayer() // draws the player sprite
 {
     // Rectangle spriteRect = {(float)16*(this->getDirection() + 1), 0, 16, 16};
     // Need a way to decode direction into sprite animation
-    if (this->getInvulnTime() == 0)
+    Rectangle spriteRect = {4, 0, 46, 64};
+
+    if (((this->getEnemyReference() == NULL) || (Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
     {
-        // DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
-        DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), BLUE);
+        DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, RED);
+    } else
+    {
+        DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+        
         if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES))
         {
             DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, BLUE);
 
         }
 
-    } else
-    {
-        DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), RED);
-        
     }
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
@@ -355,5 +356,5 @@ void Player::drawPlayer() // draws the player sprite
 
 Texture2D Player::loadSprite() 
 {
-    return LoadTexture("assets/squareNinja.png");
+    return LoadTexture("assets/charLeft.png");
 }
