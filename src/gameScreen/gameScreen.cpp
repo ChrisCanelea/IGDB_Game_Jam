@@ -101,7 +101,7 @@ void gameScreen(void)
                     // player has won the combat sequence
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
-                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-2 * SHRINK_ON_HIT));
+                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-10 * SHRINK_ON_HIT));
 
                 } else
                 {
