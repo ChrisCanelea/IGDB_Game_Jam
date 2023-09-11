@@ -336,13 +336,13 @@ void Player::drawPlayer() // draws the player sprite
     // Need a way to decode direction into sprite animation
     Rectangle spriteRect = {4, 0, 46, 64};
 
-    if (((this->getEnemyReference() == NULL) || (Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
+    if (((!this->getEnemyReference() == NULL) || (!Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
     {
         DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, RED);
     } else
     {
         DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
-        
+
         if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES))
         {
             DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, BLUE);
