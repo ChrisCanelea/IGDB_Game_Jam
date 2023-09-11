@@ -32,7 +32,7 @@ void gameScreen(void)
             }
             
             // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
-            camera.target = Vector2Lerp(camera.target, player.getPos(), 0.15);
+            camera.target = Vector2Lerp(camera.target, player.getCenter(), 0.15);
             camera.zoom = Lerp(camera.zoom, 1.0f, 0.2f);
             
             player.movePlayer();
@@ -79,6 +79,7 @@ void gameScreen(void)
             }
         } else if (currentState == COMBAT) 
         {
+            camera.target = Vector2Lerp(camera.target, player.getEnemyReference()->getCenter(), 0.15);
             camera.zoom = Lerp(camera.zoom, 2.5f, 0.2f);
             
             if (IsKeyPressed(KEY_P)) 
