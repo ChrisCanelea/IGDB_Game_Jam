@@ -179,7 +179,7 @@ void Enemy::drawEnemy(Rectangle playArea) // draws the enemy sprite
 {
     // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawRectangleRec(GetCollisionRec(this->getHitbox(), playArea), LIME);
+    DrawRectangleRec(GetCollisionRec(this->getHitbox(), playArea), GREEN);
 }
 
 Texture2D Enemy::loadSprite() 
