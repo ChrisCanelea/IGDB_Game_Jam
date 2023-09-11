@@ -14,6 +14,7 @@ private:
     Vector2 theVoid;
     Vector2 playerLocation;
     Vector2 directionBlocking;
+    float attackAngle;
     
 public:
     // constructors
@@ -29,6 +30,7 @@ public:
     Vector2 getTheVoid();
     Vector2 getPlayerLocation();
     Vector2 getDirectionBlocking();
+    float getAttackAngle();
 
     Vector2 getPos(); // returns the Enemy position
     Vector2 getCenter(); // returns the Enemy's center position
@@ -43,6 +45,7 @@ public:
     void setIsActive(bool);
     void setPlayerLocation(Vector2);
     void setDirectionBlocking(Vector2);
+    void setAttackAngle(float);
 
     void setPos(Vector2); // sets Enemy position
     void setX(float); // sets x position (top left corner of hitbox)
