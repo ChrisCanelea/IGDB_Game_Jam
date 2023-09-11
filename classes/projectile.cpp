@@ -169,6 +169,22 @@ void Projectile::moveProjectile() // calculate and apply the motion of the proje
 
 void Projectile::drawProjectile(Rectangle playArea) // draws projectile 
 {
+    Rectangle tempSource = GetCollisionRec(this->getHitbox(), playArea);
+
+    if (this->getOrientation() == 0) // NORTH
+    {
+        this->setSourceRec({60, 60 - tempSource.height, tempSource.width, tempSource.height});
+    } else if (this->getOrientation() == 1) // EAST
+    {
+        this->setSourceRec({0, 0, tempSource.width, tempSource.height});
+    } else if (this->getOrientation() == 2) // SOUTH
+    {
+        this->setSourceRec({80, 0, tempSource.width, tempSource.height});
+    } else // WEST
+    {
+        this->setSourceRec({60 - tempSource.width, 20, tempSource.width, tempSource.height});
+    }
+
     DrawTexturePro(this->getSprite(), this->getSourceRec(), GetCollisionRec(this->getHitbox(), playArea), {0,0}, 0, WHITE);
 }
 

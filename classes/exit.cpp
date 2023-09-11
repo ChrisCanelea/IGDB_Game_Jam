@@ -85,10 +85,10 @@ void Exit::setHeight(float height_) // sets height of hitbox
 //other
 void Exit::drawExit() // draws the exit
 {    
-    DrawRectangle(this->getPos().x, this->getPos().y, this->getWidth(), this->getHeight(), YELLOW);
+    DrawTextureRec(this->getSprite(), {0,0,64,64}, this->getPos(), WHITE);
 }
 
 Texture2D Exit::loadSprite() 
 {
-    return LoadTexture("assets/squareNinja.png");
+    return LoadTexture("assets/stairs.png");
 }

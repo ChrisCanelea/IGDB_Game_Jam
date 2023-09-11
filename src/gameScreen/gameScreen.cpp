@@ -141,9 +141,7 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
-                // exit.drawExit();
-
-                DrawTexturePro(exit.loadSprite(), {0,0,64,64}, GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea()), {0,0}, 0, WHITE);
+                exit.drawExit();
 
                 player.drawPlayer();
 
