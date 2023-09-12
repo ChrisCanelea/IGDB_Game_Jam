@@ -339,9 +339,6 @@ void Stage::stageManager()
     // STAGE SHRINKING
     // can set the shrinkRate elsewhere and this will update it for that frame and revert to original
     // negative shrink rate grows the playArea
-
-    // LERP BORDER GROWING
-
     Rectangle oldPlayArea = this->getPlayArea();
     float newWidth = oldPlayArea.width - this->getShrinkRate();
     float newHeight = oldPlayArea.height - this->getShrinkRate();
@@ -350,6 +347,9 @@ void Stage::stageManager()
     Rectangle newPlayArea = {newX, newY, newWidth, newHeight};
     this->setPlayArea(newPlayArea);
     this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
+
+    // MAP N/E/S/W WALLS
+    
 }
 
 Enemy* Stage::createEnemyArray() 
