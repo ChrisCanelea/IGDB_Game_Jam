@@ -138,27 +138,27 @@ void gameScreen(void)
 
         BeginDrawing();
 
-            ClearBackground(BLACK);
-            BeginMode2D(camera);
-
-            if (stagePtr != NULL) 
-            {
-                stagePtr->drawStage();
-            } else 
-            {
-                DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
-            }
-
-            // exit.drawExit();
-            DrawTextureRec(exit.getSprite(), {0,0,64,64}, {exit.getPos().x, exit.getPos().y}, WHITE);
-
-            player.drawPlayer();
-
-            EndMode2D();
-
             // Only draw certain things based on currentState
             if (currentState == PLAYING) 
             {
+                ClearBackground(BLACK);
+                BeginMode2D(camera);
+
+                if (stagePtr != NULL) 
+                {
+                    stagePtr->drawStage();
+                } else 
+                {
+                    DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
+                }
+
+                // exit.drawExit();
+                DrawTextureRec(exit.getSprite(), {0,0,64,64}, {exit.getPos().x, exit.getPos().y}, WHITE);
+
+                player.drawPlayer();
+
+                EndMode2D();
+                
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
                 DrawText("PLAYING", 1700, 20, 50, GREEN);
                 DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
@@ -170,7 +170,24 @@ void gameScreen(void)
                 DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
             } else if (currentState == COMBAT) 
             {
+                ClearBackground(BLACK);
+                BeginMode2D(camera);
+
+                if (stagePtr != NULL) 
+                {
+                    stagePtr->drawStage();
+                } else 
+                {
+                    DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
+                }
+
+                // exit.drawExit();
+                DrawTextureRec(exit.getSprite(), {0,0,64,64}, {GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea()).x, GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea()).y}, WHITE);
+
+                player.drawPlayer();
                 player.getEnemyReference()->drawBlockIndicator();
+
+                EndMode2D();
 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
                 DrawText("COMBAT", 1700, 20, 50, GREEN);
@@ -227,6 +244,7 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
         // WIDTH AND HEIGHT IN CONSTRUCTOR ARE THE WIDTH AND HEIGHT OF THE BORDER (KEEP THEM AS A SQUARE)
         if (stageNumber > 1) // not tutorial stage
         {
+            // EDIT THIS TO BE BASED ON STAGENUMBER
             *stagePtr = new Stage(2000.0f, 2000.0f, playerPtr);
         } else // tutorial
         {
