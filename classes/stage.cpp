@@ -353,6 +353,7 @@ void Stage::stageManager()
     this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
 
     // MAP N/E/S/W WALLS
+    //temp comment
     
 }
 
