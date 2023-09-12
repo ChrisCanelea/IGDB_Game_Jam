@@ -62,7 +62,11 @@ void gameScreen(void)
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             player.setInvulnTime(INVULN_FRAMES);
-                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT); // shrink on enemy hit
+
+                            if (player.getInvulnTime() <= 0) 
+                            {
+                                stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT); // shrink on enemy hit
+                            }
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
@@ -80,7 +84,11 @@ void gameScreen(void)
                             player.setProjectileCollisionLocation(stagePtr->getProjectileArray()[j].getCenter());
                             player.setInvulnTime(INVULN_FRAMES);
                             stagePtr->getProjectileArray()[j].killProjectile();
-                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT/2); // shrink on projectile hit
+                            
+                            if (player.getInvulnTime() <= 0) 
+                            {
+                                stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT/2); // shrink on projectile hit
+                            }
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getProjectileArray()[j].getHitbox()))
                         {
                             stagePtr->getProjectileArray()[j].killProjectile();
@@ -110,7 +118,7 @@ void gameScreen(void)
                     // player has won the combat sequence
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
-                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-20 * SHRINK_ON_HIT));
+                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-15 * SHRINK_ON_HIT));
 
                 } else
                 {
@@ -153,7 +161,18 @@ void gameScreen(void)
                 }
 
                 // exit.drawExit();
-                DrawTextureRec(exit.getSprite(), {0,0,64,64}, {exit.getPos().x, exit.getPos().y}, WHITE);
+                Rectangle tempExitRec = GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea());
+                float xOffset = 0;
+                float yOffset = 0;
+                if (exit.getPos().x <= stagePtr->getPlayArea().x) 
+                {
+                    xOffset = stagePtr->getPlayArea().x - exit.getPos().x;
+                }
+                if (exit.getPos().y <= stagePtr->getPlayArea().y) 
+                {
+                    yOffset = stagePtr->getPlayArea().y - exit.getPos().y;
+                }
+                DrawTextureRec(exit.getSprite(), {0 + xOffset,0 + yOffset,tempExitRec.width,tempExitRec.height}, {tempExitRec.x, tempExitRec.y}, WHITE);
 
                 player.drawPlayer();
 
@@ -181,8 +200,9 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
+                Rectangle tempExitRec = GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea());
                 exit.drawExit();
-                //DrawTextureRec(exit.getSprite(), this->, stagePtr->getExitLocation(), WHITE);
+                //DrawTexturePro(exit.getSprite(), {exit.getHitbox().x + stagePtr->getPlayArea().x, }, tempExitRec, {0,0}, 0, WHITE)
 
                 player.drawPlayer();
                 player.getEnemyReference()->drawBlockIndicator();

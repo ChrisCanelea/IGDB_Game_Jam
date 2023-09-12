@@ -337,6 +337,9 @@ void Stage::stageManager()
         if (this->getProjectileArray()[j].getIsActive()) // only move if active
         {
             this->getProjectileArray()[j].moveProjectile();
+        } else 
+        {
+            this->getProjectileArray()[j].setPos(THE_VOID);
         }
     }
 
@@ -408,17 +411,17 @@ void Stage::initialPopulation()
 
 void Stage::respawnEnemy(Enemy* enemy) 
 {
-    enemy->setPos(this->generateRandomOnEdge());
     enemy->setIsActive(true);
+    enemy->setPos(this->generateRandomOnEdge());
 }
 
 void Stage::respawnProjectile(Projectile* projectile) 
 {
     int orientation = GetRandomValue(0, 3);
+    projectile->setIsActive(true);
     projectile->setPos(this->generateRandomForProjectile(orientation));
     projectile->setOrientation(orientation);
     projectile->adjustProjectile();
-    projectile->setIsActive(true);
 }
 
 void Stage::drawStage() 
