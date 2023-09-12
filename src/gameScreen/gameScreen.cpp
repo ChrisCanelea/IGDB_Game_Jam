@@ -56,17 +56,15 @@ void gameScreen(void)
             {
                 for (int i = 0; i < stagePtr->getMaxEnemies(); ++i) 
                 {
-                    if (stagePtr->getEnemiesArray()[i].getIsActive())
+                    if (stagePtr->getEnemiesArray()[i].getIsActive() && (player.getInvulnTime() == 0))
                     {
                         if (CheckCollisionRecs(player.getHitbox(), stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             player.setInvulnTime(INVULN_FRAMES);
 
-                            if (player.getInvulnTime() <= 0) 
-                            {
-                                stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT); // shrink on enemy hit
-                            }
+                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT); // shrink on enemy hit
+                        
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
@@ -79,16 +77,14 @@ void gameScreen(void)
                 {
                     if (stagePtr->getProjectileArray()[j].getIsActive()) 
                     {
-                        if (CheckCollisionRecs(player.getHitbox(), stagePtr->getProjectileArray()[j].getHitbox()))
+                        if (CheckCollisionRecs(player.getHitbox(), stagePtr->getProjectileArray()[j].getHitbox()) && (player.getInvulnTime() == 0))
                         {
                             player.setProjectileCollisionLocation(stagePtr->getProjectileArray()[j].getCenter());
                             player.setInvulnTime(INVULN_FRAMES);
                             stagePtr->getProjectileArray()[j].killProjectile();
                             
-                            if (player.getInvulnTime() <= 0) 
-                            {
-                                stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT/2); // shrink on projectile hit
-                            }
+                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT/2); // shrink on projectile hit
+                        
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getProjectileArray()[j].getHitbox()))
                         {
                             stagePtr->getProjectileArray()[j].killProjectile();

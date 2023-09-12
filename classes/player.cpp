@@ -277,10 +277,32 @@ void Player::movePlayer() // moves the player based on input
         this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), speed)));
     }
 
-    if (!this->getInvulnTime() && this->getAttackCooldown() > (ATTACK_COOLDOWN - 20))
+    if (!this->getInvulnTime()) // if player is not invulnerable
     {
-        Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS}; // location of hitbox, radius of hitbox
-        this->setAttackHitbox(attack);
+        if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 4)) // First 4 frames of attack
+        {
+            Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/4}; // location of hitbox, radius of hitbox
+            this->setAttackHitbox(attack);
+            
+        } else if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 8)) // Next 4 frames of attack
+        {
+            Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/2}; // location of hitbox, radius of hitbox
+            this->setAttackHitbox(attack);
+
+        }
+        else if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 12)) // Next 4 frames of attack
+        {
+            Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS}; // location of hitbox, radius of hitbox
+            this->setAttackHitbox(attack);
+        } else if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 16)) // Next 4 frames of attack
+        {
+            Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/2}; // location of hitbox, radius of hitbox
+            this->setAttackHitbox(attack);
+        } else if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 20)) // Next 4 frames of attack
+        {
+            Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/4}; // location of hitbox, radius of hitbox
+            this->setAttackHitbox(attack);
+        }
 
     } else
     {
