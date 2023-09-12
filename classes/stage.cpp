@@ -354,6 +354,8 @@ void Stage::stageManager()
     Rectangle newPlayArea = {newX, newY, newWidth, newHeight};
     this->setPlayArea(newPlayArea);
     this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
+
+    
 }
 
 Enemy* Stage::createEnemyArray() 
