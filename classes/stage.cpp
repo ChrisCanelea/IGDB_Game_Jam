@@ -353,9 +353,11 @@ void Stage::stageManager()
     this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
 
     // MAP N/E/S/W WALLS
-    //temp comment
-    asgndngdgnldsg
-    afndognoidgnps
+    //changing ths size of the surrounding walls to the shrinked play area
+    this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
+    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, 100, getPlayArea().height};
+    this->southWall = Rectangle {getPlayArea().x, getPlayArea().y + getPlayArea().height, getPlayArea().width, 100};
+    this->westWall = Rectangle {getPlayArea().x - 100, getPlayArea().y, 100, getPlayArea().height};
     
 }
 
