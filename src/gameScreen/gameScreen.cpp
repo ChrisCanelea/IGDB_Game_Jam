@@ -252,9 +252,11 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
 
     } else if (nextState == DEATH) 
     {
-        if (stageNumber != 0)
+        if (stageNumber != 1)
         {
-            stageNumber = 2;
+            stageNumber = 1;
+        } else{
+            stageNumber = 0;
         }
     } else if (nextState == PURGATORY) 
     {
