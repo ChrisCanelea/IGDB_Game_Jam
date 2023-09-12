@@ -201,9 +201,19 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
+                // exit.drawExit();
                 Rectangle tempExitRec = GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea());
-                exit.drawExit();
-                //DrawTexturePro(exit.getSprite(), {exit.getHitbox().x + stagePtr->getPlayArea().x, }, tempExitRec, {0,0}, 0, WHITE)
+                float xOffset = 0;
+                float yOffset = 0;
+                if (exit.getPos().x <= stagePtr->getPlayArea().x) 
+                {
+                    xOffset = stagePtr->getPlayArea().x - exit.getPos().x;
+                }
+                if (exit.getPos().y <= stagePtr->getPlayArea().y) 
+                {
+                    yOffset = stagePtr->getPlayArea().y - exit.getPos().y;
+                }
+                DrawTextureRec(exit.getSprite(), {0 + xOffset,0 + yOffset,tempExitRec.width,tempExitRec.height}, {tempExitRec.x, tempExitRec.y}, WHITE);
 
                 player.drawPlayer();
                 player.getEnemyReference()->drawBlockIndicator();
