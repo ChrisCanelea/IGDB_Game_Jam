@@ -209,6 +209,7 @@ void gameScreen(void)
             {
                 DrawText("Paused", SCREEN_W/2-200, 100, 100, RED);
                 DrawText("press p to unpause", SCREEN_W/2-350, 200, 70, RED);
+
             }
         EndDrawing();
 
