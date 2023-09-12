@@ -31,6 +31,7 @@ Stage::Stage() // Default constructor
     this->initialPopulation();
     this->shrinkRate = 0.0f;
     this->initialShrinkRate = 0.0f;
+    this->shrinkTimer = 0;
 }
 
 Stage::Stage(float width_, float height_, Player* playerReference_) 
@@ -55,6 +56,7 @@ Stage::Stage(float width_, float height_, Player* playerReference_)
     this->initialPopulation();
     this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
+    this->shrinkTimer = 0;
 }
 
 Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, Player* playerReference_) 
@@ -79,6 +81,7 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->initialPopulation();
     this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
+    this->shrinkTimer = 0;
 }
 
 Stage::Stage(Player* playerReference_) // Default constructor
@@ -103,6 +106,7 @@ Stage::Stage(Player* playerReference_) // Default constructor
     this->initialPopulation();
     this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
+    this->shrinkTimer = 0;
 }
 
 // getters
@@ -187,6 +191,11 @@ float Stage::getInitialShrinkRate()
     return this->initialShrinkRate;
 }
 
+float Stage::getShrinkTimer()
+{
+    return this->shrinkTimer;
+}
+
 // setters
 void Stage::setSprite(Texture2D sprite_) 
 {
@@ -255,6 +264,11 @@ void Stage::setPlayerReference(Player* playerReference_)
 void Stage::setShrinkRate(float shrinkRate_)
 {
     this->shrinkRate = shrinkRate_;
+}
+
+void Stage::setShrinkTimer(float shrinkTimer_)
+{
+    this->shrinkTimer = shrinkTimer_;
 }
 
 // other
@@ -353,7 +367,17 @@ void Stage::stageManager()
     float newX = oldPlayArea.x + (this->getShrinkRate()/2);
     Rectangle newPlayArea = {newX, newY, newWidth, newHeight};
     this->setPlayArea(newPlayArea);
-    this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
+    if (this->getShrinkTimer() > 0)
+    {
+        this->setShrinkTimer(this->getShrinkTimer() - 1);
+        if (this->getShrinkTimer() < this->getShrinkRate())
+        {
+            this->setShrinkRate(this->getShrinkRate() - 1);
+        }
+    } else
+    {
+        this->setShrinkRate(this->getInitialShrinkRate()); // reset shrinkRate
+    }
 
     // MAP N/E/S/W WALLS
     //changing ths size of the surrounding walls to the shrinked play area

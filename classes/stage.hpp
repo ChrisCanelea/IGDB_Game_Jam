@@ -26,6 +26,7 @@ private:
     Player* playerReference; // reference to player object in order to get its position for spawning purposes
     float shrinkRate; // amount the play area shrinks by
     float initialShrinkRate; // the shrinkRate on stage construction
+    float shrinkTimer;
     
 public:
     // constructors
@@ -52,6 +53,7 @@ public:
     Player* getPlayerReference();
     float getShrinkRate();
     float getInitialShrinkRate();
+    float getShrinkTimer();
 
     // setters
     void setSprite(Texture2D);
@@ -68,6 +70,7 @@ public:
     void setExitLocation(Vector2);
     void setPlayerReference(Player*);
     void setShrinkRate(float);
+    void setShrinkTimer(float);
 
     // other
     void stageManager(); // master controller, called once per frame, processes entire stage (& respawns)

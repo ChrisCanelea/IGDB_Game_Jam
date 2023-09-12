@@ -63,7 +63,8 @@ void gameScreen(void)
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             player.setInvulnTime(INVULN_FRAMES);
 
-                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT); // shrink on enemy hit
+                            stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 4); // quadruple shrink rate
+                            stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
                         
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
@@ -83,7 +84,8 @@ void gameScreen(void)
                             player.setInvulnTime(INVULN_FRAMES);
                             stagePtr->getProjectileArray()[j].killProjectile();
                             
-                            stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT/2); // shrink on projectile hit
+                            stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 3); // triple the shrink rate
+                            stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
                         
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getProjectileArray()[j].getHitbox()))
                         {
@@ -114,12 +116,14 @@ void gameScreen(void)
                     // player has won the combat sequence
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
-                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * (-15 * SHRINK_ON_HIT));
+                    stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * -8); // grow
+                    stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
 
                 } else
                 {
                     // player has lost the combat sequence
-                    stagePtr->setShrinkRate(stagePtr->getShrinkRate() * SHRINK_ON_HIT);
+                    stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 8); // sextuple shrink rate
+                    stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
                 }
                 updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference(), &camera);
             }
@@ -183,6 +187,7 @@ void gameScreen(void)
                 DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
                 DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
                 DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
+                DrawText(TextFormat("Shrink Timer: %03f", stagePtr->getShrinkTimer()), 20, 500, 40, ORANGE);
             } else if (currentState == COMBAT) 
             {
                 ClearBackground(BLACK);
