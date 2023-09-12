@@ -453,12 +453,6 @@ void Stage::drawStage()
     // DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
     DrawTextureRec(this->getSprite(), {this->getPlayArea().x - this->getShrinkRate(), this->getPlayArea().y - this->getShrinkRate(), this->getPlayArea().width, this->getPlayArea().height}, {this->getPlayArea().x, this->getPlayArea().y}, WHITE);
 
-    // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
-    // DrawRectangleRec(this->getNorthWall(), BLACK);
-    // DrawRectangleRec(this->getEastWall(), BLACK);
-    // DrawRectangleRec(this->getSouthWall(), BLACK);
-    // DrawRectangleRec(this->getWestWall(), BLACK);
-
     for (int i = 0; i < maxEnemies; ++i) 
     {
         this->getEnemiesArray()[i].drawEnemy(this->getPlayArea());
@@ -467,6 +461,12 @@ void Stage::drawStage()
     {
         this->getProjectileArray()[j].drawProjectile(this->getPlayArea());
     }
+
+    // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
+    DrawRectangleRec(this->getNorthWall(), ORANGE);
+    DrawRectangleRec(this->getEastWall(), ORANGE);
+    DrawRectangleRec(this->getSouthWall(), ORANGE);
+    DrawRectangleRec(this->getWestWall(), ORANGE);
 }
 
 Vector2 Stage::generateExitPosition() 
