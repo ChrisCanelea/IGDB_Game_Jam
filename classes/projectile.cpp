@@ -164,6 +164,9 @@ void Projectile::moveProjectile() // calculate and apply the motion of the proje
         {
             this->setX(this->getX() + this->getVelocity());
         }
+    } else 
+    {
+        this->setPos(THE_VOID);
     }
 }
 

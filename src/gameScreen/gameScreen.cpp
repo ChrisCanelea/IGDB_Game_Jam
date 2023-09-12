@@ -181,8 +181,8 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
-                // exit.drawExit();
-                DrawTextureRec(exit.getSprite(), {0,0,64,64}, {GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea()).x, GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea()).y}, WHITE);
+                exit.drawExit();
+                //DrawTextureRec(exit.getSprite(), this->, stagePtr->getExitLocation(), WHITE);
 
                 player.drawPlayer();
                 player.getEnemyReference()->drawBlockIndicator();

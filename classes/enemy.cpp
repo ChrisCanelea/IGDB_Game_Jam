@@ -191,6 +191,9 @@ void Enemy::moveEnemy()
             this->setPos(Vector2Add(this->getPos(), Vector2Scale(Vector2Rotate(this->getDirectionFacing(), this->getAttackAngle()), this->getSpeed())));
             
         }
+    } else 
+    {
+        this->setPos(THE_VOID);
     }
 
     // if (this->getIsActive()) // only move if active
