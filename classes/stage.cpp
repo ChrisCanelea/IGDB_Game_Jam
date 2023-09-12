@@ -355,6 +355,7 @@ void Stage::stageManager()
     // MAP N/E/S/W WALLS
     //temp comment
     asgndngdgnldsg
+    afndognoidgnps
     
 }
 
