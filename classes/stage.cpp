@@ -10,10 +10,14 @@ Stage::Stage() // Default constructor
     this->sprite = LoadTexture("assets/background.png");
     this->playArea = Rectangle {-250, -250, 500, 500};
     this->playerReference = NULL;
-    this->northWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
-    this->southWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->westWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
+    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, 100, getPlayArea().height};
+    this->southWall = Rectangle {getPlayArea().x, getPlayArea().y + getPlayArea().height, getPlayArea().width, 100};
+    this->westWall = Rectangle {getPlayArea().x - 100, getPlayArea().y, 100, getPlayArea().height};
+    // this->northWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
+    // this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    // this->southWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
+    // this->westWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
     this->maxEnemies = 10;
     this->maxProjectiles = 10;
     this->initialEnemies = 3;
@@ -34,10 +38,10 @@ Stage::Stage(float width_, float height_, Player* playerReference_)
     this->sprite = loadSprite();
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
     this->playerReference = playerReference_;
-    this->northWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
-    this->southWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->westWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
+    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, 100, getPlayArea().height};
+    this->southWall = Rectangle {getPlayArea().x, getPlayArea().y + getPlayArea().height, getPlayArea().width, 100};
+    this->westWall = Rectangle {getPlayArea().x - 100, getPlayArea().y, 100, getPlayArea().height};
     this->maxEnemies = 10;
     this->maxProjectiles = 10;
     this->initialEnemies = 3;
@@ -49,7 +53,7 @@ Stage::Stage(float width_, float height_, Player* playerReference_)
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
-    this->shrinkRate = 0.5f;
+    this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
 }
 
@@ -58,10 +62,10 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->sprite = loadSprite();
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
     this->playerReference = playerReference_;
-    this->northWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
-    this->southWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->westWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
+    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, 100, getPlayArea().height};
+    this->southWall = Rectangle {getPlayArea().x, getPlayArea().y + getPlayArea().height, getPlayArea().width, 100};
+    this->westWall = Rectangle {getPlayArea().x - 100, getPlayArea().y, 100, getPlayArea().height};
     this->maxEnemies = maxEnemies_;
     this->maxProjectiles = maxProjectiles_;
     this->initialEnemies = initialEnemies_;
@@ -73,7 +77,7 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
-    this->shrinkRate = 0.5f;
+    this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
 }
 
@@ -82,10 +86,10 @@ Stage::Stage(Player* playerReference_) // Default constructor
     this->sprite = loadSprite();
     this->playArea = Rectangle {-250, -250, 500, 500};
     this->playerReference = playerReference_;
-    this->northWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y - getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
-    this->southWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y + getPlayArea().height, getPlayArea().width * 2, getPlayArea().height};
-    this->westWall = Rectangle {getPlayArea().x - (getPlayArea().width/2), getPlayArea().y, getPlayArea().width/2, getPlayArea().height};
+    this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
+    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, 100, getPlayArea().height};
+    this->southWall = Rectangle {getPlayArea().x, getPlayArea().y + getPlayArea().height, getPlayArea().width, 100};
+    this->westWall = Rectangle {getPlayArea().x - 100, getPlayArea().y, 100, getPlayArea().height};
     this->maxEnemies = 10;
     this->maxProjectiles = 10;
     this->initialEnemies = 3;
@@ -97,7 +101,7 @@ Stage::Stage(Player* playerReference_) // Default constructor
     this->projectilesArray = createProjectileArray();
     this->populateProjectiles();
     this->initialPopulation();
-    this->shrinkRate = 0.5f;
+    this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
 }
 
