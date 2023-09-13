@@ -151,7 +151,7 @@ void gameScreen(void)
             Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 200, 50};
             if(IsKeyPressed(KEY_P))
             {
-                updateState(previousState, &player, &stagePtr, &exit, NULL, &camera);
+                updateState(previousState, &player, &stagePtr, &exit, player.getEnemyReference(), &camera);
             }
         }
 

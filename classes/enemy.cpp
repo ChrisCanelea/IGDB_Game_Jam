@@ -271,12 +271,17 @@ void Enemy::drawBlockIndicator()
     //DrawTriangle(Vector2Add(this->getCenter(), Vector2Rotate(vertex, DEG2RAD * -120)), Vector2Add(this->getCenter(), {0, 24}), Vector2Add(this->getCenter(), Vector2Rotate(vertex, DEG2RAD * 120)), RED);
     if (Vector2Equals(this->getDirectionBlocking(), {0,-1})) 
     {
-        DrawLineEx(Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * 120)), Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * -120)), 24, RED);
+        // DrawLineEx(Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * 120)), Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * -120)), 24, RED);
+        // DrawLineEx(Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * 45)), Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * -45)), 24, RED);
+        DrawRing(this->getCenter(), 64, 80, -45, 45, 8, RED);
+        DrawRing(this->getCenter(), 64, 80, 225, 135, 8, RED);
     } else if (Vector2Equals(this->getDirectionBlocking(), {1,0})) 
     {
-        DrawLineEx(Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * -120)), Vector2Add(this->getCenter(),Vector2Scale(vertex, 1.5)), 24, RED);
+        // DrawLineEx(Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * -120)), Vector2Add(this->getCenter(),Vector2Scale(vertex, 1.5)), 24, RED);
+        DrawRing(this->getCenter(), 64, 80, 0, 135, 8, RED);
     } else 
     {
-        DrawLineEx(Vector2Add(this->getCenter(), Vector2Scale(vertex, 1.5)), Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * 120)), 24, RED);
+        // DrawLineEx(Vector2Add(this->getCenter(), Vector2Scale(vertex, 1.5)), Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * 120)), 24, RED);
+        DrawRing(this->getCenter(), 64, 80, -135, 0, 8, RED);
     }
 }
