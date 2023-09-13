@@ -38,6 +38,8 @@ void titleScreen(void)
             mousePos = GetMousePosition(); //constantly getting mouse position
 
             
+            DrawText("Diminishing Returns", SCREEN_W/2 - 384, 104, 80, YELLOW);
+            DrawText("Diminishing Returns", SCREEN_W/2 - 382, 102, 80, ORANGE);
             DrawText("Diminishing Returns", SCREEN_W/2 - 380, 100, 80, RED);
             // DrawText("Depth", SCREEN_W/2 - 450, 170, 80, RED);
 
