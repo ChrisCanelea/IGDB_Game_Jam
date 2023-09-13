@@ -346,7 +346,7 @@ void Player::enemyKnockback() // knocks the player away from an enemy (called wh
     Vector2 dist = Vector2Subtract(this->getCenter(), (*this->getEnemyReference()).getCenter());
     Vector2 normalDist = Vector2Normalize(dist);
 
-    this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/35)));
+    this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/50)));
 
 }
 
@@ -355,7 +355,7 @@ void Player::projectileKnockback() // knocks the player away from a projectile (
     Vector2 dist = Vector2Subtract(this->getCenter(), this->getProjectileCollisionLocation());
     Vector2 normalDist = Vector2Normalize(dist);
 
-    this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/70)));
+    this->setPos(Vector2Add(this->getPos(), Vector2Scale(normalDist, (this->getInvulnTime()*this->getInvulnTime())/40)));
 }
 
 void Player::pollDirectionAttacking() // polls user input to determine the direction of attack in a combat sequence
