@@ -421,8 +421,17 @@ void Player::drawPlayer() // draws the player sprite
     {
         DrawTexturePro(currentSprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
 
-        if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES))
+        if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES)) // 10
         {
+            
+            if (this->getAttackCooldown() < ATTACK_COOLDOWN - 6) // 14
+            {
+                swingRect.x = 32;
+            } else if (this->getAttackCooldown() < ATTACK_COOLDOWN - 8) // 12
+            {
+                swingRect.x = 64;
+            }
+
             // DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, Color {192, 192, 192, 255});
             // DrawRectangleRec(this->getAttackSpriteBox(), WHITE);
             Rectangle dest = {this->getAttackSpriteBox().x, this->getAttackSpriteBox().y, this->getAttackSpriteBox().width, this->getAttackSpriteBox().height};
