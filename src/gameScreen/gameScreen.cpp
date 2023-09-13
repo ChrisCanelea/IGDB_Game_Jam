@@ -19,7 +19,10 @@ void gameScreen(void)
     Music musicLevel3 = LoadMusicStream("assets/Music/Level_Track_3.mp3");
     Music* currentMusic = NULL;
     bool inSecondLoop = false;
-    
+    int stageReached = 0;
+    int killsReached = 0;
+    int kills = 0;
+
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     
     Player player; // Player initialization
@@ -109,6 +112,9 @@ void gameScreen(void)
 
             if (!CheckCollisionPointRec(player.getPos(), stagePtr->getPlayArea()) || !CheckCollisionPointRec(Vector2 {player.getPos().x + player.getWidth(), player.getPos().y + player.getHeight()}, stagePtr->getPlayArea()))
             {
+                stageReached = stageNumber;
+                killsReached = kills;
+                kills = 0;
                 updateState(DEATH, &player, &stagePtr, &exit, NULL, &camera);
             }
 
@@ -185,6 +191,7 @@ void gameScreen(void)
                 if (!Vector2Equals(player.getDirectionAttacking(), player.getEnemyReference()->getDirectionBlocking()))
                 {
                     // player has won the combat sequence
+                    ++kills;
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
                     stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * -8); // grow
@@ -253,14 +260,20 @@ void gameScreen(void)
                 player.drawPlayer();
                 player.getEnemyReference()->drawBlockIndicator();
 
+                DrawText(TextFormat("%-3.2f", (((double)player.getCombatTimer()/60.0) >= 0)?((double)player.getCombatTimer()/60.0):(0.00)), player.getEnemyReference()->getPos().x + 10, player.getEnemyReference()->getPos().y - 30, 40, GREEN);
+
                 EndMode2D();
 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
+                
             } else if (currentState == DEATH) 
             {
                 ClearBackground(BLACK);
                 DrawText("You Died", SCREEN_W/2-200, 100, 100, RED);
-                DrawText("Press R to restart", SCREEN_W/2-350, 200, 70, RED);
+                DrawText(TextFormat("Stage Reached:  %i", stageReached), SCREEN_W/2-350, 400, 70, RED);
+                DrawText(TextFormat("Total kills:  %i", killsReached), SCREEN_W/2-350, 500, 70, RED);
+                DrawText(TextFormat("Total score:  %i", killsReached * (stageReached * 10)), SCREEN_W/2-350, 600, 70, RED);
+                DrawText("Press R to restart", SCREEN_W/2-350, 900, 70, RED);
             } else if (currentState == PURGATORY) 
             {
                 DrawText("Paused", SCREEN_W/2-200, 100, 100, RED);
