@@ -532,18 +532,22 @@ void Stage::drawStage()
     // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
     Rectangle wallSource = {0, 0, 128, 16};
     // DrawRectangleRec(this->getNorthWall(), ORANGE);
+    DrawRectangle(this->getNorthWall().x - this->getNorthWall().width, this->getNorthWall().y - 4*this->getNorthWall().height, 3*this->getNorthWall().width, 5*this->getNorthWall().height, BLACK);
     DrawTexturePro(this->getWallSprite(), wallSource, this->getNorthWall(), {0, 0}, 0, WHITE);
 
     Rectangle southDest = {this->getSouthWall().x + this->getSouthWall().width, this->getSouthWall().y + this->getSouthWall().height, this->getSouthWall().width, this->getSouthWall().height};
     // DrawRectangleRec(this->getSouthWall(), ORANGE);
+    DrawRectangle(this->getSouthWall().x - this->getSouthWall().width, this->getSouthWall().y, 3*this->getSouthWall().width, 5*this->getSouthWall().height, BLACK);
     DrawTexturePro(this->getWallSprite(), wallSource, southDest, {0, 0}, 180, WHITE);
     
     Rectangle westDest = {this->getWestWall().x, this->getWestWall().y + this->getWestWall().height, this->getWestWall().height, this->getWestWall().width};
     // DrawRectangleRec(this->getWestWall(), ORANGE);
+    DrawRectangle(this->getWestWall().x - 8*this->getWestWall().width, this->getWestWall().y - this->getWestWall().height, 9*this->getWestWall().width, 3*this->getWestWall().height, BLACK);
     DrawTexturePro(this->getWallSprite(), wallSource, westDest, {0, 0}, 270, WHITE);
 
     Rectangle eastDest = {this->getEastWall().x + this->getEastWall().width, this->getEastWall().y, this->getEastWall().height, this->getEastWall().width};
     // DrawRectangleRec(this->getEastWall(), ORANGE);
+    DrawRectangle(this->getEastWall().x, this->getEastWall().y - this->getEastWall().height, 9*this->getEastWall().width, 3*this->getEastWall().height, BLACK);
     DrawTexturePro(this->getWallSprite(), wallSource, eastDest, {0, 0}, 90, WHITE);
 }
 
