@@ -11,6 +11,7 @@ class Stage
 {
 private:
     Texture2D sprite; // sprite
+    Texture2D wallSprite;
     Rectangle playArea; // playArea
     Rectangle northWall; // northWall
     Rectangle eastWall; // eastWall
@@ -40,6 +41,7 @@ public:
 
     // getters
     Texture2D getSprite();
+    Texture2D getWallSprite();
     Rectangle getPlayArea();
     Rectangle getNorthWall();
     Rectangle getEastWall();
@@ -61,6 +63,7 @@ public:
 
     // setters
     void setSprite(Texture2D);
+    void setWallSprite(Texture2D);
     void setPlayArea(Rectangle);
     void setNorthWall(Rectangle);
     void setEastWall(Rectangle);

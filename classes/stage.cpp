@@ -8,6 +8,7 @@
 Stage::Stage() // Default constructor
 {
     this->sprite = LoadTexture("assets/background.png");
+    this->wallSprite = LoadTexture("assets/fire.png");
     this->playArea = Rectangle {-250, -250, 500, 500};
     this->playerReference = NULL;
     this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
@@ -38,6 +39,7 @@ Stage::Stage() // Default constructor
 Stage::Stage(float width_, float height_, Player* playerReference_, Exit* exitReference_) 
 {
     this->sprite = loadSprite();
+    this->wallSprite = LoadTexture("assets/fire.png");
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
     this->playerReference = playerReference_;
     this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
@@ -64,6 +66,7 @@ Stage::Stage(float width_, float height_, Player* playerReference_, Exit* exitRe
 Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, Player* playerReference_, Exit* exitReference_) 
 {
     this->sprite = loadSprite();
+    this->wallSprite = LoadTexture("assets/fire.png");
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
     this->playerReference = playerReference_;
     this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
@@ -90,6 +93,7 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
 Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, float shrinkRate_, Player* playerReference_, Exit* exitReference_) 
 {
     this->sprite = loadSprite();
+    this->wallSprite = LoadTexture("assets/fire.png");
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
     this->playerReference = playerReference_;
     this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
@@ -116,6 +120,7 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
 Stage::Stage(Player* playerReference_, Exit* exitReference_)
 {
     this->sprite = loadSprite();
+    this->wallSprite = LoadTexture("assets/fire.png");
     this->playArea = Rectangle {-250, -250, 500, 500};
     this->playerReference = playerReference_;
     this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
@@ -143,6 +148,11 @@ Stage::Stage(Player* playerReference_, Exit* exitReference_)
 Texture2D Stage::getSprite() 
 {
     return this->sprite;
+}
+
+Texture2D Stage::getWallSprite() 
+{
+    return this->wallSprite;
 }
 
 Rectangle Stage::getPlayArea() 
@@ -235,6 +245,11 @@ Exit* Stage::getExitReference()
 void Stage::setSprite(Texture2D sprite_) 
 {
     this->sprite = sprite_;
+}
+
+void Stage::setWallSprite(Texture2D wallSprite_) 
+{
+    this->wallSprite = wallSprite_;
 }
 
 void Stage::setPlayArea(Rectangle playArea_) 
@@ -515,10 +530,21 @@ void Stage::drawStage()
     }
 
     // THESE ARE TO BE REPURPOSED FOR BORDER TEXTURE IGNORE THEM FOR NOW
-    DrawRectangleRec(this->getNorthWall(), ORANGE);
-    DrawRectangleRec(this->getEastWall(), ORANGE);
-    DrawRectangleRec(this->getSouthWall(), ORANGE);
-    DrawRectangleRec(this->getWestWall(), ORANGE);
+    Rectangle wallSource = {0, 0, 128, 16};
+    // DrawRectangleRec(this->getNorthWall(), ORANGE);
+    DrawTexturePro(this->getWallSprite(), wallSource, this->getNorthWall(), {0, 0}, 0, WHITE);
+
+    Rectangle southDest = {this->getSouthWall().x + this->getSouthWall().width, this->getSouthWall().y + this->getSouthWall().height, this->getSouthWall().width, this->getSouthWall().height};
+    // DrawRectangleRec(this->getSouthWall(), ORANGE);
+    DrawTexturePro(this->getWallSprite(), wallSource, southDest, {0, 0}, 180, WHITE);
+    
+    Rectangle westDest = {this->getWestWall().x, this->getWestWall().y + this->getWestWall().height, this->getWestWall().height, this->getWestWall().width};
+    // DrawRectangleRec(this->getWestWall(), ORANGE);
+    DrawTexturePro(this->getWallSprite(), wallSource, westDest, {0, 0}, 270, WHITE);
+
+    Rectangle eastDest = {this->getEastWall().x + this->getEastWall().width, this->getEastWall().y, this->getEastWall().height, this->getEastWall().width};
+    // DrawRectangleRec(this->getEastWall(), ORANGE);
+    DrawTexturePro(this->getWallSprite(), wallSource, eastDest, {0, 0}, 90, WHITE);
 }
 
 Vector2 Stage::generateExitPosition() 
