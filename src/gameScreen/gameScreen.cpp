@@ -25,16 +25,16 @@ void gameScreen(void)
     int kills = 0;
 
     Sound swingMisses[3];
-    swingMisses[0] = LoadSound("Sword_Swoosh_light_1.mp3");
-    swingMisses[1] = LoadSound("Sword_Swoosh_light_2.mp3");
-    swingMisses[2] = LoadSound("Sword_Swoosh_light_3.mp3");
+    swingMisses[0] = LoadSound("Sword_Swoosh_light_1.wav");
+    swingMisses[1] = LoadSound("Sword_Swoosh_light_2.wav");
+    swingMisses[2] = LoadSound("Sword_Swoosh_light_3.wav");
 
     Sound swingHits[2];
-    swingHits[0] = LoadSound("Sword_Swoosh_heavy_1.mp3");
-    swingHits[1] = LoadSound("Sword_Swoosh_heavy_2.mp3");
+    swingHits[0] = LoadSound("Sword_Swoosh_heavy_1.wav");
+    swingHits[1] = LoadSound("Sword_Swoosh_heavy_2.wav");
 
-    Sound swingEnemy = LoadSound("Sword_Swoosh_enemy.mp3");
-    Sound swingKill = LoadSound("Sword_Swoosh_kill.mp3");
+    Sound swingEnemy = LoadSound("Sword_Swoosh_enemy.wav");
+    Sound swingKill = LoadSound("Sword_Swoosh_kill.wav");
 
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     

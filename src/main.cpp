@@ -7,6 +7,8 @@ int main(void)
     InitWindow(SCREEN_W, SCREEN_H, "game title"); // change title
     ToggleFullscreen();
 
+    // InitAudioDevice();
+
     SetTargetFPS(60);
 
     while(true)
@@ -16,6 +18,7 @@ int main(void)
 
         if (WindowShouldClose())
         {
+            // CloseAudioDevice();
             CloseWindow();
         }
     }
