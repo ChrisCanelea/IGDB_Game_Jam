@@ -12,8 +12,8 @@ const float ATTACK_RADIUS = 50;
 const float ATTACK_FRAMES = 10;
 const float ATTACK_COOLDOWN = 20;
 const float INVULN_FRAMES = 30;
-const float ENEMY_RESPAWN_TIME = 120;
-const float PROJECTILE_RESPAWN_TIME = 50;
+const float ENEMY_RESPAWN_TIME = 60;
+const float PROJECTILE_RESPAWN_TIME = 40;
 const int COMBAT_TIMER = 120;
 const float SHRINK_ON_HIT = 35;
 
