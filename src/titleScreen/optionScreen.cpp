@@ -5,7 +5,8 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
-
+float musicVol = 100;
+float effectVol = 100;
 
 void optionScreen(Music menuTrack){
     GuiLoadStyleDefault();

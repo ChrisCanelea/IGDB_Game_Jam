@@ -13,6 +13,11 @@ void updateState(GameState, Player*, Stage**, Exit*, Enemy*, Camera2D*); // chan
 
 void gameScreen(void)
 {
+    Music musicTutorial = LoadMusicStream("assets/Music/Loopable_Tutorial.mp3");
+    Music musicLevel1 = LoadMusicStream("assets/Music/Level_Track_1.mp3");
+    Music musicLevel2 = LoadMusicStream("assets/Music/Level_Track_2.mp3");
+    Music musicLevel3 = LoadMusicStream("assets/Music/Level_Track_3.mp3");
+    
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     
     Player player; // Player initialization
@@ -23,10 +28,16 @@ void gameScreen(void)
 
     Stage* stagePtr = NULL; // Stage pointer
 
+    musicTutorial.looping = true;
+    PlayMusicStream(musicTutorial); // NOT UPDATED
+    SetMusicVolume(musicTutorial,musicVol/100.0);
     updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
 
     while(true)
     {
+        // TODO: MUSIC STREAM HANDLING
+        
+        
         // Only process certain things depenging on the currentState
         if (currentState == PLAYING) 
         {
@@ -40,7 +51,6 @@ void gameScreen(void)
                 updateState(DEATH, &player, &stagePtr, &exit, NULL, &camera);
             }
 
-            // TODO: LOCK CAMERA AFTER PLAYER GETS TO A CERTAIN POINT NEAR WALL (LIMIT RANGE)
             camera.target = Vector2Lerp(camera.target, player.getCenter(), 0.15);
             camera.zoom = Lerp(camera.zoom, 1.0f, 0.2f);
             
