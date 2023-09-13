@@ -12,7 +12,7 @@ Player::Player() // Default constructor
     this->loadSprite();
     this->hitbox = Rectangle {0, 0, 50, 100}; // Default hitbox is a 50x100 square at (0, 0)
     this->speed = 10;
-    this->direction = Vector2 {0, 1};
+    this->direction = Vector2 {0, -1};
     this->attackHitbox = Circle {THE_VOID, 0};
     this->attackSpriteBox = Rectangle {0, 0, 0, 0};
     this->attackCooldown = 0;
