@@ -6,7 +6,7 @@
 class Enemy
 {
 private:
-    Texture2D sprite; // sprite
+    Texture2D sprite[2]; // sprite
     Rectangle hitbox; // hitbox
     float speed; // speed
     Vector2 directionFacing; // direction
@@ -22,7 +22,7 @@ public:
     Enemy(Rectangle, Vector2); // Constructor with parameters
 
     // getters
-    Texture2D getSprite(); // returns sprite
+    Texture2D getSprite(int); // returns sprite
     Rectangle getHitbox(); // returns hitbox
     int getSpeed(); // returns speed
     Vector2 getDirectionFacing(); // returns direction
@@ -38,7 +38,7 @@ public:
     float getHeight(); // returns height of hitbox
     
     // setters
-    void setSprite(Texture2D); // sets sprite
+    void setSprite(Texture2D, int); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(float); // sets speed
     void setDirectionFacing(Vector2); // sets direction
@@ -56,7 +56,7 @@ public:
     //other
     void moveEnemy(); // moves the Enemy based on input
     void drawEnemy(Rectangle); // draws the Enemy (only the parts that are on top of playArea rectangle)
-    Texture2D loadSprite();
+    void loadSprite();
     void killEnemy(); // moves enemy outside the play area and makes it inactive
     void generateDirectionBlocking(); // generates a normalized vector in direction of block
     void generateDirectionFacing(); // generates a normalized directionFacing vector
