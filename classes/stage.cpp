@@ -84,6 +84,31 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->shrinkTimer = 0;
 }
 
+Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, float shrinkRate_, Player* playerReference_) 
+{
+    this->sprite = loadSprite();
+    this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
+    this->playerReference = playerReference_;
+    this->northWall = Rectangle {getPlayArea().x, getPlayArea().y -100, getPlayArea().width, 100}; //x,y,w,h
+    this->eastWall = Rectangle {getPlayArea().x + getPlayArea().width, getPlayArea().y, 100, getPlayArea().height};
+    this->southWall = Rectangle {getPlayArea().x, getPlayArea().y + getPlayArea().height, getPlayArea().width, 100};
+    this->westWall = Rectangle {getPlayArea().x - 100, getPlayArea().y, 100, getPlayArea().height};
+    this->maxEnemies = maxEnemies_;
+    this->maxProjectiles = maxProjectiles_;
+    this->initialEnemies = initialEnemies_;
+    this->enemyRespawnTime = ENEMY_RESPAWN_TIME;
+    this->projectileRespawnTime = PROJECTILE_RESPAWN_TIME;
+    this->exitLocation = generateExitPosition();
+    this->enemiesArray = createEnemyArray();
+    this->populateEnemies();
+    this->projectilesArray = createProjectileArray();
+    this->populateProjectiles();
+    this->initialPopulation();
+    this->shrinkRate = shrinkRate_;
+    this->initialShrinkRate = this->getShrinkRate();
+    this->shrinkTimer = 0;
+}
+
 Stage::Stage(Player* playerReference_) // Default constructor
 {
     this->sprite = loadSprite();
@@ -298,9 +323,12 @@ void Stage::stageManager()
     {
         if (this->getProjectileRespawnTime() == 0) 
         {
-            this->respawnProjectile(queuedProjectile);
+            if (this->getPlayArea().width > 500) 
+            {
+                this->respawnProjectile(queuedProjectile);
 
-            this->setProjectileRespawnTime(PROJECTILE_RESPAWN_TIME);
+                this->setProjectileRespawnTime(PROJECTILE_RESPAWN_TIME);
+            }
         } else 
         {
             this->setProjectileRespawnTime(this->getProjectileRespawnTime() - 1);
@@ -423,9 +451,9 @@ void Stage::initialPopulation()
     {
         this->getEnemiesArray()[i].setIsActive(true);
         initialPosition = this->generateRandomPoint();
-        while (Vector2Distance({0,0}, initialPosition) < 600)
+        while (Vector2Distance({0,0}, initialPosition) < 100)
         {
-            // get new random starting position if within 600 of player
+            // get new random starting position if within 100 of player
             initialPosition = this->generateRandomPoint();
         }
         this->getEnemiesArray()[i].setPos(initialPosition);

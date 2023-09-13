@@ -33,6 +33,7 @@ public:
     Stage(); // Default constructor
     Stage(float, float, Player*); // Constructor with parameters
     Stage(float, float, int, int, int, Player*);
+    Stage(float, float, int, int, int, float, Player*);
     Stage(Player*);
 
     // getters

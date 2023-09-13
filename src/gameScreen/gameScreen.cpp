@@ -124,6 +124,7 @@ void gameScreen(void)
                     // player has lost the combat sequence
                     stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 8); // sextuple shrink rate
                     stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
+                    player.setInvulnTime(INVULN_FRAMES);
                 }
                 updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference(), &camera);
             }
@@ -271,28 +272,29 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
             *stagePtr = NULL;
         }
 
-        // fetch a layout from file potentially
-
         // WIDTH AND HEIGHT IN CONSTRUCTOR ARE THE WIDTH AND HEIGHT OF THE BORDER (KEEP THEM AS A SQUARE)
+        // Stage(float width, float height, int maxenemies, int maxprojectiles, int initialenemies, float shrinkrate, player playerreference)
+        float prevSize = 1000.0f;
+        float prevRate = 0.75f;
+
         if (stageNumber > 1) // not tutorial stage
         {
             // EDIT THIS TO BE BASED ON STAGENUMBER
-            *stagePtr = new Stage(2000.0f, 2000.0f, playerPtr);
+            *stagePtr = new Stage(Lerp(prevSize, 500.0f, 0.25), Lerp(prevSize, 500.0f, 0.25), (stageNumber > 8)?(14):(6 + stageNumber), (stageNumber > 7)?(15):(8 + stageNumber), (stageNumber > 5)?(5):(stageNumber), prevRate = Lerp(prevRate, 1.5f, 0.25), playerPtr);
+            prevSize = Lerp(prevSize, 500.0f, 0.25);
+            prevRate = Lerp(prevRate, 1.5f, 0.25);
         } else // tutorial
         {
-            *stagePtr = new Stage(1000.0f, 1000.0f, 1, 1, 1, playerPtr); // create stage object
+            *stagePtr = new Stage(1000.0f, 1000.0f, 1, 1, 1, 0.75, playerPtr); // create tutorial stage
         }
 
         playerPtr->setPos({0,0}); // reset player
         exitPtr->setPos((*stagePtr)->getExitLocation()); // update exit location
+        playerPtr->setInvulnTime(INVULN_FRAMES);
         updateState(PLAYING, playerPtr, stagePtr, exitPtr, enemyPtr, cameraPtr); // keep an eye on this, might cause issues
     } else if (nextState == PLAYING) 
     {
-        // set a small amount of invulnerability
-        if(previousState != PURGATORY)
-        {
-        playerPtr->setInvulnTime(INVULN_FRAMES);
-        }
+
     } else if (nextState == COMBAT) 
     {
         playerPtr->setCombatTimer(COMBAT_TIMER);
