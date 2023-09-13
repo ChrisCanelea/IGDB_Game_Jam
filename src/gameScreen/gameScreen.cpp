@@ -24,6 +24,18 @@ void gameScreen(void)
     int killsReached = 0;
     int kills = 0;
 
+    Sound swingMisses[3];
+    swingMisses[0] = LoadSound("Sword_Swoosh_light_1.mp3");
+    swingMisses[1] = LoadSound("Sword_Swoosh_light_2.mp3");
+    swingMisses[2] = LoadSound("Sword_Swoosh_light_3.mp3");
+
+    Sound swingHits[2];
+    swingHits[0] = LoadSound("Sword_Swoosh_heavy_1.mp3");
+    swingHits[1] = LoadSound("Sword_Swoosh_heavy_2.mp3");
+
+    Sound swingEnemy = LoadSound("Sword_Swoosh_enemy.mp3");
+    Sound swingKill = LoadSound("Sword_Swoosh_kill.mp3");
+
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     
     Player player; // Player initialization
@@ -138,6 +150,7 @@ void gameScreen(void)
                     {
                         if (CheckCollisionRecs(player.getHitbox(), stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
+                            PlaySound(swingEnemy);
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             player.setInvulnTime(INVULN_FRAMES);
                             lives--;
@@ -147,8 +160,12 @@ void gameScreen(void)
                         
                         } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
                         {
+                            PlaySound(swingHits[GetRandomValue(0,1)]);
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             updateState(COMBAT, &player, &stagePtr, &exit, &stagePtr->getEnemiesArray()[i], &camera);
+                        } else if (player.getAttackCooldown() == ATTACK_COOLDOWN) 
+                        {
+                            PlaySound(swingMisses[(GetRandomValue(0,2))]);
                         }
                     }
                 }
@@ -195,6 +212,7 @@ void gameScreen(void)
                 {
                     // player has won the combat sequence
                     ++kills;
+                    PlaySound(swingKill);
                     player.getEnemyReference()->killEnemy();
                     player.setEnemyReference(NULL);
                     stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * -8); // grow
@@ -203,6 +221,7 @@ void gameScreen(void)
                 } else
                 {
                     // player has lost the combat sequence
+                    PlaySound(swingEnemy);
                     stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 8); // sextuple shrink rate
                     stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
                     player.setInvulnTime(INVULN_FRAMES);
@@ -270,7 +289,7 @@ void gameScreen(void)
                 EndMode2D();
 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
-                
+                DrawText(TextFormat("Lives: %03i", lives), 10, 80, 50, RED);
             } else if (currentState == DEATH) 
             {
                 ClearBackground(BLACK);
