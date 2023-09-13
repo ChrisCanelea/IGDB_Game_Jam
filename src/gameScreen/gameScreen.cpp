@@ -17,6 +17,8 @@ void gameScreen(void)
     Music musicLevel1 = LoadMusicStream("assets/Music/Level_Track_1.mp3");
     Music musicLevel2 = LoadMusicStream("assets/Music/Level_Track_2.mp3");
     Music musicLevel3 = LoadMusicStream("assets/Music/Level_Track_3.mp3");
+    Music* currentMusic = NULL;
+    bool inSecondLoop = false;
     
     Camera2D camera = {{SCREEN_W/2, SCREEN_H/2}, {0,0}, 0.0f, 1.0f}; // camera initialization
     
@@ -29,14 +31,73 @@ void gameScreen(void)
     Stage* stagePtr = NULL; // Stage pointer
 
     musicTutorial.looping = true;
-    PlayMusicStream(musicTutorial); // NOT UPDATED
-    SetMusicVolume(musicTutorial,musicVol/100.0);
+    currentMusic = &musicTutorial;
+    PlayMusicStream(*currentMusic);
     updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
 
     while(true)
     {
-        // TODO: MUSIC STREAM HANDLING
-        
+        // MUSIC STREAM HANDLING
+        // track lengths given by raylib: 40.4879, 40.4879, 43.6767
+        if (stageNumber <= 1) // in tutorial
+        {
+            SetMusicVolume(*currentMusic, musicVol/100.0);
+            UpdateMusicStream(*currentMusic);
+        } else 
+        {
+            if (IsMusicStreamPlaying(musicTutorial)) // if tutorial music is still playing (only happens once)
+            {
+                StopMusicStream(musicTutorial); // stop it
+                currentMusic = &musicLevel1; // change to track 1
+                PlayMusicStream(*currentMusic); // play it
+            }
+
+            if (currentMusic == &musicLevel1) // if track 1 is playing
+            {
+                if (!inSecondLoop && (GetMusicTimePlayed(*currentMusic) >= 40.4f)) // if at end of first loop
+                {
+                    SeekMusicStream(*currentMusic, 10.10f); // loop to end of intro
+                    inSecondLoop = true; // update status variable
+                } else if ((GetMusicTimePlayed(*currentMusic) >= 40.4f)) // if at end of second loop
+                {
+                    StopMusicStream(*currentMusic); // stop this track
+                    currentMusic = &musicLevel2; // change to track 2
+                    PlayMusicStream(*currentMusic); // play it
+                    inSecondLoop = false; // reset status variable
+                }
+            } else if (currentMusic == &musicLevel2) // if track 2 is playing
+            {
+                if (!inSecondLoop && (GetMusicTimePlayed(*currentMusic) >= 40.4f)) // if at end of first loop
+                {
+                    SeekMusicStream(*currentMusic, 10.10f); // loop to end of intro
+                    inSecondLoop = true; // update status variable
+                } else if ((GetMusicTimePlayed(*currentMusic) >= 40.4f)) // if at end of second loop
+                {
+                    StopMusicStream(*currentMusic); // stop this track
+                    currentMusic = &musicLevel3; // change to track 3
+                    PlayMusicStream(*currentMusic); // play it
+                    inSecondLoop = false; // reset status variable
+                }
+            } else // track 3 is playing
+            {
+                if (!inSecondLoop && (GetMusicTimePlayed(*currentMusic) >= 43.6f)) // if at end of first loop
+                {
+                    SeekMusicStream(*currentMusic, 5.45f); // loop to end of intro
+                    inSecondLoop = true; // update status variable
+                } else if ((GetMusicTimePlayed(*currentMusic) >= 43.6f)) // if at end of second loop
+                {
+                    StopMusicStream(*currentMusic); // stop this track
+                    currentMusic = &musicLevel1; // change to track 1
+                    PlayMusicStream(*currentMusic); // play it
+                    inSecondLoop = false; // reset status variable
+                }
+            }
+
+            // update stream with current song and adjust its volume
+            SetMusicVolume(*currentMusic, musicVol/100.0);
+            UpdateMusicStream(*currentMusic);
+
+        }
         
         // Only process certain things depenging on the currentState
         if (currentState == PLAYING) 
@@ -176,15 +237,6 @@ void gameScreen(void)
                 EndMode2D();
                 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
-                DrawText("PLAYING", 1700, 20, 50, GREEN);
-                DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
-                DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
-                DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
-                DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
-                DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
-                DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
-                DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
-                DrawText(TextFormat("Shrink Timer: %03f", stagePtr->getShrinkTimer()), 20, 500, 40, ORANGE);
             } else if (currentState == COMBAT) 
             {
                 ClearBackground(BLACK);
@@ -204,25 +256,15 @@ void gameScreen(void)
                 EndMode2D();
 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
-                DrawText("COMBAT", 1700, 20, 50, GREEN);
-                DrawText(TextFormat("Pos: %03i, %03i", (int)player.getPos().x, (int)player.getPos().y), 20, 80, 40, RED);
-                DrawText(TextFormat("Attack Cooldown: %03i", (int)player.getAttackCooldown()), 20, 140, 40, RED);
-                DrawText(TextFormat("Invuln Timer: %03i", (int)player.getInvulnTime()), 20, 200, 40, RED);
-                DrawText(TextFormat("Enemy Respawn: %03i", (int)stagePtr->getEnemyRespawnTime()), 20, 260, 40, ORANGE);
-                DrawText(TextFormat("Projectile Respawn: %03i", (int)stagePtr->getProjectileRespawnTime()), 20, 320, 40, ORANGE);
-                DrawText(TextFormat("Atk hitbox: %03i, %03i", (int)player.getAttackHitbox().center.x, (int)player.getAttackHitbox().center.y),  20, 380, 40, ORANGE);
-                DrawText(TextFormat("Combat Timer: %03i", player.getCombatTimer()), 20, 440, 40, ORANGE);
-                DrawText(TextFormat("EnemyBlockDirection: %03f, %03f", player.getEnemyReference()->getDirectionBlocking().x, player.getEnemyReference()->getDirectionBlocking().y), 20, 500, 40, ORANGE);
-                DrawText(TextFormat("PlayerAttackDirection: %03f, %03f", player.getDirectionAttacking().x, player.getDirectionAttacking().y), 20, 560, 40, ORANGE);
             } else if (currentState == DEATH) 
             {
                 ClearBackground(BLACK);
                 DrawText("You Died", SCREEN_W/2-200, 100, 100, RED);
-                DrawText("press r to restart", SCREEN_W/2-350, 200, 70, RED);
+                DrawText("Press R to restart", SCREEN_W/2-350, 200, 70, RED);
             } else if (currentState == PURGATORY) 
             {
                 DrawText("Paused", SCREEN_W/2-200, 100, 100, RED);
-                DrawText("press p to unpause", SCREEN_W/2-350, 200, 70, RED);
+                DrawText("Press P to unpause", SCREEN_W/2-350, 200, 70, RED);
 
             }
         EndDrawing();
@@ -289,7 +331,8 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
         if (stageNumber != 1)
         {
             stageNumber = 1;
-        } else{
+        } else
+        {
             stageNumber = 0;
         }
     } else if (nextState == PURGATORY) 
