@@ -14,6 +14,7 @@ Player::Player() // Default constructor
     this->speed = 10;
     this->direction = Vector2 {0, 1};
     this->attackHitbox = Circle {THE_VOID, 0};
+    this->attackSpriteBox = Rectangle {0, 0, 0, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
@@ -29,6 +30,7 @@ Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
     this->speed = 10;
     this->direction = {0, 1};
     this->attackHitbox = Circle{THE_VOID, 0};
+    this->attackSpriteBox = Rectangle {0, 0, 0, 0};
     this->attackCooldown = 0;
     this->invulnTime = 0;
     this->enemyReference = NULL;
@@ -61,6 +63,16 @@ Vector2 Player::getDirection() // returns direction unit vector
 Circle Player::getAttackHitbox() // returns attackHitbox
 {
     return this->attackHitbox;
+}
+
+Rectangle Player::getAttackSpriteBox()
+{
+    return this->attackSpriteBox;
+}
+
+float Player::getAttackRotation()
+{
+    return this->attackRotation;
 }
 
 float Player::getAttackCooldown() // returs the number of attack cooldown frames
@@ -140,6 +152,16 @@ void Player::setDirection(Vector2 direction_) // sets direction
 void Player::setAttackHitbox(Circle attackHitbox_) // sets attackHitbox
 {
     this->attackHitbox = attackHitbox_;
+}
+
+void Player::setAttackSpriteBox(Rectangle attackSpriteBox_)
+{
+    this->attackSpriteBox = attackSpriteBox_;
+}
+
+void Player::setAttackRotation(float attackRotation_)
+{
+    this->attackRotation = attackRotation_;
 }
 
 void Player::setAttackCooldown(float attackCooldown_) // sets the number of attack cooldown frames
@@ -238,34 +260,42 @@ void Player::movePlayer() // moves the player based on input
     if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D))
     {
         this->setDirection(Vector2 {1, -1});
+        this->setAttackRotation(45);
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D))
     {
         this->setDirection(Vector2 {1, 1});
+        this->setAttackRotation(135);
 
     } else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A))
     {
         this->setDirection(Vector2 {-1, 1});
+        this->setAttackRotation(225);
 
     } else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A))
     {
         this->setDirection(Vector2 {-1, -1});
+        this->setAttackRotation(315);
 
     } else if (IsKeyDown(KEY_W))
     {
         this->setDirection(Vector2 {0, -1});
+        this->setAttackRotation(0);
 
     } else if (IsKeyDown(KEY_D))
     {
         this->setDirection(Vector2 {1, 0});
+        this->setAttackRotation(90);
 
     } else if (IsKeyDown(KEY_S))
     {
         this->setDirection(Vector2 {0, 1});
+        this->setAttackRotation(180);
 
     } else if (IsKeyDown(KEY_A))
     {
         this->setDirection(Vector2 {-1, 0});
+        this->setAttackRotation(270);
 
     } else
     {
@@ -279,6 +309,9 @@ void Player::movePlayer() // moves the player based on input
 
     if (this->getInvulnTime() <= 0) // if player is not invulnerable
     {
+        Rectangle attackBox = {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET) - ATTACK_RADIUS, this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)  - ATTACK_RADIUS, 2*ATTACK_RADIUS, 2*ATTACK_RADIUS};
+        this->setAttackSpriteBox(attackBox);
+        
         if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 4)) // First 4 frames of attack
         {
             Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/4}; // location of hitbox, radius of hitbox
@@ -347,6 +380,8 @@ void Player::pollDirectionAttacking() // polls user input to determine the direc
 
 void Player::drawPlayer() // draws the player sprite
 {
+    
+
     Texture2D currentSprite;
 
     if (this->getDirection().x >= 0)
@@ -371,6 +406,7 @@ void Player::drawPlayer() // draws the player sprite
     }
 
     Rectangle spriteRect = {0, 0, 46, 64};
+    Rectangle swingRect = {0, 0, 32, 32};
 
     if (((!this->getEnemyReference() == NULL) || (!Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
     {
@@ -387,8 +423,44 @@ void Player::drawPlayer() // draws the player sprite
 
         if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES))
         {
-            DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, Color {192, 192, 192, 255});
+            // DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, Color {192, 192, 192, 255});
+            // DrawRectangleRec(this->getAttackSpriteBox(), WHITE);
+            Rectangle dest = {this->getAttackSpriteBox().x, this->getAttackSpriteBox().y, this->getAttackSpriteBox().width, this->getAttackSpriteBox().height};
+            spriteType swing = SWING;
+            if (this->getAttackRotation() == 45)
+            {
+                dest.x = dest.x + 55; // dest.width/2 + 5
+                dest.y = dest.y - 32; // dest.height/3
+                swing = SWING_RIGHT;
+            } else if (this->getAttackRotation() == 90)
+            {
+                dest.x = dest.x + dest.width;
+                swing = SWING_RIGHT;
+                
+            } else if (this->getAttackRotation() == 135)
+            {
+                dest.x = dest.x + 133; // 1.3 * dest.width + 3
+                dest.y = dest.y + 60; // 0.6 * dest.height
+                swing = SWING_RIGHT;
+            } else if (this->getAttackRotation() == 180)
+            {
+                dest.x = dest.x + dest.width;
+                dest.y = dest.y + dest.height;
+                swing = SWING_RIGHT;
+            } else if (this->getAttackRotation() == 225)
+            {
+                dest.x = dest.x + 43; // 0.5 * dest.width - 7
+                dest.y = dest.y + 133; // 1.3 * dest.height + 3
+            } else if (this->getAttackRotation() == 270)
+            {
+                dest.y = dest.y + dest.height;
+            } else if (this->getAttackRotation() == 315)
+            {
+                dest.x = dest.x - 32;
+                dest.y = dest.y + 43;
+            }
 
+            DrawTexturePro(this->getSprite(swing), swingRect, dest, Vector2 {0, 0}, this->getAttackRotation(), WHITE);
         }
 
     }
@@ -402,4 +474,6 @@ void Player::loadSprite()
     this->sprite[RIGHT] = LoadTexture("assets/charNoSword1.png");
     this->sprite[RIGHT_SWORD] = LoadTexture("assets/charRight.png");
     this->sprite[LEFT_SWORD] = LoadTexture("assets/charLeft.png");
+    this->sprite[SWING] = LoadTexture("assets/swing.png");
+    this->sprite[SWING_RIGHT] = LoadTexture("assets/swing_right.png");
 }

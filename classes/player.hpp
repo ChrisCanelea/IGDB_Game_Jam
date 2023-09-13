@@ -9,11 +9,13 @@
 class Player
 {
 private:
-    Texture2D sprite[4]; // sprite
+    Texture2D sprite[6]; // sprite
     Rectangle hitbox; // hitbox
     float speed; // speed
     Vector2 direction; // direction
     Circle attackHitbox; // attackHitbox
+    Rectangle attackSpriteBox;
+    float attackRotation;
     float attackCooldown;
     float invulnTime;
     Enemy* enemyReference; // reference to the enemy the player is interacting with
@@ -32,6 +34,8 @@ public:
     float getSpeed(); // returns speed
     Vector2 getDirection(); // returns direction unit vector
     Circle getAttackHitbox(); // returns attackHitbox
+    Rectangle getAttackSpriteBox();
+    float getAttackRotation();
     float getAttackCooldown(); // returs the number of attack cooldown frames
     float getInvulnTime(); // returns the number of invulnerability frames
     Enemy* getEnemyReference(); // returns the address of the enemy the player is interacting with
@@ -50,7 +54,9 @@ public:
     void setSpeed(float); // sets speed
     void setDirection(Vector2); // sets direction
     void setAttackHitbox(Circle); // sets attackHitbox
+    void setAttackSpriteBox(Rectangle);
     void setAttackCooldown(float); // sets the number of attack cooldown frames
+    void setAttackRotation(float);
     void setInvulnTime(float); // sets the number of invulnerability frames
     void setEnemyReference(Enemy*); // sets the address of the enemy the player is interacting with
     void setProjectileCollisionLocation(Vector2); // sets the location where the player collided with the projectile

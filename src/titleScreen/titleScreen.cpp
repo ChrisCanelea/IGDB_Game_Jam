@@ -38,16 +38,16 @@ void titleScreen(void)
             mousePos = GetMousePosition(); //constantly getting mouse position
 
             
-            DrawText("The Shrinking", SCREEN_W/2 - 450, 100, 80, RED);
-            DrawText("Dungeon", SCREEN_W/2 - 450, 150, 80, RED);
+            DrawText("Diminishing Returns", SCREEN_W/2 - 450, 100, 80, RED);
+            // DrawText("Depth", SCREEN_W/2 - 450, 170, 80, RED);
 
             if(CheckCollisionPointRec(mousePos,playButtonBound))
             {
-                DrawRectangleRec(playButtonBound, YELLOW);
+                // DrawRectangleRec(playButtonBound, YELLOW);
                 DrawText("Play", SCREEN_W/2  - 70, 825, 50, RED);
             } else
             {
-                DrawRectangleRec(playButtonBound, BLACK);
+                // DrawRectangleRec(playButtonBound, BLACK);
                 DrawText("Play", SCREEN_W/2  - 70, 825, 50, WHITE);
             }
 
@@ -56,7 +56,7 @@ void titleScreen(void)
                 DrawText("Options", SCREEN_W/2 - 110, 950, 50, RED);
             } else
             {
-                DrawText("Options", SCREEN_W/2 - 110, 950, 50, BLACK);
+                DrawText("Options", SCREEN_W/2 - 110, 950, 50, WHITE);
             }
         
 
