@@ -9,7 +9,7 @@
 // constructors
 Player::Player() // Default constructor
 {
-    this->sprite = this->loadSprite();
+    this->loadSprite();
     this->hitbox = Rectangle {0, 0, 50, 100}; // Default hitbox is a 50x100 square at (0, 0)
     this->speed = 10;
     this->direction = Vector2 {0, 1};
@@ -24,7 +24,7 @@ Player::Player() // Default constructor
 
 Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
 {
-    this->sprite = this->loadSprite();
+    this->loadSprite();
     this->hitbox = hitbox_;
     this->speed = 10;
     this->direction = {0, 1};
@@ -38,9 +38,9 @@ Player::Player(Rectangle hitbox_) // Constructor with hitbox parameter
 }
 
 // getters
-Texture2D Player::getSprite() // returns sprite
+Texture2D Player::getSprite(int index) // returns sprite
 {
-    return this->sprite;
+    return this->sprite[index];
 }
 
 Rectangle Player::getHitbox() // returns hitbox
@@ -117,9 +117,9 @@ float Player::getHeight() // returns height of hitbox
 }
 
 // setters
-void Player::setSprite(Texture2D sprite_)
+void Player::setSprite(Texture2D sprite_, int index)
 {
-    this->sprite = sprite_;
+    this->sprite[index] = sprite_;
 }
 
 void Player::setHitbox(Rectangle hitbox_) // sets hitbox
@@ -277,7 +277,7 @@ void Player::movePlayer() // moves the player based on input
         this->setPos(Vector2Add(this->getPos(), Vector2Scale(this->getDirection(), speed)));
     }
 
-    if (!this->getInvulnTime()) // if player is not invulnerable
+    if (this->getInvulnTime() <= 0) // if player is not invulnerable
     {
         if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 4)) // First 4 frames of attack
         {
@@ -289,8 +289,7 @@ void Player::movePlayer() // moves the player based on input
             Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/2}; // location of hitbox, radius of hitbox
             this->setAttackHitbox(attack);
 
-        }
-        else if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 12)) // Next 4 frames of attack
+        } else if (this->getAttackCooldown() > (ATTACK_COOLDOWN - 12)) // Next 4 frames of attack
         {
             Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS}; // location of hitbox, radius of hitbox
             this->setAttackHitbox(attack);
@@ -302,11 +301,10 @@ void Player::movePlayer() // moves the player based on input
         {
             Circle attack = {Vector2 {this->getCenter().x + (this->getDirection().x * ATTACK_OFFSET), this->getCenter().y + (this->getDirection().y * ATTACK_OFFSET)}, ATTACK_RADIUS/4}; // location of hitbox, radius of hitbox
             this->setAttackHitbox(attack);
+        } else
+        {
+            this->setAttackHitbox(Circle {THE_VOID, 0});
         }
-
-    } else
-    {
-        this->setAttackHitbox(Circle {THE_VOID, 0});
     }
 }
 
@@ -349,26 +347,47 @@ void Player::pollDirectionAttacking() // polls user input to determine the direc
 
 void Player::drawPlayer() // draws the player sprite
 {
-    // Rectangle spriteRect = {(float)16*(this->getDirection() + 1), 0, 16, 16};
-    // Need a way to decode direction into sprite animation
+    Texture2D currentSprite;
+
+    if (this->getDirection().x == 1)
+    {
+        if (!Vector2Equals(this->getAttackHitbox().center, THE_VOID))
+        {
+            currentSprite = this->getSprite(RIGHT);
+        } else
+        {
+            currentSprite = this->getSprite(RIGHT_SWORD);
+        }
+        
+    } else
+    {
+        if (!Vector2Equals(this->getAttackHitbox().center, THE_VOID))
+        {
+            currentSprite = this->getSprite(LEFT);
+        } else
+        {
+            currentSprite = this->getSprite(LEFT_SWORD);
+        }
+    }
+
     Rectangle spriteRect = {4, 0, 46, 64};
 
     if (((!this->getEnemyReference() == NULL) || (!Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
     {
         if (currentState == PLAYING)
         {
-            DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, RED);
+            DrawTexturePro(currentSprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, RED);
         } else
         {
-            DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+            DrawTexturePro(currentSprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
         }
     } else
     {
-        DrawTexturePro(this->sprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
+        DrawTexturePro(currentSprite, spriteRect, this->hitbox, Vector2 {0, 0}, 0, WHITE);
 
         if (this->getAttackCooldown() > (ATTACK_COOLDOWN - ATTACK_FRAMES))
         {
-            DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, BLUE);
+            DrawCircle(this->getAttackHitbox().center.x, this->getAttackHitbox().center.y, this->getAttackHitbox().radius, Color {192, 192, 192, 255});
 
         }
 
@@ -377,7 +396,10 @@ void Player::drawPlayer() // draws the player sprite
     // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
 }
 
-Texture2D Player::loadSprite() 
+void Player::loadSprite() 
 {
-    return LoadTexture("assets/charLeft.png");
+    this->sprite[LEFT] = LoadTexture("assets/charNoSword2.png");
+    this->sprite[RIGHT] = LoadTexture("assets/charNoSword1.png");
+    this->sprite[RIGHT_SWORD] = LoadTexture("assets/charRight.png");
+    this->sprite[LEFT_SWORD] = LoadTexture("assets/charLeft.png");
 }

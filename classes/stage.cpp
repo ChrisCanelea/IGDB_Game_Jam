@@ -495,7 +495,7 @@ Vector2 Stage::generateExitPosition()
 
 Texture2D Stage::loadSprite() 
 {
-    return LoadTexture("assets/tileBackground.png");
+    return LoadTexture("assets/thebackground_4x4.png");
 }
 
 Vector2 Stage::generateRandomPoint() 

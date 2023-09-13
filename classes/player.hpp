@@ -9,7 +9,7 @@
 class Player
 {
 private:
-    Texture2D sprite; // sprite
+    Texture2D sprite[4]; // sprite
     Rectangle hitbox; // hitbox
     float speed; // speed
     Vector2 direction; // direction
@@ -27,7 +27,7 @@ public:
     Player(Rectangle); // Constructor with hitbox parameter
 
     // getters
-    Texture2D getSprite(); // returns sprite
+    Texture2D getSprite(int); // returns sprite
     Rectangle getHitbox(); // returns hitbox
     float getSpeed(); // returns speed
     Vector2 getDirection(); // returns direction unit vector
@@ -45,7 +45,7 @@ public:
     float getHeight(); // returns height of hitbox
 
     // setters
-    void setSprite(Texture2D); // sets sprite
+    void setSprite(Texture2D, int); // sets sprite
     void setHitbox(Rectangle); // sets hitbox
     void setSpeed(float); // sets speed
     void setDirection(Vector2); // sets direction
@@ -69,7 +69,7 @@ public:
     void projectileKnockback(); // knocks the player away from a projectile (called when collision with a projectile is detected)
     void pollDirectionAttacking(); // polls user input to determine the direction of attack in a combat sequence
     void drawPlayer(); // draws the player sprite
-    Texture2D loadSprite();
+    void loadSprite();
 };
 
 #endif // player_hpp

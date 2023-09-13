@@ -17,6 +17,8 @@ const float PROJECTILE_RESPAWN_TIME = 120;
 const int COMBAT_TIMER = 120;
 const float SHRINK_ON_HIT = 35;
 
+enum spriteType {LEFT = 0, RIGHT = 1, LEFT_SWORD = 2, RIGHT_SWORD = 3};
+
 const Vector2 THE_VOID = {-10000, -10000};
 
 static float musicVol = 100;
