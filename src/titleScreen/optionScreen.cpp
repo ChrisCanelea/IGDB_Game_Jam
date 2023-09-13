@@ -13,7 +13,7 @@ void optionScreen(Music menuTrack){
     Vector2 mousePos = {0.0,0.0};
     Rectangle musicVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 - 50, 400, 30};      //x,y,w,h
     Rectangle effectVolumeSlideBound = {SCREEN_W/2.0 - 200, SCREEN_H/2 + 80, 400, 30};     //x,y,w,h
-    Rectangle returnBox = {5, 5, 105, 40};
+    Rectangle returnBox = {10, 10, 210, 80};
     
     int musicRecWidth = 400;    //initializing the width of gray box, to be modified when mouse clicked
     int effectRecWidth = 400;
@@ -38,7 +38,7 @@ void optionScreen(Music menuTrack){
 
             GuiSliderBar(musicVolumeSlideBound,"Music Volume",NULL, &musicVol, 0, 100);
             GuiSliderBar(effectVolumeSlideBound, "Effect Volume",NULL,&effectVol,0,100);
-            if(GuiButton(returnBox,"return"))
+            if(GuiButton(returnBox,"Return"))
             {
                 return;
             }
