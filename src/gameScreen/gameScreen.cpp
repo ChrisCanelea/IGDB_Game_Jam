@@ -8,6 +8,7 @@
 GameState currentState = PURGATORY;
 GameState previousState = PURGATORY;
 int stageNumber = 0;
+int lives = 0;
 
 void updateState(GameState, Player*, Stage**, Exit*, Enemy*, Camera2D*); // change state function in gameScreen/gameScreen.cpp
 
@@ -110,7 +111,7 @@ void gameScreen(void)
                 updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
             }
 
-            if (!CheckCollisionPointRec(player.getPos(), stagePtr->getPlayArea()) || !CheckCollisionPointRec(Vector2 {player.getPos().x + player.getWidth(), player.getPos().y + player.getHeight()}, stagePtr->getPlayArea()))
+            if ((lives < 0) || !CheckCollisionPointRec(player.getPos(), stagePtr->getPlayArea()) || !CheckCollisionPointRec(Vector2 {player.getPos().x + player.getWidth(), player.getPos().y + player.getHeight()}, stagePtr->getPlayArea()))
             {
                 stageReached = stageNumber;
                 killsReached = kills;
@@ -139,6 +140,7 @@ void gameScreen(void)
                         {
                             player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
                             player.setInvulnTime(INVULN_FRAMES);
+                            lives--;
 
                             stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 4); // quadruple shrink rate
                             stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
@@ -160,6 +162,7 @@ void gameScreen(void)
                             player.setProjectileCollisionLocation(stagePtr->getProjectileArray()[j].getCenter());
                             player.setInvulnTime(INVULN_FRAMES);
                             stagePtr->getProjectileArray()[j].killProjectile();
+                            lives--;
                             
                             stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 3); // triple the shrink rate
                             stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
@@ -203,6 +206,7 @@ void gameScreen(void)
                     stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 8); // sextuple shrink rate
                     stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
                     player.setInvulnTime(INVULN_FRAMES);
+                    lives--;
                 }
                 updateState(PLAYING, &player, &stagePtr, &exit, player.getEnemyReference(), &camera);
             }
@@ -244,6 +248,7 @@ void gameScreen(void)
                 EndMode2D();
                 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
+                DrawText(TextFormat("Lives: %03i", lives), 10, 80, 50, RED);
             } else if (currentState == COMBAT) 
             {
                 ClearBackground(BLACK);
@@ -300,6 +305,7 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     if (nextState == GENERATION) 
     {
         ++stageNumber; // increment stageNumber
+        lives = 3;
 
         cameraPtr->target = {0,0}; // move camera to origin
 
