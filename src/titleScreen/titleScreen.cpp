@@ -12,8 +12,10 @@ void titleScreen(void)
     menuTrack.looping = true;
     PlayMusicStream(menuTrack);
 
-    Rectangle playButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 - 50, 200, 100};        //x,y,w,h
-    Rectangle optButtonBound = {SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 200, 50};
+    Texture2D titlePage = LoadTexture("assets/titlePage.png");
+
+    Rectangle playButtonBound = {SCREEN_W/2 - 120, 800, 200, 100}; //x,y,w,h
+    Rectangle optButtonBound = {SCREEN_W/2, SCREEN_H/2 + 100, 200, 50};
     Vector2 mousePos = {0.0,0.0};
 
     while(true)
@@ -30,6 +32,8 @@ void titleScreen(void)
 
         BeginDrawing();
             ClearBackground(RAYWHITE);//initialize background
+            // DrawTexture(titlePage, 0, 0, WHITE);
+            DrawTextureEx(titlePage, Vector2 {0, 0}, 0, 2, WHITE);
             
             mousePos = GetMousePosition(); //constantly getting mouse position
 
@@ -39,11 +43,11 @@ void titleScreen(void)
             if(CheckCollisionPointRec(mousePos,playButtonBound))
             {
                 DrawRectangleRec(playButtonBound, YELLOW);
-                DrawText("Play", SCREEN_W/2 - 50, SCREEN_H/2 - 25, 50, RED);
+                DrawText("Play", SCREEN_W/2  - 70, 825, 50, RED);
             } else
             {
                 DrawRectangleRec(playButtonBound, BLACK);
-                DrawText("Play", SCREEN_W/2 - 50, SCREEN_H/2 - 25, 50, WHITE);
+                DrawText("Play", SCREEN_W/2  - 70, 825, 50, WHITE);
             }
 
             if(CheckCollisionPointRec(mousePos, optButtonBound))
