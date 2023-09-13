@@ -32,9 +32,10 @@ Stage::Stage() // Default constructor
     this->shrinkRate = 0.0f;
     this->initialShrinkRate = 0.0f;
     this->shrinkTimer = 0;
+    this->exitReference = NULL;
 }
 
-Stage::Stage(float width_, float height_, Player* playerReference_) 
+Stage::Stage(float width_, float height_, Player* playerReference_, Exit* exitReference_) 
 {
     this->sprite = loadSprite();
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
@@ -57,9 +58,10 @@ Stage::Stage(float width_, float height_, Player* playerReference_)
     this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
     this->shrinkTimer = 0;
+    this->exitReference = exitReference_;
 }
 
-Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, Player* playerReference_) 
+Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, Player* playerReference_, Exit* exitReference_) 
 {
     this->sprite = loadSprite();
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
@@ -82,9 +84,10 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
     this->shrinkTimer = 0;
+    this->exitReference = exitReference_;
 }
 
-Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, float shrinkRate_, Player* playerReference_) 
+Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, int initialEnemies_, float shrinkRate_, Player* playerReference_, Exit* exitReference_) 
 {
     this->sprite = loadSprite();
     this->playArea = Rectangle {-1 * (width_/2), -1 * (height_/2), width_, height_};
@@ -107,9 +110,10 @@ Stage::Stage(float width_, float height_, int maxEnemies_, int maxProjectiles_, 
     this->shrinkRate = shrinkRate_;
     this->initialShrinkRate = this->getShrinkRate();
     this->shrinkTimer = 0;
+    this->exitReference = exitReference_;
 }
 
-Stage::Stage(Player* playerReference_) // Default constructor
+Stage::Stage(Player* playerReference_, Exit* exitReference_)
 {
     this->sprite = loadSprite();
     this->playArea = Rectangle {-250, -250, 500, 500};
@@ -132,6 +136,7 @@ Stage::Stage(Player* playerReference_) // Default constructor
     this->shrinkRate = 1.0f;
     this->initialShrinkRate = this->getShrinkRate();
     this->shrinkTimer = 0;
+    this->exitReference = exitReference_;
 }
 
 // getters
@@ -219,6 +224,11 @@ float Stage::getInitialShrinkRate()
 float Stage::getShrinkTimer()
 {
     return this->shrinkTimer;
+}
+
+Exit* Stage::getExitReference() 
+{
+    return this->exitReference;
 }
 
 // setters
@@ -481,6 +491,20 @@ void Stage::drawStage()
     // DrawTexturePro(this->getSprite(),{0,0,500,500},this->getPlayArea(),{0,0},0,WHITE);
     DrawTextureRec(this->getSprite(), {this->getPlayArea().x - this->getShrinkRate(), this->getPlayArea().y - this->getShrinkRate(), this->getPlayArea().width, this->getPlayArea().height}, {this->getPlayArea().x, this->getPlayArea().y}, WHITE);
 
+    // exit
+    Rectangle tempExitRec = GetCollisionRec(this->getExitReference()->getHitbox(), this->getPlayArea());
+    float xOffset = 0;
+    float yOffset = 0;
+    if (this->getExitReference()->getPos().x <= this->getPlayArea().x) 
+    {
+        xOffset = this->getPlayArea().x - this->getExitReference()->getPos().x;
+    }
+    if (this->getExitReference()->getPos().y <= this->getPlayArea().y) 
+    {
+        yOffset = this->getPlayArea().y - this->getExitReference()->getPos().y;
+    }
+    DrawTextureRec(this->getExitReference()->getSprite(), {0 + xOffset,0 + yOffset,tempExitRec.width,tempExitRec.height}, {tempExitRec.x, tempExitRec.y}, WHITE);
+    
     for (int i = 0; i < maxEnemies; ++i) 
     {
         this->getEnemiesArray()[i].drawEnemy(this->getPlayArea());
