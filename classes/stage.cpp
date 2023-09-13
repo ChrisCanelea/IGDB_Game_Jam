@@ -552,19 +552,43 @@ Vector2 Stage::generateExitPosition()
     switch(GetRandomValue(0,3)) 
     {
         case 0: // NORTH
-            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y - 32};
+            if (stageNumber <= 1)
+            {
+                return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y - 32};
+            } else 
+            {
+                return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y - 32 - ((stageNumber - 1) * 200)};
+            }
             break;
 
         case 1: // EAST
-            return {this->getPlayArea().x + this->getPlayArea().width - 32, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            if (stageNumber <= 1)
+            {
+                return {this->getPlayArea().x + this->getPlayArea().width - 32, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            } else 
+            {
+                return {this->getPlayArea().x + this->getPlayArea().width - 32 + ((stageNumber - 1) * 200), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            }
             break;
         
         case 2: // SOUTH
-            return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y + this->getPlayArea().height - 32};
+            if (stageNumber <= 1)
+            {
+                return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y + this->getPlayArea().height - 32};
+            } else 
+            {
+                return {(float)GetRandomValue(this->getPlayArea().x, this->getPlayArea().x + this->getPlayArea().width) - 32, this->getPlayArea().y + this->getPlayArea().height - 32 + ((stageNumber - 1) * 200)};
+            }
             break;
         
         case 3:
-            return {this->getPlayArea().x - 32, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            if (stageNumber <= 1)
+            {
+                return {this->getPlayArea().x - 32, (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            } else 
+            {
+                return {this->getPlayArea().x - 32 - ((stageNumber - 1) * 200), (float)GetRandomValue(this->getPlayArea().y, this->getPlayArea().y + this->getPlayArea().height) + 32};
+            }
             break;
     }
 
