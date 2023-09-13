@@ -7,7 +7,7 @@
 // constructors
 Enemy::Enemy() // Default constructor
 {
-    this->sprite = loadSprite();
+    loadSprite();
     this->hitbox = Rectangle {0, 0, 50, 50}; // Default hitbox is a 50x50 square at (0, 0)
     this->speed = 2.0f;
     this->directionFacing = Vector2 {0, 1};
@@ -20,7 +20,7 @@ Enemy::Enemy() // Default constructor
 
 Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
 {
-    this->sprite = loadSprite();
+    loadSprite();
     this->hitbox = hitbox_;
     this->speed = 2.0f;
     this->directionFacing = Vector2 {0, 1};
@@ -32,9 +32,9 @@ Enemy::Enemy(Rectangle hitbox_, Vector2 theVoid_) // Constructor with parameters
 }
 
 // getters
-Texture2D Enemy::getSprite() // returns sprite
+Texture2D Enemy::getSprite(int index) // returns sprite
 {
-    return this->sprite;
+    return this->sprite[index];
 }
 
 Rectangle Enemy::getHitbox() // returns hitbox
@@ -100,9 +100,9 @@ float Enemy::getAttackAngle()
 }
 
 // setters
-void Enemy::setSprite(Texture2D sprite_)
+void Enemy::setSprite(Texture2D sprite_, int index)
 {
-    this->sprite = sprite_;
+    this->sprite[index] = sprite_;
 }
 
 void Enemy::setHitbox(Rectangle hitbox_) // sets hitbox
@@ -216,15 +216,23 @@ void Enemy::moveEnemy()
 
 void Enemy::drawEnemy(Rectangle playArea) // draws the enemy sprite
 {
-    // DrawTextureRec(this->sprite, this->hitbox, Vector2 {this->hitbox.x, this->hitbox.y}, WHITE);
-    // DrawTexture(this->sprite, this->hitbox.x, this->hitbox.y, WHITE);
-    DrawTexturePro(this->getSprite(), Rectangle {15, 1, 40, 62}, this->getHitbox(), Vector2 {0, 0}, 0, WHITE);
-    //DrawRectangleRec(GetCollisionRec(this->getHitbox(), playArea), GREEN);
+    Texture2D currentSprite;
+
+    if (this->getDirectionFacing().x >= 0)
+    {
+        currentSprite = this->getSprite(RIGHT);
+    } else
+    {
+        currentSprite = this->getSprite(LEFT);
+    }
+
+    DrawTexturePro(currentSprite, Rectangle {0, 0, 40, 62}, this->getHitbox(), Vector2 {0, 0}, 0, WHITE);
 }
 
-Texture2D Enemy::loadSprite() 
+void Enemy::loadSprite() 
 {
-    return LoadTexture("assets/enemySprite.png");
+    this->sprite[LEFT] = LoadTexture("assets/enemySpriteRight.png");
+    this->sprite[RIGHT] = LoadTexture("assets/enemySprite.png");
 }
 
 void Enemy::killEnemy() 

@@ -349,7 +349,7 @@ void Player::drawPlayer() // draws the player sprite
 {
     Texture2D currentSprite;
 
-    if (this->getDirection().x == 1)
+    if (this->getDirection().x >= 0)
     {
         if (!Vector2Equals(this->getAttackHitbox().center, THE_VOID))
         {
@@ -370,7 +370,7 @@ void Player::drawPlayer() // draws the player sprite
         }
     }
 
-    Rectangle spriteRect = {4, 0, 46, 64};
+    Rectangle spriteRect = {0, 0, 46, 64};
 
     if (((!this->getEnemyReference() == NULL) || (!Vector2Equals(this->getProjectileCollisionLocation(), THE_VOID))))
     {
