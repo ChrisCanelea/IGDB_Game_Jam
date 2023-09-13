@@ -171,20 +171,6 @@ void gameScreen(void)
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
 
-                // exit.drawExit();
-                Rectangle tempExitRec = GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea());
-                float xOffset = 0;
-                float yOffset = 0;
-                if (exit.getPos().x <= stagePtr->getPlayArea().x) 
-                {
-                    xOffset = stagePtr->getPlayArea().x - exit.getPos().x;
-                }
-                if (exit.getPos().y <= stagePtr->getPlayArea().y) 
-                {
-                    yOffset = stagePtr->getPlayArea().y - exit.getPos().y;
-                }
-                DrawTextureRec(exit.getSprite(), {0 + xOffset,0 + yOffset,tempExitRec.width,tempExitRec.height}, {tempExitRec.x, tempExitRec.y}, WHITE);
-
                 player.drawPlayer();
 
                 EndMode2D();
@@ -211,20 +197,6 @@ void gameScreen(void)
                 {
                     DrawRectangle(100, 100, 30, 30, PINK);  // DUBEG RECTANGLE
                 }
-
-                // exit.drawExit();
-                Rectangle tempExitRec = GetCollisionRec(exit.getHitbox(), stagePtr->getPlayArea());
-                float xOffset = 0;
-                float yOffset = 0;
-                if (exit.getPos().x <= stagePtr->getPlayArea().x) 
-                {
-                    xOffset = stagePtr->getPlayArea().x - exit.getPos().x;
-                }
-                if (exit.getPos().y <= stagePtr->getPlayArea().y) 
-                {
-                    yOffset = stagePtr->getPlayArea().y - exit.getPos().y;
-                }
-                DrawTextureRec(exit.getSprite(), {0 + xOffset,0 + yOffset,tempExitRec.width,tempExitRec.height}, {tempExitRec.x, tempExitRec.y}, WHITE);
 
                 player.drawPlayer();
                 player.getEnemyReference()->drawBlockIndicator();
@@ -290,12 +262,12 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
         if (stageNumber > 1) // not tutorial stage
         {
             // EDIT THIS TO BE BASED ON STAGENUMBER
-            *stagePtr = new Stage(Lerp(prevSize, 500.0f, 0.25), Lerp(prevSize, 500.0f, 0.25), (stageNumber > 8)?(14):(6 + stageNumber), (stageNumber > 7)?(15):(8 + stageNumber), (stageNumber > 5)?(5):(stageNumber), prevRate = Lerp(prevRate, 1.5f, 0.25), playerPtr);
+            *stagePtr = new Stage(Lerp(prevSize, 500.0f, 0.25), Lerp(prevSize, 500.0f, 0.25), (stageNumber > 8)?(14):(6 + stageNumber), (stageNumber > 7)?(15):(8 + stageNumber), (stageNumber > 5)?(5):(stageNumber), prevRate = Lerp(prevRate, 1.5f, 0.25), playerPtr, exitPtr);
             prevSize = Lerp(prevSize, 500.0f, 0.25);
             prevRate = Lerp(prevRate, 1.5f, 0.25);
         } else // tutorial
         {
-            *stagePtr = new Stage(1000.0f, 1000.0f, 1, 1, 1, 0.75, playerPtr); // create tutorial stage
+            *stagePtr = new Stage(1000.0f, 1000.0f, 2, 1, 1, 0.75, playerPtr, exitPtr); // create tutorial stage
         }
 
         playerPtr->setPos({0,0}); // reset player

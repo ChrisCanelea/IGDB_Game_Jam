@@ -5,6 +5,7 @@
 #include "enemy.hpp"
 #include "projectile.hpp"
 #include "player.hpp"
+#include "exit.hpp"
 
 class Stage
 {
@@ -27,14 +28,15 @@ private:
     float shrinkRate; // amount the play area shrinks by
     float initialShrinkRate; // the shrinkRate on stage construction
     float shrinkTimer;
+    Exit* exitReference;
     
 public:
     // constructors
     Stage(); // Default constructor
-    Stage(float, float, Player*); // Constructor with parameters
-    Stage(float, float, int, int, int, Player*);
-    Stage(float, float, int, int, int, float, Player*);
-    Stage(Player*);
+    Stage(float, float, Player*, Exit*); // Constructor with parameters
+    Stage(float, float, int, int, int, Player*, Exit*);
+    Stage(float, float, int, int, int, float, Player*, Exit*);
+    Stage(Player*, Exit*);
 
     // getters
     Texture2D getSprite();
@@ -55,6 +57,7 @@ public:
     float getShrinkRate();
     float getInitialShrinkRate();
     float getShrinkTimer();
+    Exit* getExitReference();
 
     // setters
     void setSprite(Texture2D);
