@@ -24,6 +24,9 @@ void gameScreen(void)
     int killsReached = 0;
     int kills = 0;
 
+    bool tutPause = true;
+    int step = 0;
+
     Sound swingMisses[3];
     swingMisses[0] = LoadSound("Sword_Swoosh_light_1.wav");
     swingMisses[1] = LoadSound("Sword_Swoosh_light_2.wav");
@@ -118,75 +121,94 @@ void gameScreen(void)
         // Only process certain things depenging on the currentState
         if (currentState == PLAYING) 
         {
-            if (IsKeyPressed(KEY_P)) 
+            if (tutPause == true)
             {
-                updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
-            }
-
-            if ((lives < 0) || !CheckCollisionPointRec(player.getPos(), stagePtr->getPlayArea()) || !CheckCollisionPointRec(Vector2 {player.getPos().x + player.getWidth(), player.getPos().y + player.getHeight()}, stagePtr->getPlayArea()))
-            {
-                stageReached = stageNumber;
-                killsReached = kills;
-                kills = 0;
-                updateState(DEATH, &player, &stagePtr, &exit, NULL, &camera);
-            }
-
-            camera.target = Vector2Lerp(camera.target, player.getCenter(), 0.15);
-            camera.zoom = Lerp(camera.zoom, 1.0f, 0.2f);
-            
-            player.movePlayer();
-            stagePtr->stageManager();
-
-            if (CheckCollisionRecs(player.getHitbox(), exit.getHitbox())) // exit touched
-            {
-                updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
-            }
-
-            if (player.getInvulnTime() == 0) // if we are NOT invulnerable
-            {
-                for (int i = 0; i < stagePtr->getMaxEnemies(); ++i) 
+                if (IsKeyPressed(KEY_ENTER))
                 {
-                    if (stagePtr->getEnemiesArray()[i].getIsActive() && (player.getInvulnTime() == 0))
-                    {
-                        if (CheckCollisionRecs(player.getHitbox(), stagePtr->getEnemiesArray()[i].getHitbox()))
-                        {
-                            PlaySound(swingEnemy);
-                            player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
-                            player.setInvulnTime(INVULN_FRAMES);
-                            lives--;
-
-                            stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 4); // quadruple shrink rate
-                            stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
-                        
-                        } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
-                        {
-                            PlaySound(swingHits[GetRandomValue(0,1)]);
-                            player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
-                            updateState(COMBAT, &player, &stagePtr, &exit, &stagePtr->getEnemiesArray()[i], &camera);
-                        } else if (player.getAttackCooldown() == ATTACK_COOLDOWN) 
-                        {
-                            PlaySound(swingMisses[(GetRandomValue(0,2))]);
-                        }
-                    }
+                    step += 1;
                 }
 
-                for (int j = 0; j < stagePtr->getMaxProjectiles(); ++j) 
+                if (IsKeyPressed(KEY_BACKSPACE))
                 {
-                    if (stagePtr->getProjectileArray()[j].getIsActive()) 
+                    tutPause = false;
+                }
+
+                if (step > 11)
+                {
+                    tutPause = false;
+                }
+            } else
+            {
+                if (IsKeyPressed(KEY_P)) 
+                {
+                    updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
+                }
+
+                if ((lives < 0) || !CheckCollisionPointRec(player.getPos(), stagePtr->getPlayArea()) || !CheckCollisionPointRec(Vector2 {player.getPos().x + player.getWidth(), player.getPos().y + player.getHeight()}, stagePtr->getPlayArea()))
+                {
+                    stageReached = stageNumber;
+                    killsReached = kills;
+                    kills = 0;
+                    updateState(DEATH, &player, &stagePtr, &exit, NULL, &camera);
+                }
+
+                camera.target = Vector2Lerp(camera.target, player.getCenter(), 0.15);
+                camera.zoom = Lerp(camera.zoom, 1.0f, 0.2f);
+                
+                player.movePlayer();
+                stagePtr->stageManager();
+
+                if (CheckCollisionRecs(player.getHitbox(), exit.getHitbox())) // exit touched
+                {
+                    updateState(GENERATION, &player, &stagePtr, &exit, NULL, &camera);
+                }
+
+                if (player.getInvulnTime() == 0) // if we are NOT invulnerable
+                {
+                    for (int i = 0; i < stagePtr->getMaxEnemies(); ++i) 
                     {
-                        if (CheckCollisionRecs(player.getHitbox(), stagePtr->getProjectileArray()[j].getHitbox()) && (player.getInvulnTime() == 0))
+                        if (stagePtr->getEnemiesArray()[i].getIsActive() && (player.getInvulnTime() == 0))
                         {
-                            player.setProjectileCollisionLocation(stagePtr->getProjectileArray()[j].getCenter());
-                            player.setInvulnTime(INVULN_FRAMES);
-                            stagePtr->getProjectileArray()[j].killProjectile();
-                            lives--;
+                            if (CheckCollisionRecs(player.getHitbox(), stagePtr->getEnemiesArray()[i].getHitbox()))
+                            {
+                                PlaySound(swingEnemy);
+                                player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
+                                player.setInvulnTime(INVULN_FRAMES);
+                                lives--;
+
+                                stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 4); // quadruple shrink rate
+                                stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
                             
-                            stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 3); // triple the shrink rate
-                            stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
-                        
-                        } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getProjectileArray()[j].getHitbox()))
+                            } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getEnemiesArray()[i].getHitbox()))
+                            {
+                                PlaySound(swingHits[GetRandomValue(0,1)]);
+                                player.setEnemyReference(&stagePtr->getEnemiesArray()[i]);
+                                updateState(COMBAT, &player, &stagePtr, &exit, &stagePtr->getEnemiesArray()[i], &camera);
+                            } else if (player.getAttackCooldown() == ATTACK_COOLDOWN) 
+                            {
+                                PlaySound(swingMisses[(GetRandomValue(0,2))]);
+                            }
+                        }
+                    }
+
+                    for (int j = 0; j < stagePtr->getMaxProjectiles(); ++j) 
+                    {
+                        if (stagePtr->getProjectileArray()[j].getIsActive()) 
                         {
-                            stagePtr->getProjectileArray()[j].killProjectile();
+                            if (CheckCollisionRecs(player.getHitbox(), stagePtr->getProjectileArray()[j].getHitbox()) && (player.getInvulnTime() == 0))
+                            {
+                                player.setProjectileCollisionLocation(stagePtr->getProjectileArray()[j].getCenter());
+                                player.setInvulnTime(INVULN_FRAMES);
+                                stagePtr->getProjectileArray()[j].killProjectile();
+                                lives--;
+                                
+                                stagePtr->setShrinkRate(stagePtr->getInitialShrinkRate() * 3); // triple the shrink rate
+                                stagePtr->setShrinkTimer(INVULN_FRAMES); // during invuln frames
+                            
+                            } else if (CheckCollisionCircleRec(player.getAttackHitbox().center, player.getAttackHitbox().radius, stagePtr->getProjectileArray()[j].getHitbox()))
+                            {
+                                stagePtr->getProjectileArray()[j].killProjectile();
+                            }
                         }
                     }
                 }
@@ -268,6 +290,84 @@ void gameScreen(void)
                 
                 DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
                 DrawText(TextFormat("Lives: %03i", lives), 10, 80, 50, RED);
+                if (tutPause == true)
+                {
+                    if (step == 0)
+                    {
+                        DrawText("Welcome to Diminishing Returns!", 490, 170, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 1)
+                    {
+                        DrawText("Move with WASD and slash with J!", 490, 170, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 2)
+                    {
+                        DrawText("Slashing an enemy will put you in a", 490, 170, 50, GREEN);
+                        DrawText("COMBAT scenario!", 490, 240, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 3)
+                    {
+                        DrawText("In a COMBAT scenario, you may slash", 490, 170, 50, GREEN);
+                        DrawText("in one of three directions,", 490, 240, 50, GREEN);
+                        DrawText("LEFT, RIGHT, or DOWN!", 490, 310, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 4)
+                    {
+                        DrawText("Be careful not to slash in the same", 490, 170, 50, GREEN);
+                        DrawText("direction the enemy is blocking!", 490, 240, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 5)
+                    {
+                        DrawText("You have limited time in the", 490, 170, 50, GREEN);
+                        DrawText("COMBAT scenario.", 490, 240, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 6)
+                    {
+                        DrawText("Fail to slash in time or slash in the", 490, 170, 50, GREEN);
+                        DrawText("wrong direction and you will lose a", 490, 240, 50, GREEN);
+                        DrawText("life.", 490, 310, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 7)
+                    {
+                        DrawText("Bumping into enemys or random flying", 490, 170, 50, GREEN);
+                        DrawText("arrows will also cause you to lose a", 490, 240, 50, GREEN);
+                        DrawText("life.", 490, 310, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 8)
+                    {
+                        DrawText("The walls will slowly close in. Bumping", 490, 170, 50, GREEN);
+                        DrawText("into the walls will cause an instant", 490, 240, 50, GREEN);
+                        DrawText("loss.", 490, 310, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 9)
+                    {
+                        DrawText("Successfully killing an enemy will", 490, 170, 50, GREEN);
+                        DrawText("cause the walls to retreat!", 490, 240, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 10)
+                    {
+                        DrawText("If the walls retreat far enough, you", 490, 170, 50, GREEN);
+                        DrawText("may find stairs to the next level.", 490, 240, 50, GREEN);
+                        DrawText("Press ENTER to continue...", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    } else if (step == 11)
+                    {
+                        DrawText("How far can you get? Good luck!", 490, 170, 50, GREEN);
+                        DrawText("Press ENTER to BEGIN!", 700, 850, 50, RED);
+                        DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
+                    }
+                }
+
             } else if (currentState == COMBAT) 
             {
                 ClearBackground(BLACK);
