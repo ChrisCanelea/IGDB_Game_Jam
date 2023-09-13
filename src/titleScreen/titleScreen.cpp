@@ -38,7 +38,7 @@ void titleScreen(void)
             mousePos = GetMousePosition(); //constantly getting mouse position
 
             
-            DrawText("Diminishing Returns", SCREEN_W/2 - 450, 100, 80, RED);
+            DrawText("Diminishing Returns", SCREEN_W/2 - 380, 100, 80, RED);
             // DrawText("Depth", SCREEN_W/2 - 450, 170, 80, RED);
 
             if(CheckCollisionPointRec(mousePos,playButtonBound))
