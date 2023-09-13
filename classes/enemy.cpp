@@ -268,7 +268,7 @@ void Enemy::generateDirectionFacing()
 void Enemy::drawBlockIndicator() 
 {
     Vector2 vertex = {0, 48};
-    DrawTriangle(Vector2Add(this->getCenter(), Vector2Rotate(vertex, DEG2RAD * -120)), Vector2Add(this->getCenter(), {0, 24}), Vector2Add(this->getCenter(), Vector2Rotate(vertex, DEG2RAD * 120)), RED);
+    //DrawTriangle(Vector2Add(this->getCenter(), Vector2Rotate(vertex, DEG2RAD * -120)), Vector2Add(this->getCenter(), {0, 24}), Vector2Add(this->getCenter(), Vector2Rotate(vertex, DEG2RAD * 120)), RED);
     if (Vector2Equals(this->getDirectionBlocking(), {0,-1})) 
     {
         DrawLineEx(Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * 120)), Vector2Add(this->getCenter(), Vector2Rotate(Vector2Scale(vertex, 1.5), DEG2RAD * -120)), 24, RED);
