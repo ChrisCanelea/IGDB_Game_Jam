@@ -15,7 +15,7 @@ void titleScreen(void)
     Texture2D titlePage = LoadTexture("assets/titlePage.png");
 
     Rectangle playButtonBound = {SCREEN_W/2 - 120, 800, 200, 100}; //x,y,w,h
-    Rectangle optButtonBound = {SCREEN_W/2, SCREEN_H/2 + 100, 200, 50};
+    Rectangle optButtonBound = {SCREEN_W/2 - 120, 950, 200, 50};
     Vector2 mousePos = {0.0,0.0};
 
     while(true)
@@ -38,7 +38,8 @@ void titleScreen(void)
             mousePos = GetMousePosition(); //constantly getting mouse position
 
             
-            DrawText("Claustrophobia: Kill Shit to Survive", 10, 50, 50, RED);
+            DrawText("The Shrinking", SCREEN_W/2 - 450, 100, 80, RED);
+            DrawText("Dungeon", SCREEN_W/2 - 450, 150, 80, RED);
 
             if(CheckCollisionPointRec(mousePos,playButtonBound))
             {
@@ -52,10 +53,10 @@ void titleScreen(void)
 
             if(CheckCollisionPointRec(mousePos, optButtonBound))
             {
-                DrawText("Options", SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 50, RED);
+                DrawText("Options", SCREEN_W/2 - 110, 950, 50, RED);
             } else
             {
-                DrawText("Options", SCREEN_W/2.0 - 100, SCREEN_H/2 + 100, 50, BLACK);
+                DrawText("Options", SCREEN_W/2 - 110, 950, 50, BLACK);
             }
         
 
