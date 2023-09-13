@@ -8,7 +8,7 @@ Projectile::Projectile() // Default constructor
     this->sprite = LoadTexture("");
     this->hitbox = Rectangle {0, 0, 60, 20};
     this->orientation = 1;
-    this->velocity = 0;
+    this->velocity = 3 + (stageNumber - 1)*0.2;
     this->isActive = false;
     this->theVoid = {0,0};
     this->sourceRec = {0,0,60,20};
@@ -20,7 +20,7 @@ Projectile::Projectile(Rectangle hitbox_, int orientation_, Vector2 theVoid_) //
     this->sprite = loadSprite();
     this->hitbox = hitbox_; //default hitbox
     this->orientation = orientation_;
-    this->velocity = 3.0f;
+    this->velocity = 3.0f + (stageNumber - 1)*0.2;
     this->isActive = false;
     this->theVoid = theVoid_;
     this->sourceRec = {0,0,60,20};

@@ -346,12 +346,15 @@ void Stage::stageManager()
     Projectile* queuedProjectile = this->isSpaceProjectile();
     if (queuedProjectile != NULL) 
     {
-        if (this->getProjectileRespawnTime() == 0) 
+        if (this->getProjectileRespawnTime() <= 0) 
         {
             if (this->getPlayArea().width > 500) 
             {
                 this->respawnProjectile(queuedProjectile);
-
+                if (GetRandomValue(1, 50) == 1)
+                {
+                    queuedProjectile->setVelocity(queuedProjectile->getVelocity()*5);
+                }
                 this->setProjectileRespawnTime(PROJECTILE_RESPAWN_TIME);
             }
         } else 
