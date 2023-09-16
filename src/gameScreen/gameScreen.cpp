@@ -9,6 +9,7 @@ GameState currentState = PURGATORY;
 GameState previousState = PURGATORY;
 int stageNumber = 0;
 int lives = 0;
+int score = 0;
 
 void updateState(GameState, Player*, Stage**, Exit*, Enemy*, Camera2D*); // change state function in gameScreen/gameScreen.cpp
 
@@ -138,8 +139,15 @@ void gameScreen(void)
                 {
                     tutPause = false;
                 }
+
+                if (step > 0)
+                {
+                    player.movePlayer();
+                }
             } else
             {
+                score = killsReached * (stageReached * 10);
+
                 if (IsKeyPressed(KEY_P)) 
                 {
                     updateState(PURGATORY, &player, &stagePtr, &exit, NULL, &camera);
@@ -289,8 +297,9 @@ void gameScreen(void)
 
                 EndMode2D();
                 
-                DrawText(TextFormat("Stage: %03i", stageNumber), 10, 20, 50, RED);
-                DrawText(TextFormat("Lives: %03i", lives), 10, 80, 50, RED);
+                DrawText(TextFormat("Stage: %i", stageNumber), 10, 20, 50, RED);
+                DrawText(TextFormat("Lives: %i", lives), 10, 80, 50, RED);
+                DrawText(TextFormat("Score: %i", score), 10, 140, 50, RED);
                 if (tutPause == true)
                 {
                     if (step == 0)
@@ -306,7 +315,7 @@ void gameScreen(void)
                     } else if (step == 2)
                     {
                         DrawText("Slashing an enemy will put you in a", 490, 170, 50, GREEN);
-                        DrawText("COMBAT scenario!", 490, 240, 50, GREEN);
+                        DrawText("COMBAT scenario! Slash the enemy on screen.", 490, 240, 50, GREEN);
                         DrawText("Press ENTER to continue...", 700, 850, 50, RED);
                         DrawText("Press BACKSPACE to skip tutorial", 700, 920, 30, PURPLE);
                     } else if (step == 3)
@@ -397,7 +406,7 @@ void gameScreen(void)
                 DrawText("You Died", SCREEN_W/2-200, 100, 100, RED);
                 DrawText(TextFormat("Stage Reached:  %i", stageReached), SCREEN_W/2-350, 400, 70, RED);
                 DrawText(TextFormat("Total kills:  %i", killsReached), SCREEN_W/2-350, 500, 70, RED);
-                DrawText(TextFormat("Total score:  %i", killsReached * (stageReached * 10)), SCREEN_W/2-350, 600, 70, RED);
+                DrawText(TextFormat("Total score:  %i", score), SCREEN_W/2-350, 600, 70, RED);
                 DrawText("Press R to restart", SCREEN_W/2-350, 900, 70, RED);
             } else if (currentState == PURGATORY) 
             {
@@ -425,7 +434,7 @@ void updateState(GameState nextState, Player* playerPtr, Stage** stagePtr, Exit*
     if (nextState == GENERATION) 
     {
         ++stageNumber; // increment stageNumber
-        lives = 3;
+        lives = MAX_LIVES;
 
         cameraPtr->target = {0,0}; // move camera to origin
 

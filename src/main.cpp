@@ -1,6 +1,8 @@
 #include "globals.hpp"
 #include <raylib.h>
 
+int highScore = 0;
+
 int main(void)
 {
 
@@ -10,6 +12,8 @@ int main(void)
     // InitAudioDevice();
 
     SetTargetFPS(60);
+
+    // Load highScore from save data
 
     while(true)
     {
