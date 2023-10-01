@@ -1,6 +1,7 @@
 # Indie Game Dev Beginners Game Jam, Sept 2023
 Theme: Limited Space
 Coded in ~5 days using Raylib in C++
+Find it here https://adpa203.itch.io/diminishing-returns
 
 ## Core Gameplay Loop
 Explore a shrinking room to discover stairs that go deeper and deeper into the dungeon.
