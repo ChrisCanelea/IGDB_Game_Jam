@@ -4,6 +4,13 @@
 #include <raylib.h>
 #include <raymath.h>
 
+// comment out the below line when compiling for windows, uncomment when compiling for web
+// #define PLATFORM_WEB
+
+#if defined (PLATFORM_WEB)
+    #include <../../../emsdk/upstream/emscripten/cache/sysroot/include/emscripten/emscripten.h>
+#endif
+
 const int SCREEN_W = 1920;
 const int SCREEN_H = 1080;
 

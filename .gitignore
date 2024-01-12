@@ -1,2 +1,6 @@
 .vscode
 game.exe
+game.data
+game.html
+game.js
+game.wasm
