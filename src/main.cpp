@@ -11,7 +11,7 @@ int main(void)
 
     // InitAudioDevice();
 
-    // SetTargetFPS(60);
+    SetTargetFPS(60);
 
     // Load highScore from save data
 
